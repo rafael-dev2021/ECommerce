@@ -19,9 +19,9 @@ public sealed class Game : Product
         PriceObjectValue? priceObjectValue,
         SpecificationObjectValue? specificationObjectValue,
         WarrantyObjectValue? warrantyObjectValue,
-        GeneralFeaturesObjectValue generalFeaturesObjectValue,
-        MediaSpecificationObjectValue mediaSpecificationObjectValue,
-        RequirementObjectValue requirementObjectValue,
+        GeneralFeaturesObjectValue? generalFeaturesObjectValue,
+        MediaSpecificationObjectValue? mediaSpecificationObjectValue,
+        RequirementObjectValue? requirementObjectValue,
         int categoryId) :
         base(
             name,
@@ -49,9 +49,9 @@ public sealed class Game : Product
         PriceObjectValue? priceObjectValue,
         SpecificationObjectValue? specificationObjectValue,
         WarrantyObjectValue? warrantyObjectValue,
-        GeneralFeaturesObjectValue generalFeaturesObjectValue,
-        MediaSpecificationObjectValue mediaSpecificationObjectValue,
-        RequirementObjectValue requirementObjectValue,
+        GeneralFeaturesObjectValue? generalFeaturesObjectValue,
+        MediaSpecificationObjectValue? mediaSpecificationObjectValue,
+        RequirementObjectValue? requirementObjectValue,
         int categoryId)
     {
         UpdateProduct(
@@ -71,7 +71,7 @@ public sealed class Game : Product
         RequirementObjectValue = requirementObjectValue;
     }
 
-    public GeneralFeaturesObjectValue GeneralFeaturesObjectValue { get; private set; }
-    public MediaSpecificationObjectValue MediaSpecificationObjectValue { get; private set; }
-    public RequirementObjectValue RequirementObjectValue { get; private set; }
+    public GeneralFeaturesObjectValue? GeneralFeaturesObjectValue { get; private set; }
+    public MediaSpecificationObjectValue? MediaSpecificationObjectValue { get; private set; }
+    public RequirementObjectValue? RequirementObjectValue { get; private set; }
 }
