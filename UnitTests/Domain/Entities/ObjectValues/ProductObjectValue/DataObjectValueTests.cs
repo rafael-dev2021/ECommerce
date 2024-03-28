@@ -8,7 +8,7 @@ namespace UnitTests.Domain.Entities.ObjectValues.ProductObjectValue;
 /// <summary>
 /// Unit tests for the <see cref="DataObjectValueValidator"/> class.
 /// </summary>
-public class DataObjectValueValidatorTests
+public class DataObjectValueTests
 {
     /// <summary>
     /// A private instance of the <see cref="DataObjectValueValidator"/> class for testing.
