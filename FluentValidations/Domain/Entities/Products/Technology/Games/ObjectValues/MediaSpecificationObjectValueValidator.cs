@@ -6,7 +6,7 @@ namespace FluentValidations.Domain.Entities.Products.Technology.Games.ObjectValu
 public class MediaSpecificationObjectValueValidator : AbstractValidator<MediaSpecificationObjectValue>
 {
     public MediaSpecificationObjectValueValidator()
-    {
+    { 
         RuleFor(x => x.Format)
             .NotEmpty().WithMessage("Format cannot be empty.")
             .MaximumLength(20).WithMessage("Format must have a maximum length of 20 characters.");

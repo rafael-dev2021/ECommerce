@@ -21,7 +21,7 @@ public class RequirementObjectValueValidator: AbstractValidator<RequirementObjec
             .MaximumLength(10).WithMessage("Minimum graphics processors required must have a maximum length of 10 characters.");
 
         RuleFor(x => x.MinimumProcessorsRequired)
-            .NotEmpty().WithMessage("Minimum processors required cannot be empty.")
+            .NotEmpty().WithMessage("Minimum processors required cannot be empty.") 
             .MaximumLength(10).WithMessage("Minimum processors required must have a maximum length of 10 characters.");
     }
 }
