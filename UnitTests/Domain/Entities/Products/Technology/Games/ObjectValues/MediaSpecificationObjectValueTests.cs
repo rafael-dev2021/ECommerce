@@ -7,7 +7,7 @@ namespace UnitTests.Domain.Entities.Products.Technology.Games.ObjectValues;
 
 [TestFixture]
 public class MediaSpecificationObjectValueTests
-{
+{ 
     private readonly MediaSpecificationObjectValueValidator _validator = new();
 
     [Fact]

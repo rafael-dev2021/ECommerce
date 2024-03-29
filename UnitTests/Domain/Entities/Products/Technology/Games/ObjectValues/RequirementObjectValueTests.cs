@@ -7,7 +7,7 @@ namespace UnitTests.Domain.Entities.Products.Technology.Games.ObjectValues;
 
 [TestFixture]
 public class RequirementObjectValueTests
-{
+{ 
     private readonly RequirementObjectValueValidator _validator = new();
 
     [Fact]
