@@ -160,7 +160,7 @@ public class RequirementObjectValueTests
         // Assert
         result.ShouldNotHaveValidationErrorFor(x => x.MinimumProcessorsRequired);
     }
-
+ 
     [Fact]
     [Test]
     public void Should_Have_Error_When_MinimumProcessorsRequired_Is_Empty()
