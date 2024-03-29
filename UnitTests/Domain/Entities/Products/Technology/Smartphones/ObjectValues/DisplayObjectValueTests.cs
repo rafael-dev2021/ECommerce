@@ -7,7 +7,7 @@ namespace UnitTests.Domain.Entities.Products.Technology.Smartphones.ObjectValues
 
 [TestFixture]
 public class DisplayObjectValueTests
-{
+{ 
     private readonly DisplayObjectValueValidator _validator = new();
 
     [Fact]

@@ -6,7 +6,7 @@ using Xunit;
 namespace UnitTests.Domain.Entities.Products.Technology.Smartphones.ObjectValues;
 
 public class CameraObjectValueTests
-{
+{ 
     private readonly CameraObjectValueValidator _validator = new();
 
     [Fact]

@@ -38,6 +38,7 @@ public class BatteryObjectValueTests
     }
     
 
+    [Fact]
     [Test]
     public void Should_Have_Error_When_BatteryType_Exceeds_Maximum_Length()
     {
