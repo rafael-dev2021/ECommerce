@@ -4,9 +4,9 @@ public class ShoppingCartItem
 {
     public int Id { get; private set; }
     public int ProductId { get; private set; }
-    public Product? Product { get; }
+    public Product Product { get; set; }
     public int CategoryId { get; private set; }
-    public Category? Category { get; }
+    public Category Category { get; set; }
     public int Quantity { get; private set; }
     public string ShoppingCartId { get; private set; } = string.Empty;
     public string UserId { get; private set; } = string.Empty;
