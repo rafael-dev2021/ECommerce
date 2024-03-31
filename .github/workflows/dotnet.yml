@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
@@ -22,16 +21,16 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: |
-        cd 'C:\C#\ECommerce'
+        cd 'C:\CSharp\ECommerce'
         dotnet restore
       shell: powershell
     - name: Build
       run: |
-        cd 'C:\C#\ECommerce'
+        cd 'C:\CSharp\ECommerce'
         dotnet build --no-restore
       shell: powershell
     - name: Test
       run: |
-        cd 'C:\C#\ECommerce'
+        cd 'C:\CSharp\ECommerce'
         dotnet test --no-build --verbosity normal
       shell: powershell
