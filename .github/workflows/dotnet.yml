@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -21,10 +21,13 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
+      working-directory: .  # Use "." for the root directory
       run: dotnet restore
     - name: Build
+      working-directory: .  # Use "." for the root directory
       run: dotnet build --no-restore
     - name: Test
+      working-directory: .  # Use "." for the root directory
       run: dotnet test --no-build --verbosity normal
 
 
