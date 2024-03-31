@@ -1,7 +1,7 @@
 ﻿namespace Domain.Entities;
 
-public class CategoryWithProductCount
+public class CategoryWithProductCount(string categoryName, int productCount)
 {
-    public string CategoryName { get; protected set; } = string.Empty;
-    public int ProductCount { get; protected set; } = 0;
+    public string CategoryName { get; private set; } = categoryName;
+    public int ProductCount { get; private set; } = productCount;
 }
