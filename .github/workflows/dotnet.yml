@@ -11,7 +11,9 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+
+    runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -20,13 +22,10 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: C:\C#\ECommerce
     - name: Build
       run: dotnet build --no-restore
-      working-directory: C:\C#\ECommerce
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: C:\C#\ECommerce
 
 
 
