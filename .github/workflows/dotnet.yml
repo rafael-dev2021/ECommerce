@@ -13,18 +13,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      working-directory: C:\C#\ECommerce
-      run: dotnet restore
-    - name: Build
-      working-directory: C:\C#\ECommerce
-      run: dotnet build --no-restore
-    - name: Test
-      working-directory: C:\C#\ECommerce
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        working-directory: ECommerce 
+        run: dotnet restore
+      - name: Build
+        working-directory: ECommerce  
+        run: dotnet build --no-restore
+      - name: Test
+        working-directory: ECommerce 
+        run: dotnet test --no-build --verbosity normal
+
 
