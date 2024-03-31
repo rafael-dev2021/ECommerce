@@ -21,14 +21,17 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        cd 'C:\C#\ECommerce'
+        dotnet restore
       shell: powershell
-      working-directory: C:\C#\ECommerce
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        cd 'C:\C#\ECommerce'
+        dotnet build --no-restore
       shell: powershell
-      working-directory: C:\C#\ECommerce
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: |
+        cd 'C:\C#\ECommerce'
+        dotnet test --no-build --verbosity normal
       shell: powershell
-      working-directory: C:\C#\ECommerce
