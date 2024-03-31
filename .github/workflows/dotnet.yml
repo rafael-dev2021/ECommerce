@@ -21,15 +21,14 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      working-directory: .  # Use "." for the root directory
       run: dotnet restore
+      shell: powershell
+      working-directory: C:\C#\ECommerce
     - name: Build
-      working-directory: .  # Use "." for the root directory
       run: dotnet build --no-restore
+      shell: powershell
+      working-directory: C:\C#\ECommerce
     - name: Test
-      working-directory: .  # Use "." for the root directory
       run: dotnet test --no-build --verbosity normal
-
-
-
-
+      shell: powershell
+      working-directory: C:\C#\ECommerce
