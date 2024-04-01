@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Products.Fashion;
+﻿using Domain.Entities.ObjectValues.ProductObjectValue;
+using Domain.Entities.Products.Fashion;
 using FluentValidation.TestHelper;
 using FluentValidations.Domain.Entities.Products.Fashion;
 using Xunit;
@@ -15,7 +16,7 @@ public class CommonPropertiesObjectValueTests
     public void Gender_WhenEmpty_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetGender("");
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -29,7 +30,7 @@ public class CommonPropertiesObjectValueTests
     public void Gender_WhenExceedsMaxLength_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetGender(" ".PadRight(11, 'a'));
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -43,7 +44,7 @@ public class CommonPropertiesObjectValueTests
     public void Color_WhenEmpty_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetColor("");
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -57,7 +58,7 @@ public class CommonPropertiesObjectValueTests
     public void Color_WhenExceedsMaxLength_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetColor(" ".PadRight(21, 'a'));
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -71,7 +72,7 @@ public class CommonPropertiesObjectValueTests
     public void Age_WhenEmpty_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetAge("");
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -85,7 +86,7 @@ public class CommonPropertiesObjectValueTests
     public void Age_WhenExceedsMaxLength_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetAge(" ".PadRight(11, 'a'));
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -99,7 +100,7 @@ public class CommonPropertiesObjectValueTests
     public void RecommendedUses_WhenEmpty_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetRecommendedUses("");
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -113,7 +114,7 @@ public class CommonPropertiesObjectValueTests
     public void RecommendedUses_WhenExceedsMaxLength_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetRecommendedUses(" ".PadRight(16, 'a'));
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -127,7 +128,7 @@ public class CommonPropertiesObjectValueTests
     public void Size_WhenEmpty_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetSize("");
         // Act
         var result = _validator.TestValidate(commonProperties);
@@ -141,7 +142,7 @@ public class CommonPropertiesObjectValueTests
     public void Size_WhenExceedsMaxLength_ShouldHaveValidationError()
     {
         // Arrange
-        var commonProperties = new CommonProperties();
+        var commonProperties = new CommonPropertiesObjectValue();
         commonProperties.SetSize(" ".PadRight(11, 'a'));
         // Act
         var result = _validator.TestValidate(commonProperties);
