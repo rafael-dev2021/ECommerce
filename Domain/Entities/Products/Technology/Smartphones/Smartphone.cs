@@ -20,13 +20,14 @@ public sealed class Smartphone : Product
         PriceObjectValue? priceObjectValue,
         SpecificationObjectValue? specificationObjectValue,
         WarrantyObjectValue? warrantyObjectValue,
-        BatteryObjectValue batteryObjectValue,
-        CameraObjectValue cameraObjectValue,
-        DimensionObjectValue dimensionObjectValue,
-        DisplayObjectValue displayObjectValue,
-        FeatureObjectValue featureObjectValue,
-        PlatformObjectValue platformObjectValue,
-        StorageObjectValue storageObjectValue,
+        BatteryObjectValue? batteryObjectValue,
+        CameraObjectValue? cameraObjectValue,
+        DimensionObjectValue? dimensionObjectValue,
+        DisplayObjectValue? displayObjectValue,
+        FeatureObjectValue? featureObjectValue,
+        PlatformObjectValue? platformObjectValue,
+        StorageObjectValue? storageObjectValue,
+        CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId
     ) : base(
         name,
@@ -38,6 +39,7 @@ public sealed class Smartphone : Product
         priceObjectValue,
         specificationObjectValue,
         warrantyObjectValue,
+        commonPropertiesObjectValue,
         categoryId)
     {
         BatteryObjectValue = batteryObjectValue;
@@ -66,6 +68,7 @@ public sealed class Smartphone : Product
         FeatureObjectValue? featureObjectValue,
         PlatformObjectValue? platformObjectValue,
         StorageObjectValue? storageObjectValue,
+        CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId)
     {
         UpdateProduct(
@@ -78,6 +81,7 @@ public sealed class Smartphone : Product
             priceObjectValue,
             specificationObjectValue,
             warrantyObjectValue,
+            commonPropertiesObjectValue,
             categoryId);
         BatteryObjectValue = batteryObjectValue;
         CameraObjectValue = cameraObjectValue;

@@ -20,8 +20,8 @@ public sealed class Shoe : Product
         PriceObjectValue? priceObjectValue,
         SpecificationObjectValue? specificationObjectValue,
         WarrantyObjectValue? warrantyObjectValue,
-        GeneralObjectValue? generalObjectValue,
         MaterialObjectValue? materialObjectValue,
+        CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId) :
         base(
             name,
@@ -33,9 +33,9 @@ public sealed class Shoe : Product
             priceObjectValue,
             specificationObjectValue,
             warrantyObjectValue,
+            commonPropertiesObjectValue,
             categoryId)
     {
-        GeneralObjectValue = generalObjectValue;
         MaterialObjectValue = materialObjectValue;
     }
 
@@ -49,8 +49,8 @@ public sealed class Shoe : Product
         PriceObjectValue? priceObjectValue,
         SpecificationObjectValue? specificationObjectValue,
         WarrantyObjectValue? warrantyObjectValue,
-        GeneralObjectValue? generalObjectValue,
-        MaterialObjectValue? materialObjectValue,
+        MaterialObjectValue materialObjectValue,
+        CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId)
     {
         UpdateProduct(
@@ -63,11 +63,10 @@ public sealed class Shoe : Product
             priceObjectValue,
             specificationObjectValue,
             warrantyObjectValue,
+            commonPropertiesObjectValue,
             categoryId);
-        GeneralObjectValue = generalObjectValue;
         MaterialObjectValue = materialObjectValue;
     }
 
-    public GeneralObjectValue? GeneralObjectValue { get; private set; }
     public MaterialObjectValue? MaterialObjectValue { get; private set; }
 }

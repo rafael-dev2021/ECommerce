@@ -22,6 +22,7 @@ public sealed class Shirt : Product
         WarrantyObjectValue? warrantyObjectValue,
         MainFeaturesObjectValue? mainFeaturesObjectValue,
         OtherFeaturesObjectValue? otherFeaturesObjectValue,
+        CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId) :
         base(
             name, 
@@ -33,6 +34,7 @@ public sealed class Shirt : Product
             priceObjectValue, 
             specificationObjectValue, 
             warrantyObjectValue,
+            commonPropertiesObjectValue,
             categoryId)
     {
         MainFeaturesObjectValue = mainFeaturesObjectValue;
@@ -51,6 +53,7 @@ public sealed class Shirt : Product
         WarrantyObjectValue? warrantyObjectValue,
         MainFeaturesObjectValue? mainFeaturesObjectValue,
         OtherFeaturesObjectValue? otherFeaturesObjectValue,
+        CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId)
     {
         UpdateProduct(
@@ -63,6 +66,7 @@ public sealed class Shirt : Product
             priceObjectValue,
             specificationObjectValue,
             warrantyObjectValue,
+            commonPropertiesObjectValue,
             categoryId);
         MainFeaturesObjectValue = mainFeaturesObjectValue;
         OtherFeaturesObjectValue = otherFeaturesObjectValue;

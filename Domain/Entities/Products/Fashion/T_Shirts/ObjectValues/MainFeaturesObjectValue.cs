@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities.Products.Fashion.T_Shirts.ObjectValues;
 
-public class MainFeaturesObjectValue : CommonProperties
+public class MainFeaturesObjectValue 
 {
     public string TypeOfClothing { get; private set; } = string.Empty;
     public string FabricDesign { get; private set; } = string.Empty;
