@@ -1,6 +1,6 @@
-﻿namespace Domain.Entities.Products.Fashion;
+﻿namespace Domain.Entities.ObjectValues.ProductObjectValue;
 
-public class CommonProperties
+public class CommonPropertiesObjectValue
 {
     public string Gender { get; private set; } = string.Empty;
     public string Color { get; private  set; } = string.Empty;

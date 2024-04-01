@@ -9,18 +9,19 @@ public class Product
     public string Name { get; protected set; } = string.Empty;
     public string Description { get; protected set; } = string.Empty;
     public List<string> ImagesUrl { get; protected set; } = [];
-    
+
     public byte[] RowVersion { get; protected set; } = [];
     public int Stock { get; protected set; }
     public int CategoryId { get; protected set; }
     public Category? Category { get; }
-    
+
     public ICollection<Review> Reviews { get; } = [];
     public DataObjectValue? DataObjectValue { get; protected set; }
     public FlagsObjectValue? FlagsObjectValue { get; protected set; }
     public PriceObjectValue? PriceObjectValue { get; protected set; }
     public SpecificationObjectValue? SpecificationObjectValue { get; protected set; }
     public WarrantyObjectValue? WarrantyObjectValue { get; protected set; }
+    public CommonPropertiesObjectValue? CommonPropertiesObjectValue { get; set; }
 
     protected Product()
     {
@@ -46,6 +47,7 @@ public class Product
         PriceObjectValue? priceObjectValue,
         SpecificationObjectValue? specificationObjectValue,
         WarrantyObjectValue? warrantyObjectValue,
+        CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId)
     {
         Name = name;
@@ -57,6 +59,7 @@ public class Product
         PriceObjectValue = priceObjectValue;
         SpecificationObjectValue = specificationObjectValue;
         WarrantyObjectValue = warrantyObjectValue;
+        CommonPropertiesObjectValue = commonPropertiesObjectValue;
         CategoryId = categoryId;
     }
 
@@ -70,17 +73,20 @@ public class Product
         PriceObjectValue? priceObjectValue,
         SpecificationObjectValue? specificationObjectValue,
         WarrantyObjectValue? warrantyObjectValue,
+        CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId)
     {
         Name = name;
         Description = description;
         ImagesUrl = imagesUrl;
         Stock = stock;
+        Stock = stock;
         DataObjectValue = dataObjectValue;
         FlagsObjectValue = flagsObjectValue;
         PriceObjectValue = priceObjectValue;
         SpecificationObjectValue = specificationObjectValue;
         WarrantyObjectValue = warrantyObjectValue;
+        CommonPropertiesObjectValue = commonPropertiesObjectValue;
         CategoryId = categoryId;
     }
 
