@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities.Products.Fashion;
+﻿namespace Domain.Entities.ObjectValues.ProductObjectValue;
 
 public class CommonProperties
 {

@@ -6,7 +6,7 @@ using Xunit;
 namespace UnitTests.Domain.Entities.Products.Fashion;
 
 [TestFixture]
-public class CommonPropertiesTests
+public class CommonPropertiesObjectValueTests
 {
     private readonly CommonPropertiesValidator _validator = new();
 
