@@ -6,7 +6,7 @@ public class CommonPropertiesObjectValue
     public string Color { get; private  set; } = string.Empty;
     public string Age { get; private  set; } = string.Empty;
     public string RecommendedUses { get; private set; } = string.Empty;
-    public string Size { get; protected set; } = string.Empty;
+    public string Size { get; private set; } = string.Empty;
 
     public void SetGender(string gender) => Gender = gender;
     public void SetColor(string color) => Color = color;

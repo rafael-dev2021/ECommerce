@@ -74,6 +74,7 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
         ConfigurePlatformOv(builder);
         ConfigureBatteryOv(builder);
         ConfigureDimensionsOv(builder);
+        ConfigureCommonPropertiesOv(builder);
     }
 
     private static void ConfigureSpecificationsOv(EntityTypeBuilder<Smartphone> builder)
@@ -278,9 +279,6 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
                 sa.Property(x => x.ManufacturerPartNumber)
                     .HasMaxLength(50)
                     .IsRequired();
-                sa.Property(x => x.Color)
-                    .HasMaxLength(20)
-                    .IsRequired();
                 sa.Property<int>("Id");
                 sa.HasKey("Id");
                 sa.HasData(new
@@ -289,7 +287,6 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
                     CellNetworkTechnology = "WCDMA (UMTS) / GSM / 5G",
                     VirtualAssistant = "Samsung Bixby,Alexa,Google Assistant",
                     ManufacturerPartNumber = "SM-S918UZKFXAA",
-                    Color = "Phantom Black"
                 });
                 sa.HasData(new
                 {
@@ -297,7 +294,6 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
                     CellNetworkTechnology = "WCDMA (UMTS) / GSM / 5G",
                     VirtualAssistant = "Samsung Bixby,Alexa,Google Assistant",
                     ManufacturerPartNumber = "SM-B518UZKFX22",
-                    Color = "Violet"
                 });
                 sa.HasData(new
                 {
@@ -305,7 +301,6 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
                     CellNetworkTechnology = "WCDMA (UMTS) / GSM / 5G",
                     VirtualAssistant = "Apple Watch,HomePod,Siri Assistant",
                     ManufacturerPartNumber = "AA-12SF7832SD301EW3",
-                    Color = "Titanium Blue"
                 });
                 sa.HasData(new
                 {
@@ -313,11 +308,40 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
                     CellNetworkTechnology = "WCDMA (UMTS) / GSM / 5G",
                     VirtualAssistant = "Apple Watch,HomePod,Siri Assistant",
                     ManufacturerPartNumber = "AA-12VD783HR230SW19",
-                    Color = "Titanium White"
                 });
             });
     }
 
+    private static void ConfigureCommonPropertiesOv(EntityTypeBuilder<Smartphone> builder)
+    {
+        builder.OwnsOne(x => x.CommonPropertiesObjectValue,
+            sa =>
+            {
+                sa.Property<int>("Id");
+                sa.HasKey("Id");
+                sa.HasData(new
+                {
+                    Id = 1,
+                    Color = "Phantom Black"
+                });
+                sa.HasData(new
+                {
+                    Id = 2,
+                    Color = "Violet"
+                });
+                sa.HasData(new
+                {
+                    Id = 3,
+                    Color = "Titanium Blue"
+                });
+                sa.HasData(new
+                {
+                    Id = 4,
+                    Color = "Titanium White"
+                });
+            });
+    }
+    
     private static void ConfigureDisplayOv(EntityTypeBuilder<Smartphone> builder)
     {
         builder.OwnsOne(x => x.DisplayObjectValue,

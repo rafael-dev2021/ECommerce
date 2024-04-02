@@ -49,7 +49,7 @@ public sealed class Shoe : Product
         PriceObjectValue? priceObjectValue,
         SpecificationObjectValue? specificationObjectValue,
         WarrantyObjectValue? warrantyObjectValue,
-        MaterialObjectValue materialObjectValue,
+        MaterialObjectValue? materialObjectValue,
         CommonPropertiesObjectValue? commonPropertiesObjectValue,
         int categoryId)
     {
