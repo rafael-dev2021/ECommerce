@@ -2,7 +2,7 @@
 using Infra_Data.Repositories.Products.Fashion;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infra_Ioc.Products.Fashion;
+namespace Infra_Ioc.Domain.Products.Fashion;
 
 public static class FashionDependecyInjection
 {

@@ -1,8 +1,7 @@
 ﻿using Domain.Entities.ObjectValues.ProductObjectValue;
-using Domain.Entities.Products.Fashion;
 using FluentValidation;
 
-namespace FluentValidations.Domain.Entities.Products.Fashion;
+namespace FluentValidations.Domain.Entities.ObjectValues.ProductObjectValue;
 
 public class CommonPropertiesValidator : AbstractValidator<CommonPropertiesObjectValue>
 {

@@ -2,7 +2,7 @@
 using Infra_Data.Repositories.Products.Technology;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infra_Ioc.Products.Technology;
+namespace Infra_Ioc.Domain.Products.Technology;
 
 public static class TechnologyDependecyInjection
 {

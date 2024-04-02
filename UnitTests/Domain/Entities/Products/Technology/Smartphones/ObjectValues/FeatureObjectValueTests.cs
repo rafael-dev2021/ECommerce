@@ -37,4 +37,60 @@ public class FeatureObjectValueTests
         result.ShouldHaveValidationErrorFor(x => x.CellNetworkTechnology)
             .WithErrorMessage("Cell network technology must have a maximum length of 30 characters.");
     }
+    
+    [Fact]
+    [Test]
+    public void VirtualAssistant_WhenEmpty_ShouldHaveValidationError()
+    {
+        // Arrange
+        var featureObjectValue = new FeatureObjectValue();
+        featureObjectValue.SetVirtualAssistant("");
+        // Act
+        var result = _validator.TestValidate(featureObjectValue);
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.VirtualAssistant)
+            .WithErrorMessage("Virtual assistant cannot be empty.");
+    }
+    
+    [Fact]
+    [Test]
+    public void VirtualAssistant_WhenExceedsMaxLength_ShouldHaveValidationError()
+    {
+        // Arrange
+        var featureObjectValue = new FeatureObjectValue();
+        featureObjectValue.SetVirtualAssistant(" ".PadRight(51, 'a'));
+        // Act
+        var result = _validator.TestValidate(featureObjectValue);
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.VirtualAssistant)
+            .WithErrorMessage("Virtual assistant must have a maximum length of 50 characters.");
+    }
+    
+    [Fact]
+    [Test]
+    public void ManufacturerPartNumber_WhenEmpty_ShouldHaveValidationError()
+    {
+        // Arrange
+        var featureObjectValue = new FeatureObjectValue();
+        featureObjectValue.SetManufacturerPartNumber("");
+        // Act
+        var result = _validator.TestValidate(featureObjectValue);
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.ManufacturerPartNumber)
+            .WithErrorMessage("Manufacturer part number cannot be empty.");
+    }
+    
+    [Fact]
+    [Test]
+    public void ManufacturerPartNumber_WhenExceedsMaxLength_ShouldHaveValidationError()
+    {
+        // Arrange
+        var featureObjectValue = new FeatureObjectValue();
+        featureObjectValue.SetManufacturerPartNumber(" ".PadRight(51, 'a'));
+        // Act
+        var result = _validator.TestValidate(featureObjectValue);
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.ManufacturerPartNumber)
+            .WithErrorMessage("Manufacturer part number must have a maximum length of 50 characters.");
+    }
 }

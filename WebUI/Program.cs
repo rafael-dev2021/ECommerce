@@ -6,8 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDomainInfrastructureModule(builder.Configuration);
+builder.Services.AddDApplicationInfrastructureModule();
+builder.Services.AddDomainFluentValidationDI();
 
-builder.Services.AddEnUSCultureInfoDI();
+builder.Services.AddEnUsCultureInfoDi();
 
 
 var app = builder.Build();

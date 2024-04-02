@@ -5,9 +5,9 @@ using System.Globalization;
 
 namespace Infra_Ioc;
 
-public static class EnUSCultureInfoDI
+public static class EnUsCultureInfoDi
 {
-    public static IServiceCollection AddEnUSCultureInfoDI(this IServiceCollection services)
+    public static IServiceCollection AddEnUsCultureInfoDi(this IServiceCollection services)
     {
         services.AddLocalization(opt => opt.ResourcesPath = "Resources");
         var cultureInfo = new CultureInfo("en-US");

@@ -9,7 +9,6 @@ public class Product
     public string Name { get; protected set; } = string.Empty;
     public string Description { get; protected set; } = string.Empty;
     public List<string> ImagesUrl { get; protected set; } = [];
-
     public byte[] RowVersion { get; protected set; } = [];
     public int Stock { get; protected set; }
     public int CategoryId { get; protected set; }
@@ -27,7 +26,7 @@ public class Product
     {
     }
 
-    protected Product(int id, string name, string description, List<string> imagesUrl, int stock, int categoryId)
+    public Product(int id, string name, string description, List<string> imagesUrl, int stock, int categoryId)
     {
         Id = id;
         Name = name;

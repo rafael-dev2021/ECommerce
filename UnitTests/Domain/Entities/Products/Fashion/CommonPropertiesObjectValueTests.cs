@@ -1,7 +1,6 @@
 ﻿using Domain.Entities.ObjectValues.ProductObjectValue;
-using Domain.Entities.Products.Fashion;
 using FluentValidation.TestHelper;
-using FluentValidations.Domain.Entities.Products.Fashion;
+using FluentValidations.Domain.Entities.ObjectValues.ProductObjectValue;
 using Xunit;
 
 namespace UnitTests.Domain.Entities.Products.Fashion;

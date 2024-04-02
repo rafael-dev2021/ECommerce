@@ -4,7 +4,7 @@ using Infra_Data.Repositories;
 using Infra_Data.Repositories.Orders;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infra_Ioc;
+namespace Infra_Ioc.Domain;
 
 public static class EntitiesRepositoryDependecyInjection
 {

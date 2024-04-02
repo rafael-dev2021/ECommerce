@@ -1,6 +1,7 @@
-﻿using Infra_Ioc.Identity;
-using Infra_Ioc.Products.Fashion;
-using Infra_Ioc.Products.Technology;
+﻿using Infra_Ioc.Domain;
+using Infra_Ioc.Domain.Products.Fashion;
+using Infra_Ioc.Domain.Products.Technology;
+using Infra_Ioc.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
