@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<ProjectGuid>{5AF25A5A-4197-49B5-BF22-F6FF7598907D}</ProjectGuid>
+		<ProjectGuid>95d0ec96-5063-4ed1-bd59-b4cf90bf2816</ProjectGuid>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 	</PropertyGroup>
