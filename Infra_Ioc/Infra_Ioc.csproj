@@ -1,20 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ProjectGuid>{5AF25A5A-4197-49B5-BF22-F6FF7598907D}</ProjectGuid>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\FluentValidations\FluentValidations.csproj" />
-    <ProjectReference Include="..\Infra_Data\Infra_Data.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Application\Application.csproj" />
+		<ProjectReference Include="..\Domain\Domain.csproj" />
+		<ProjectReference Include="..\FluentValidations\FluentValidations.csproj" />
+		<ProjectReference Include="..\Infra_Data\Infra_Data.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+	</ItemGroup>
 
 </Project>
