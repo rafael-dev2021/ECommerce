@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="dotnet-framework-sonarscanner" Version="6.2.0" />
       <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3" />
       <PackageReference Include="FluentValidation" Version="11.9.0" />
     </ItemGroup>
