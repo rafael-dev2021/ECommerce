@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Services.Entities;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Infra_Ioc.Application;
 
@@ -12,6 +12,7 @@ public static class EntitiesServicesDependecyInjection
         services.AddScoped<ICategoryDtoService, CategoryDtoService>();
         services.AddScoped<IProductDtoService, ProductDtoService>();
         services.AddScoped<IReviewDtoService, ReviewDtoService>();
+        services.AddScoped<IShoppingCartItemDtoService, ShoppingCartItemDtoService>();
 
         var applicationAssembly = AppDomain.CurrentDomain.Load("Application");
         services.AddMediatR(x =>
