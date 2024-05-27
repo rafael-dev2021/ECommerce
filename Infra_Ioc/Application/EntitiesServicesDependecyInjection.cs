@@ -9,6 +9,7 @@ public static class EntitiesServicesDependecyInjection
 {
     public static IServiceCollection AddEntitiesServicesDependecyInjection(this IServiceCollection services)
     {
+        services.AddScoped<ICategoryDtoService, CategoryDtoService>();
         services.AddScoped<IProductDtoService, ProductDtoService>();
 
         var applicationAssembly = AppDomain.CurrentDomain.Load("Application");
