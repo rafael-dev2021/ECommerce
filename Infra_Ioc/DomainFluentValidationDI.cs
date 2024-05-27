@@ -26,7 +26,7 @@ public static class DomainFluentValidationDI
         services.AddUserDeliveryObjectValueValidator();
         services.AddShoppingCartItemValidatorDi();
         services.AddReviewValidatorDi();
-        services.AddSeedUserUpdateValidatorDi();
+        services.AddIdentityValidatorDi();
         
         services.AddFluentValidationAutoValidation();
         return services;
