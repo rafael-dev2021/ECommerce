@@ -10,6 +10,7 @@ public static class ApplicationMappingProfile
         services.AddAutoMapper(typeof(MappingTheCategoryProfile));
         services.AddAutoMapper(typeof(MappingTheProductProfile));
         services.AddAutoMapper(typeof(MappingTheReviewProfile));
+        services.AddAutoMapper(typeof(MappingTheShoppingCartProfile));
         return services;
     }
 }
