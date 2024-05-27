@@ -9,5 +9,6 @@ public class MappingTheCategoryProfile : Profile
     public MappingTheCategoryProfile()
     {
         CreateMap<Category, CategoryDto>().ReverseMap();
+        CreateMap<CategoryWithProductCount, CategoryWithProductCountDto>().ReverseMap();
     }
 }

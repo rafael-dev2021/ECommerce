@@ -8,7 +8,7 @@ public class MappingTheOrderProfile : Profile
 {
     public MappingTheOrderProfile()
     {
-        CreateMap<Order, OrderDTo>()
+        CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
             .ReverseMap();
 
