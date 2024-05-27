@@ -11,6 +11,7 @@ public static class EntitiesServicesDependecyInjection
     {
         services.AddScoped<ICategoryDtoService, CategoryDtoService>();
         services.AddScoped<IProductDtoService, ProductDtoService>();
+        services.AddScoped<IReviewDtoService, ReviewDtoService>();
 
         var applicationAssembly = AppDomain.CurrentDomain.Load("Application");
         services.AddMediatR(x =>
