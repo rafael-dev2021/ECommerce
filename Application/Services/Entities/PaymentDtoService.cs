@@ -1,4 +1,5 @@
-﻿using Application.Dtos.PaymentsDto;
+﻿using Application.CustomExceptions;
+using Application.Dtos.PaymentsDto;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Interfaces.Payments;
@@ -46,7 +47,7 @@ public class PaymentDtoService(IPaymentRepository paymentRepository, IMapper map
         }
         catch (Exception ex)
         {
-            throw new Exception("ID not found", ex);
+            throw new PaymentException("ID not found", ex);
         }
     }
 
@@ -59,7 +60,7 @@ public class PaymentDtoService(IPaymentRepository paymentRepository, IMapper map
         }
         catch (Exception ex)
         {
-            throw new Exception("ID not found", ex);
+            throw new PaymentException("ID not found", ex);
         }
     }
 
@@ -72,7 +73,7 @@ public class PaymentDtoService(IPaymentRepository paymentRepository, IMapper map
         }
         catch (Exception ex)
         {
-            throw new Exception("ID not found", ex);
+            throw new PaymentException("ID not found", ex);
         }
     }
 }

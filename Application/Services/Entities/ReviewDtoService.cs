@@ -1,4 +1,5 @@
-﻿using Application.Dtos.Reviews;
+﻿using Application.CustomExceptions;
+using Application.Dtos.Reviews;
 using Application.Errors;
 using Application.Interfaces;
 using AutoMapper;
@@ -41,7 +42,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new ReviewException(_message, ex);
         }
     }
 
@@ -62,7 +63,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new ReviewException(_message, ex);
         }
     }
 
@@ -83,7 +84,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new ReviewException(_message, ex);
         }
     }
 
@@ -104,13 +105,13 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new ReviewException(_message, ex);
         }
     }
 
     private static void ReviewIdNull(int? id)
     {
-        if (id == null)
+        if (!id.HasValue)
             throw new ArgumentNullException(nameof(id), "Review ID cannot be null.");
     }
 
