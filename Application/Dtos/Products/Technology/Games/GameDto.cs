@@ -2,7 +2,7 @@
 
 namespace Application.Dtos.Products.Technology.Games;
 
-public record GameDto
+public record GameDto : ProductDto
 {
     public GeneralFeaturesDtoObjectValue? GeneralFeaturesObjectValue { get; set; }
     public MediaSpecificationDtoObjectValue? MediaSpecificationObjectValue { get; set; }

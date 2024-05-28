@@ -2,7 +2,7 @@
 
 namespace Application.Dtos.Products.Fashion.Shoes;
 
-public record ShoeDto
+public record ShoeDto : ProductDto
 {
     public MaterialDtoObjectValue? MaterialObjectValue { get; set; }
 }
