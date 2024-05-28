@@ -322,26 +322,42 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
                 sa.HasData(new
                 {
                     Id = 1,
-                    Color = "Phantom Black"
+                    Gender = "",
+                    Color = "Phantom Black",
+                    Age = "",
+                    RecommendedUses = "",
+                    Size = ""
                 });
                 sa.HasData(new
                 {
                     Id = 2,
-                    Color = "Violet"
+                    Gender = "",
+                    Color = "Violet",
+                    Age = "",
+                    RecommendedUses = "",
+                    Size = ""
                 });
                 sa.HasData(new
                 {
                     Id = 3,
-                    Color = "Titanium Blue"
+                    Gender = "",
+                    Color = "Titanium Blue",
+                    Age = "",
+                    RecommendedUses = "",
+                    Size = ""
                 });
                 sa.HasData(new
                 {
                     Id = 4,
-                    Color = "Titanium White"
+                    Gender = "",
+                    Color = "Titanium White",
+                    Age = "",
+                    RecommendedUses = "",
+                    Size = ""
                 });
             });
     }
-    
+
     private static void ConfigureDisplayOv(EntityTypeBuilder<Smartphone> builder)
     {
         builder.OwnsOne(x => x.DisplayObjectValue,
@@ -368,7 +384,7 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
                     DisplayProtection = "Corning Gorilla Glass Victus 2",
                     DisplaySizeInches = 6.8
 
-                
+
                 });
                 sa.HasData(new
                 {

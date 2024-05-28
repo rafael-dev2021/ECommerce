@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Products.Technology.Games;
+using Domain.Entities.Products.Technology.Smartphones;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -44,6 +45,7 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         ConfigureGameGeneralFeaturesOv(builder);
         ConfigureGameRequirementsOv(builder);
         ConfigureGameSpecificationsOv(builder);
+        ConfigureCommonPropertiesOv(builder);
     }
 
     private static void ConfigureSpecificationsOv(EntityTypeBuilder<Game> builder)
@@ -317,6 +319,35 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
                     IsMultiplayer = false,
                     IsOnline = true,
                     IsOffline = true,
+                });
+            });
+    }
+
+    private static void ConfigureCommonPropertiesOv(EntityTypeBuilder<Game> builder)
+    {
+        builder.OwnsOne(x => x.CommonPropertiesObjectValue,
+            sa =>
+            {
+                sa.Property<int>("Id");
+                sa.HasKey("Id");
+                sa.HasData(new
+                {
+                    Id = 5,
+                    Gender = "",
+                    Color = "",
+                    Age = "",
+                    RecommendedUses = "",
+                    Size = ""
+                });
+               
+                sa.HasData(new
+                {
+                    Id = 6,
+                    Gender = "",
+                    Color = "",
+                    Age = "",
+                    RecommendedUses = "",
+                    Size = ""
                 });
             });
     }
