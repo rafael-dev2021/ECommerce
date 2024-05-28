@@ -1,4 +1,5 @@
-﻿using Application.Dtos;
+﻿using Application.CustomExceptions;
+using Application.Dtos;
 using Application.Errors;
 using Application.Interfaces;
 using AutoMapper;
@@ -39,7 +40,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new CategoryException(_message, ex);
         }
     }
 
@@ -59,7 +60,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new CategoryException(_message, ex);
         }
     }
 
@@ -80,7 +81,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new CategoryException(_message, ex);
         }
     }
 
@@ -101,7 +102,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new CategoryException(_message, ex);
         }
     }
 
@@ -118,8 +119,10 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
 
     private static void CategoryIdNull(int? id)
     {
-        if (id == null)
-            throw new ArgumentNullException($"Category ID {id} cannot be null.");
+        if (!id.HasValue)
+        {
+            throw new ArgumentNullException(nameof(id), "Category ID cannot be null.");
+        }
     }
 
     private static void CategoryNull(CategoryDto categoryDto)
