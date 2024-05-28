@@ -58,15 +58,18 @@ jobs:
 
       - name: Run tests
         shell: powershell
-        run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        run: |
+          dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: Verify Coverage Report
         shell: powershell
         run: |
-          if (Test-Path -Path ".\TestResults\**\coverage.opencover.xml") {
-            Write-Output "Coverage report found."
+          $coverageReport = Get-ChildItem -Path . -Recurse -Filter "coverage.opencover.xml" | Select-Object -First 1
+          if ($coverageReport) {
+            Write-Output "Coverage report found: $coverageReport.FullName"
           } else {
             Write-Error "Coverage report not found."
+            exit 1
           }
 
       - name: SonarCloud - End Analysis
