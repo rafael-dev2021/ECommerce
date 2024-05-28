@@ -1,3 +1,3 @@
 ﻿namespace Application.Dtos;
 
-public record CategoryWithProductCountDto(string CategoryName, int ProductCount) { }
+public record CategoryWithProductCountDto(string CategoryName, string ProductCount) { }
