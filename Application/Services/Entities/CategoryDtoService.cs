@@ -1,4 +1,5 @@
-﻿using Application.Dtos;
+﻿using Application.CustomExceptions;
+using Application.Dtos;
 using Application.Errors;
 using Application.Interfaces;
 using AutoMapper;
@@ -12,7 +13,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
     private readonly IMapper _mapper = mapper;
     private readonly ICategoryRepository _categoryRepository = categoryRepository;
     private readonly string _message = "An unexpected error occurred while processing the request.";
-
+    private const string error = "Error";
 
     public async Task<IEnumerable<CategoryDto>> GetEntitiesAsync()
     {
@@ -32,14 +33,14 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                 throw new RequestException(new RequestError
                 {
                     Message = $"Category with ID {id} not found.",
-                    Severity = "Error",
+                    Severity = error,
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 });
             return _mapper.Map<CategoryDto>(getCategoryId);
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new CategoryException(_message, ex);
         }
     }
 
@@ -52,14 +53,14 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
             var addCategoryDto = _mapper.Map<Category>(entity) ?? throw new RequestException(new RequestError
             {
                 Message = "Error when adding category.",
-                Severity = "Error",
+                Severity = error,
                 StatusCode = System.Net.HttpStatusCode.BadRequest
             });
             await _categoryRepository.CreateAsync(addCategoryDto);
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new CategoryException(_message, ex);
         }
     }
 
@@ -73,14 +74,14 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                 throw new RequestException(new RequestError
                 {
                     Message = $"Error when updating the category",
-                    Severity = "Error",
+                    Severity = error,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 });
             await _categoryRepository.UpdateAsync(updateCategory);
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new CategoryException(_message, ex);
         }
     }
 
@@ -94,14 +95,14 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                 throw new RequestException(new RequestError
                 {
                     Message = "Error when removing category.",
-                    Severity = "Error",
+                    Severity = error,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 });
             await _categoryRepository.DeleteAsync(deleteCategory);
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new CategoryException(_message, ex);
         }
     }
 
@@ -118,8 +119,8 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
 
     private static void CategoryIdNull(int? id)
     {
-        if (id == null)
-            throw new ArgumentNullException($"Category ID {id} cannot be null.");
+        if (!id.HasValue)
+            throw new ArgumentNullException(nameof(id), "Category ID cannot be null.");
     }
 
     private static void CategoryNull(CategoryDto categoryDto)

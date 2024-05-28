@@ -1,4 +1,5 @@
-﻿using Application.Dtos.Reviews;
+﻿using Application.CustomExceptions;
+using Application.Dtos.Reviews;
 using Application.Errors;
 using Application.Interfaces;
 using AutoMapper;
@@ -12,7 +13,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
     private readonly IReviewRepository _repository = repository;
     private readonly IMapper _mapper = mapper;
     private readonly string _message = "An unexpected error occurred while processing the request.";
-
+    private const string error = "Error";
 
     public async Task<IEnumerable<ReviewDto>> GetEntitiesAsync()
     {
@@ -33,7 +34,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
                 throw new RequestException(new RequestError
                 {
                     Message = $"Review with ID {id} not found.",
-                    Severity = "Error",
+                    Severity = error,
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 });
 
@@ -41,7 +42,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new ReviewException(_message, ex);
         }
     }
 
@@ -54,7 +55,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
             var review = _mapper.Map<Review>(entity) ?? throw new RequestException(new RequestError
             {
                 Message = "Error when adding review.",
-                Severity = "Error",
+                Severity = error,
                 StatusCode = System.Net.HttpStatusCode.BadRequest
             });
 
@@ -62,7 +63,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new ReviewException(_message, ex);
         }
     }
 
@@ -75,7 +76,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
             var review = _mapper.Map<Review>(entity) ?? throw new RequestException(new RequestError
             {
                 Message = "Error when updating review.",
-                Severity = "Error",
+                Severity = error,
                 StatusCode = System.Net.HttpStatusCode.BadRequest
             });
 
@@ -83,7 +84,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new ReviewException(_message, ex);
         }
     }
 
@@ -96,7 +97,7 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
             var review = await _repository.GetByIdAsync(id) ?? throw new RequestException(new RequestError
             {
                 Message = "Error when removing review.",
-                Severity = "Error",
+                Severity = error,
                 StatusCode = System.Net.HttpStatusCode.BadRequest
             });
 
@@ -104,13 +105,13 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
         catch (Exception ex)
         {
-            throw new Exception(_message, ex);
+            throw new ReviewException(_message, ex);
         }
     }
 
     private static void ReviewIdNull(int? id)
     {
-        if (id == null)
+        if (!id.HasValue)
             throw new ArgumentNullException(nameof(id), "Review ID cannot be null.");
     }
 

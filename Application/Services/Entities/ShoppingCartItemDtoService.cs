@@ -1,4 +1,5 @@
-﻿using Application.Dtos;
+﻿using Application.CustomExceptions;
+using Application.Dtos;
 using Application.Dtos.CartDto;
 using Application.Interfaces;
 using AutoMapper;
@@ -35,7 +36,9 @@ public class ShoppingCartItemDtoService(IShoppingCartItemRepository repository, 
     {
         ProductDtoNull(productDto);
 
-        var product = _mapper.Map<Product>(productDto) ?? throw new Exception("Error removing product.");
+        var product = _mapper.Map<Product>(productDto) ??
+            throw new ShoppingCartItemException("Error removing product.");
+
         await _repository.RemoveItemAsync(product);
     }
 
@@ -51,7 +54,7 @@ public class ShoppingCartItemDtoService(IShoppingCartItemRepository repository, 
         var addCategory = _mapper.Map<Category>(categoryDto);
 
         if (addProduct == null)
-            throw new Exception("Error adding product to cart.");
+            throw new ShoppingCartItemException("Error adding product to cart.");
 
         await _repository.AddItemToCartAsync(addProduct, addCategory);
     }
@@ -67,7 +70,7 @@ public class ShoppingCartItemDtoService(IShoppingCartItemRepository repository, 
         var removeCategory = _mapper.Map<Category>(categoryDto);
 
         if (removeProduct == null)
-            throw new Exception("Error removing product.");
+            throw new ShoppingCartItemException("Error removing product.");
 
         await _repository.RemoveItemToCartAsync(removeProduct, removeCategory);
     }
@@ -80,7 +83,7 @@ public class ShoppingCartItemDtoService(IShoppingCartItemRepository repository, 
         }
         catch (Exception ex)
         {
-            throw new Exception("Error clearing the shopping cart.", ex);
+            throw new ShoppingCartItemException("Error clearing the shopping cart.", ex);
         }
     }
 

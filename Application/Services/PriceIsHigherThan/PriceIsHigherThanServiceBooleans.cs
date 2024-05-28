@@ -13,9 +13,8 @@ public class PriceIsHigherThanServiceBooleans
     {
         get
         {
-            return
-                ProductDto?.PriceObjectValue?.Price >= 200 &&
-                ProductDto?.PriceObjectValue?.Price <= 1000;
+            var price = ProductDto?.PriceObjectValue?.Price;
+            return price.HasValue && price >= 200 && price <= 1000;
         }
     }
     public bool IsPriceIsLowerThanOneHundred

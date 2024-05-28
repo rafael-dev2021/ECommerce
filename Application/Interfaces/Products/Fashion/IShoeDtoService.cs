@@ -2,5 +2,5 @@
 
 namespace Application.Interfaces.Products.Fashion;
 
-public interface IShoeDtoService : IGenericCRUDService<ShoeDto>
+public interface IShoeDtoService : IGenericProductsCrudService<ShoeDto>
 { }

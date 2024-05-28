@@ -2,4 +2,4 @@
 
 namespace Application.Interfaces;
 
-public interface IReviewDtoService : IGenericCRUDServiceDTO<ReviewDto> { }
+public interface IReviewDtoService : IGenericCrudServiceDto<ReviewDto> { }

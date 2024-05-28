@@ -1,4 +1,5 @@
-﻿using Application.Dtos.OrderDtos;
+﻿using Application.CustomExceptions;
+using Application.Dtos.OrderDtos;
 using Application.Errors;
 using Application.Interfaces;
 using AutoMapper;
@@ -45,7 +46,7 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
         }
         catch (Exception ex)
         {
-            throw new Exception($"Order with ID {id} not found.", ex);
+            throw new OrderException($"An error occurred while retrieving the order with ID {id}.", ex);
         }
     }
 
@@ -74,7 +75,7 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
         }
         catch (Exception ex)
         {
-            throw new Exception("Error updating order.", ex);
+            throw new OrderException("Error updating order.", ex);
         }
     }
 
@@ -83,10 +84,17 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
     {
         OrderDtoIdNull(id);
 
-        var deleteOrder = await _orderRepository.GetByIdAsync(id) ??
-            throw new Exception($"Order with ID {id} not found.");
+        try
+        {
+            var deleteOrder = await _orderRepository.GetByIdAsync(id) ??
+                throw new OrderException($"Order with ID {id} not found.");
 
-        await _orderRepository.DeleteAsync(deleteOrder);
+            await _orderRepository.DeleteAsync(deleteOrder);
+        }
+        catch (Exception ex)
+        {
+            throw new OrderException("Error deleting order.", ex);
+        }
     }
 
     public async Task<IEnumerable<OrderDetailDto>> GetOrdersDetailsAsync()
@@ -145,7 +153,7 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
             .ThenBy(group => group.Month)
             .ToList();
 
-        return salesByMonth.Cast<SalesByMonthDto>().ToList();
+        return salesByMonth;
     }
 
     public async Task<decimal> Average()
@@ -173,7 +181,7 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
 
     private static void OrderDtoIdNull(int? id)
     {
-        if (id == null)
+        if (!id.HasValue)
             throw new ArgumentNullException(nameof(id), "Order ID cannot be null.");
     }
 

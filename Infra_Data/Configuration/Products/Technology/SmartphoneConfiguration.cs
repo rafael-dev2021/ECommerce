@@ -470,7 +470,7 @@ public class SmartphoneConfiguration : IEntityTypeConfiguration<Smartphone>
                     .HasMaxLength(15)
                     .IsRequired();
                 sa.Property(x => x.SelfieCameraFeature)
-                    .HasMaxLength(100)
+                    .HasMaxLength(150)
                     .IsRequired();
 
                 sa.Property<int>("Id");

@@ -2,5 +2,5 @@
 
 namespace Application.Interfaces.Products.Fashion;
 
-public interface IShirtDtoService : IGenericCRUDService<ShirtDto>
+public interface IShirtDtoService : IGenericProductsCrudService<ShirtDto>
 { }
