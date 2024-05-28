@@ -11,6 +11,9 @@ public static class ApplicationMappingProfile
         services.AddAutoMapper(typeof(MappingTheProductProfile));
         services.AddAutoMapper(typeof(MappingTheReviewProfile));
         services.AddAutoMapper(typeof(MappingTheShoppingCartProfile));
+        services.AddAutoMapper(typeof(MappingTheOrderProfile));
+        services.AddAutoMapper(typeof(MappingThePaymentProfile));
+        services.AddAutoMapper(typeof(MappingTheDeliveriesProfile));
         return services;
     }
 }
