@@ -1,4 +1,5 @@
-﻿using Application.Dtos.DeliveriesDto;
+﻿using Application.Dtos;
+using Application.Dtos.DeliveriesDto;
 using Application.Dtos.OrderDtos;
 using Application.Dtos.PaymentsDto;
 using Application.Services.Entities;
@@ -80,6 +81,91 @@ public class OrderDtoServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(orderDto, result);
+    }
+
+    [Fact]
+    public void GetPagingListOrdersDto_ReturnsMappedOrders_WhenOrdersExist()
+    {
+        // Arrange
+        var orders = new List<Order> { new Order() }.AsQueryable();
+        var ordersDto = new List<OrderDto> { new OrderDto(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, new List<OrderDetailDto>(), DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto) }.AsQueryable();
+
+        _orderRepository.GetPagingListOrders("filter").Returns(orders);
+        _mapper.ProjectTo<OrderDto>(orders).Returns(ordersDto);
+
+        // Act
+        var result = _orderDtoService.GetPagingListOrdersDto("filter");
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Single(result);
+        Assert.Equal(ordersDto, result);
+    }
+
+    [Fact]
+    public async Task GetOrdersDetailsAsync_ReturnsMappedOrderDetails_WhenOrdersExist()
+    {
+        // Arrange
+        var orders = new List<OrderDetail> { new OrderDetail() };
+        var ordersDto = new List<OrderDetailDto> { new OrderDetailDto(
+            1,
+            1,
+            12m,
+            1,
+            new ProductDto(),
+            1,
+            new OrderDto(
+                1,
+                12m,
+                1,
+                new DateTime(), 
+                new DateTime(),
+                new DateTime(),
+                [],
+                DeliveryAddressDto,
+                UserDeliveryDto,
+                PaymentMethodDto),
+            1,
+            PaymentMethodDto) };
+
+        _orderRepository.GetOrdersDetailsAsync().Returns(orders);
+        _mapper.Map<IEnumerable<OrderDetailDto>>(orders).Returns(ordersDto);
+
+        // Act
+        var result = await _orderDtoService.GetOrdersDetailsAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Single(result);
+        Assert.Equal(ordersDto, result);
+    }
+
+    [Fact]
+    public async Task GetOrdersDetailsAsync_ReturnsEmptyList_WhenNoOrderDetailsExist()
+    {
+        // Arrange
+        _orderRepository.GetOrdersDetailsAsync().Returns(new List<OrderDetail>());
+
+        // Act
+        var result = await _orderDtoService.GetOrdersDetailsAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public void GetPagingListOrdersDto_ReturnsEmptyQueryable_WhenNoOrdersExist()
+    {
+        // Arrange
+        _orderRepository.GetPagingListOrders("filter").Returns(new List<Order>().AsQueryable());
+
+        // Act
+        var result = _orderDtoService.GetPagingListOrdersDto("filter");
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
     }
 
     [Fact]
