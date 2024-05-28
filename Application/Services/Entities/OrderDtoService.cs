@@ -153,7 +153,7 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
             .ThenBy(group => group.Month)
             .ToList();
 
-        return salesByMonth.Cast<SalesByMonthDto>().ToList();
+        return salesByMonth;
     }
 
     public async Task<decimal> Average()
