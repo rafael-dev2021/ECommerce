@@ -13,6 +13,8 @@ public static class EntitiesServicesDependecyInjection
         services.AddScoped<IProductDtoService, ProductDtoService>();
         services.AddScoped<IReviewDtoService, ReviewDtoService>();
         services.AddScoped<IShoppingCartItemDtoService, ShoppingCartItemDtoService>();
+        services.AddScoped<IOrderDtoService, OrderDtoService>();
+        services.AddScoped<IPaymentDtoService, PaymentDtoService>();
 
         var applicationAssembly = AppDomain.CurrentDomain.Load("Application");
         services.AddMediatR(x =>
