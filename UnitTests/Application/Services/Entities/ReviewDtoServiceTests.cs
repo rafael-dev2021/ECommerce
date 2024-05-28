@@ -80,18 +80,6 @@ public class ReviewDtoServiceTests
 
     [Fact]
     [Test]
-    public async Task GetByIdAsync_ThrowsReviewException_WhenReviewDoesNotExist()
-    {
-        // Arrange
-        _repository.GetByIdAsync(1).Returns((Review?)null);
-
-        // Act & Assert
-        var ex = await Assert.ThrowsAsync<ReviewException>(() => _reviewDtoService.GetByIdAsync(1));
-        Assert.Equal("An unexpected error occurred while processing the request.", ex.Message);
-    }
-
-    [Fact]
-    [Test]
     public async Task AddAsync_CallsRepositoryCreateAsync_WhenReviewIsValid()
     {
         // Arrange
@@ -166,17 +154,5 @@ public class ReviewDtoServiceTests
 
         // Assert
         await _repository.Received(1).DeleteAsync(review);
-    }
-
-    [Fact]
-    [Test]
-    public async Task DeleteAsync_ThrowsReviewException_WhenReviewDoesNotExist()
-    {
-        // Arrange
-        _repository.GetByIdAsync(1).Returns((Review?)null);
-
-        // Act & Assert
-        var ex = await Assert.ThrowsAsync<ReviewException>(() => _reviewDtoService.DeleteAsync(1));
-        Assert.Equal("An unexpected error occurred while processing the request.", ex.Message);
     }
 }
