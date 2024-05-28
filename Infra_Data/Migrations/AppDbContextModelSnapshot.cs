@@ -369,7 +369,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_637616-MLA70484274053_072023-O.webp",
                             ProductId = 1,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9518)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1947)
                         },
                         new
                         {
@@ -378,7 +378,7 @@ namespace Infra_Data.Migrations
                             Image = "https://m.media-amazon.com/images/I/71a4vqXqxbL._SY256.jpg",
                             ProductId = 1,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9539)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1963)
                         },
                         new
                         {
@@ -387,7 +387,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_743184-MLA69501979268_052023-F.webp",
                             ProductId = 1,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9540)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1964)
                         },
                         new
                         {
@@ -396,7 +396,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_936910-MLA54765476953_032023-F.webp",
                             ProductId = 2,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9541)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1965)
                         },
                         new
                         {
@@ -405,7 +405,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_960098-MLA73264672831_122023-F.webp",
                             ProductId = 3,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9542)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1966)
                         },
                         new
                         {
@@ -414,7 +414,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_911842-MLA73095448948_112023-F.webp",
                             ProductId = 4,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9543)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1966)
                         },
                         new
                         {
@@ -423,7 +423,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_696237-MLA71736945652_092023-F.webp",
                             ProductId = 5,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9543)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1967)
                         },
                         new
                         {
@@ -432,7 +432,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_918056-MLA72166744514_102023-F.webp",
                             ProductId = 5,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9544)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1968)
                         },
                         new
                         {
@@ -441,7 +441,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_661229-MLA72108620029_102023-F.webp",
                             ProductId = 6,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9545)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1969)
                         },
                         new
                         {
@@ -450,7 +450,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_942915-MLA54965635426_042023-F.webp",
                             ProductId = 6,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9546)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1970)
                         },
                         new
                         {
@@ -459,7 +459,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 7,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9547)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1971)
                         },
                         new
                         {
@@ -468,7 +468,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 7,
                             Rating = 1,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9548)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1972)
                         },
                         new
                         {
@@ -477,7 +477,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 9,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9549)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1973)
                         },
                         new
                         {
@@ -486,7 +486,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 10,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9561)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1974)
                         },
                         new
                         {
@@ -495,7 +495,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 10,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 5, 27, 21, 59, 57, 523, DateTimeKind.Local).AddTicks(9562)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1975)
                         });
                 });
 
@@ -515,20 +515,25 @@ namespace Infra_Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsSubscribedToNewsletter")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -548,7 +553,9 @@ namespace Infra_Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -557,7 +564,9 @@ namespace Infra_Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ssn")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -1848,16 +1857,16 @@ namespace Infra_Data.Migrations
                                     Id = 7,
                                     Composition = "Polyester",
                                     ItsSporty = false,
-                                    MainMaterial = "Polyester",
+                                    MainMaterial = "",
                                     UnitsPerKit = 1,
                                     WithRecycledMaterials = false
                                 },
                                 new
                                 {
                                     Id = 8,
-                                    Composition = "Polyester",
+                                    Composition = "",
                                     ItsSporty = true,
-                                    MainMaterial = "Polyester",
+                                    MainMaterial = "Cotton",
                                     UnitsPerKit = 1,
                                     WithRecycledMaterials = false
                                 });

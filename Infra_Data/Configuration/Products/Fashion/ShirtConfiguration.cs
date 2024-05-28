@@ -243,7 +243,7 @@ public class ShirtConfiguration : IEntityTypeConfiguration<Shirt>
                     Id = 7,
                     RecommendedUses = "Casual",
                     Composition = "Polyester",
-                    MainMaterial = "Polyester",
+                    MainMaterial = "",
                     UnitsPerKit = 1,
                     WithRecycledMaterials = false,
                     ItsSporty = false
@@ -252,8 +252,8 @@ public class ShirtConfiguration : IEntityTypeConfiguration<Shirt>
                 {
                     Id = 8,
                     RecommendedUses = "Casual",
-                    Composition = "Polyester",
-                    MainMaterial = "Polyester",
+                    Composition = "",
+                    MainMaterial = "Cotton",
                     UnitsPerKit = 1,
                     WithRecycledMaterials = false,
                     ItsSporty = true
