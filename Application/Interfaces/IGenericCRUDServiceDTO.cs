@@ -1,6 +1,6 @@
 ﻿namespace Application.Interfaces;
 
-public interface IGenericCRUDServiceDTO<T> where T : class
+public interface IGenericCrudServiceDto<T> where T : class
 {
     Task<IEnumerable<T>> GetEntitiesAsync();
     Task<T> GetByIdAsync(int? id);
