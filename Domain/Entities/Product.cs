@@ -22,7 +22,7 @@ public class Product
     public WarrantyObjectValue? WarrantyObjectValue { get; protected set; }
     public CommonPropertiesObjectValue? CommonPropertiesObjectValue { get; set; }
 
-    protected Product()
+    public Product()
     {
     }
 
