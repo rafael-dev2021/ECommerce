@@ -9,6 +9,6 @@ public record OrderDetailDto(
     int ProductId,
     ProductDto Product,
     int OrderId,
-    OrderDTo Order,
+    OrderDto Order,
     int PaymentMethodId,
     PaymentMethodDto PaymentMethod){}
