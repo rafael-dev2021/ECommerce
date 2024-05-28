@@ -78,6 +78,7 @@ public class CategoryDtoServiceTests
 
 
     [Fact]
+    [Test]
     public async Task AddAsync_CallsRepositoryCreateAsync_WhenCategoryIsValid()
     {
         // Arrange
@@ -94,6 +95,7 @@ public class CategoryDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task UpdateAsync_CallsRepositoryUpdateAsync_WhenCategoryIsValid()
     {
         // Arrange
@@ -110,6 +112,7 @@ public class CategoryDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task DeleteAsync_CallsRepositoryDeleteAsync_WhenCategoryExists()
     {
         // Arrange
@@ -125,6 +128,7 @@ public class CategoryDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task GetCategoriesWithProductDtoCountAsync_ReturnsMappedCategoriesWithProductCount_WhenCategoriesExist()
     {
         // Arrange

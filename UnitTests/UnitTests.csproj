@@ -15,6 +15,11 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+        <PackageReference Include="NSubstitute" Version="5.1.0" />
+        <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="NUnit" Version="4.1.0" />
         <PackageReference Include="NUnit.Analyzers" Version="4.2.0">
           <PrivateAssets>all</PrivateAssets>
@@ -34,8 +39,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Domain\Domain.csproj" />
       <ProjectReference Include="..\FluentValidations\FluentValidations.csproj" />
+      <ProjectReference Include="..\Infra_Data\Infra_Data.csproj" />
+      <ProjectReference Include="..\Infra_Ioc\Infra_Ioc.csproj" />
     </ItemGroup>
 
 </Project>
