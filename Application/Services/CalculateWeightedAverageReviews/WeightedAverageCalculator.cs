@@ -8,9 +8,9 @@ namespace Application.Services.CalculateWeightedAverageReviews
     {
         private const double MaxRating = 5.0;
 
-        public WeightedAverageResultOV CalculateWeightedAverage(IEnumerable<ReviewDto> reviewsDto)
+        public WeightedAverageResultOV CalculateWeightedAverage(IEnumerable<ReviewDto> reviews)
         {
-            var reviewList = reviewsDto.ToList();
+            var reviewList = reviews.ToList();
             var countReviews = reviewList.Count;
 
             var totalRating = reviewList.Sum(review => review.Rating);
