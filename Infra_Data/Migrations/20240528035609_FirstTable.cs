@@ -10,17 +10,30 @@ namespace Infra_Data.Migrations
     /// <inheritdoc />
     public partial class FirstTable : Migration
     {
+
+        private const string AspNetRoles = "AspNetRoles";
+        private const string AspNetUsers = "AspNetUsers";
+        private const string NVarChar450 = "varchar(450)";
+        private const string NVarChar256 = "nvarchar(256)";
+        private const string NVarCharMax = "nvarchar(max)";
+        private const string NVarChar50 = "nvarchar(50)";
+        private const string NVarChar15 = "nvarchar(15)";
+        private const string Datetime2 = "datetime2";
+        private const string SqlServerIdentity = "SqlServer:Identity";
+        private const string Categories = "Categories";
+        private const string Payment = "Payment";
+        private const string Decimal18By2 = "decimal(18,2)";
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
+                name: AspNetRoles,
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: NVarChar450, nullable: false),
+                    Name = table.Column<string>(type: NVarChar256, maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: NVarChar256, maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: NVarCharMax, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,23 +41,23 @@ namespace Infra_Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: AspNetUsers,
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Id = table.Column<string>(type: NVarChar450, nullable: false),
+                    FirstName = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: false),
                     Ssn = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: Datetime2, nullable: false),
                     IsSubscribedToNewsletter = table.Column<bool>(type: "bit", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    UserName = table.Column<string>(type: NVarChar256, maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: NVarChar256, maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: false),
+                    NormalizedEmail = table.Column<string>(type: NVarChar256, maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordHash = table.Column<string>(type: NVarCharMax, nullable: true),
+                    SecurityStamp = table.Column<string>(type: NVarCharMax, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: NVarCharMax, nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
@@ -63,10 +76,10 @@ namespace Infra_Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CardNumber = table.Column<string>(type: "nvarchar(19)", maxLength: 19, nullable: false),
-                    CardHolderName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CardHolderName = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: false),
                     CardExpirationDate = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     CardCvv = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
-                    Ssn = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Ssn = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false)
                 },
                 constraints: table =>
@@ -75,12 +88,12 @@ namespace Infra_Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: Categories,
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                        .Annotation(SqlServerIdentity, "1, 1"),
+                    Name = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -90,17 +103,17 @@ namespace Infra_Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payment",
+                name: Payment,
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Ssn = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    PaymentMethodObjectValue_PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PaymentMethodObjectValue_PaymentStatusObjectValue_PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                        .Annotation(SqlServerIdentity, "1, 1"),
+                    Ssn = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: false),
+                    Amount = table.Column<decimal>(type: Decimal18By2, precision: 18, scale: 2, nullable: false),
+                    PaymentMethodObjectValue_PaymentMethod = table.Column<string>(type: NVarCharMax, nullable: false),
+                    PaymentMethodObjectValue_PaymentStatusObjectValue_PaymentStatus = table.Column<string>(type: NVarCharMax, nullable: false),
                     PaymentMethodObjectValue_Reference = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PaymentMethodObjectValue_PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentMethodObjectValue_PaymentDate = table.Column<DateTime>(type: Datetime2, nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false)
                 },
                 constraints: table =>
@@ -113,10 +126,10 @@ namespace Infra_Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                        .Annotation(SqlServerIdentity, "1, 1"),
+                    RoleId = table.Column<string>(type: NVarChar450, nullable: false),
+                    ClaimType = table.Column<string>(type: NVarCharMax, nullable: true),
+                    ClaimValue = table.Column<string>(type: NVarCharMax, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -124,7 +137,7 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        principalTable: AspNetRoles,
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -134,10 +147,10 @@ namespace Infra_Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                        .Annotation(SqlServerIdentity, "1, 1"),
+                    UserId = table.Column<string>(type: NVarChar450, nullable: false),
+                    ClaimType = table.Column<string>(type: NVarCharMax, nullable: true),
+                    ClaimValue = table.Column<string>(type: NVarCharMax, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -145,7 +158,7 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: AspNetUsers,
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -154,10 +167,10 @@ namespace Infra_Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(type: NVarChar450, nullable: false),
+                    ProviderKey = table.Column<string>(type: NVarChar450, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: NVarCharMax, nullable: true),
+                    UserId = table.Column<string>(type: NVarChar450, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -165,7 +178,7 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: AspNetUsers,
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -174,8 +187,8 @@ namespace Infra_Data.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: NVarChar450, nullable: false),
+                    RoleId = table.Column<string>(type: NVarChar450, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -183,13 +196,13 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        principalTable: AspNetRoles,
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: AspNetUsers,
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -198,10 +211,10 @@ namespace Infra_Data.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: NVarChar450, nullable: false),
+                    LoginProvider = table.Column<string>(type: NVarChar450, nullable: false),
+                    Name = table.Column<string>(type: NVarChar450, nullable: false),
+                    Value = table.Column<string>(type: NVarCharMax, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,7 +222,7 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: AspNetUsers,
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -219,18 +232,18 @@ namespace Infra_Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation(SqlServerIdentity, "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 10000, nullable: false),
+                    Description = table.Column<string>(type: NVarCharMax, maxLength: 10000, nullable: false),
                     ImagesUrl = table.Column<string>(type: "nvarchar(800)", maxLength: 800, nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     DataObjectValue_ReleaseMonth = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: true),
                     DataObjectValue_ReleaseYear = table.Column<int>(type: "int", maxLength: 4, nullable: true),
-                    PriceObjectValue_Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
-                    PriceObjectValue_HistoryPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
-                    SpecificationObjectValue_Model = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    PriceObjectValue_Price = table.Column<decimal>(type: Decimal18By2, precision: 18, scale: 2, nullable: true),
+                    PriceObjectValue_HistoryPrice = table.Column<decimal>(type: Decimal18By2, precision: 18, scale: 2, nullable: true),
+                    SpecificationObjectValue_Model = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: true),
                     SpecificationObjectValue_Brand = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     SpecificationObjectValue_Line = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     SpecificationObjectValue_Weight = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
@@ -249,23 +262,23 @@ namespace Infra_Data.Migrations
                     FlagsObjectValue_IsFavorite = table.Column<bool>(type: "bit", nullable: true),
                     FlagsObjectValue_IsDailyOffer = table.Column<bool>(type: "bit", nullable: true),
                     FlagsObjectValue_IsBestSeller = table.Column<bool>(type: "bit", nullable: true),
-                    MainFeaturesObjectValue_TypeOfClothing = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    MainFeaturesObjectValue_FabricDesign = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    OtherFeaturesObjectValue_Composition = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    OtherFeaturesObjectValue_MainMaterial = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    MainFeaturesObjectValue_TypeOfClothing = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
+                    MainFeaturesObjectValue_FabricDesign = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
+                    OtherFeaturesObjectValue_Composition = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
+                    OtherFeaturesObjectValue_MainMaterial = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
                     OtherFeaturesObjectValue_UnitsPerKit = table.Column<int>(type: "int", nullable: true),
                     OtherFeaturesObjectValue_WithRecycledMaterials = table.Column<bool>(type: "bit", nullable: true),
                     OtherFeaturesObjectValue_ItsSporty = table.Column<bool>(type: "bit", nullable: true),
                     GeneralFeaturesObjectValue_Collection = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     GeneralFeaturesObjectValue_Saga = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    GeneralFeaturesObjectValue_Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    GeneralFeaturesObjectValue_Title = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: true),
                     GeneralFeaturesObjectValue_Edition = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    GeneralFeaturesObjectValue_Platform = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    GeneralFeaturesObjectValue_Platform = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
                     GeneralFeaturesObjectValue_Developers = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    GeneralFeaturesObjectValue_Publishers = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    GeneralFeaturesObjectValue_Publishers = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
                     GeneralFeaturesObjectValue_GameRating = table.Column<string>(type: "nvarchar(1)", nullable: true),
                     MediaSpecificationObjectValue_Format = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    MediaSpecificationObjectValue_AudioLanguages = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    MediaSpecificationObjectValue_AudioLanguages = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: true),
                     MediaSpecificationObjectValue_SubtitleLanguages = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     MediaSpecificationObjectValue_ScreenLanguages = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     MediaSpecificationObjectValue_MaximumNumberOfOfflinePlayers = table.Column<int>(type: "int", nullable: true),
@@ -278,13 +291,13 @@ namespace Infra_Data.Migrations
                     RequirementObjectValue_MinimumOperatingSystemsRequired = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RequirementObjectValue_MinimumGraphicsProcessorsRequired = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RequirementObjectValue_MinimumProcessorsRequired = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    BatteryObjectValue_BatteryType = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    BatteryObjectValue_BatteryType = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
                     BatteryObjectValue_BatteryCapacityMAh = table.Column<int>(type: "int", nullable: true),
                     BatteryObjectValue_IsBatteryRemovable = table.Column<bool>(type: "bit", nullable: true),
-                    CameraObjectValue_MainCameraSpec = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    CameraObjectValue_MainCameraFeature = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    CameraObjectValue_SelfieCameraSpec = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    CameraObjectValue_SelfieCameraFeature = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CameraObjectValue_MainCameraSpec = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
+                    CameraObjectValue_MainCameraFeature = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: true),
+                    CameraObjectValue_SelfieCameraSpec = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
+                    CameraObjectValue_SelfieCameraFeature = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     DimensionObjectValue_HeightInches = table.Column<double>(type: "float", nullable: true),
                     DimensionObjectValue_WidthInches = table.Column<double>(type: "float", nullable: true),
                     DimensionObjectValue_ThicknessInches = table.Column<double>(type: "float", nullable: true),
@@ -293,10 +306,10 @@ namespace Infra_Data.Migrations
                     DisplayObjectValue_DisplayProtection = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     DisplayObjectValue_DisplaySizeInches = table.Column<double>(type: "float", nullable: true),
                     FeatureObjectValue_CellNetworkTechnology = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    FeatureObjectValue_VirtualAssistant = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FeatureObjectValue_ManufacturerPartNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    PlatformObjectValue_OperatingSystem = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    PlatformObjectValue_Chipset = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FeatureObjectValue_VirtualAssistant = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: true),
+                    FeatureObjectValue_ManufacturerPartNumber = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: true),
+                    PlatformObjectValue_OperatingSystem = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: true),
+                    PlatformObjectValue_Chipset = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: true),
                     PlatformObjectValue_Gpu = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     PlatformObjectValue_Cpu = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     StorageObjectValue_StorageGb = table.Column<int>(type: "int", nullable: true),
@@ -308,7 +321,7 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        principalTable: Categories,
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -318,12 +331,12 @@ namespace Infra_Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalOrder = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                        .Annotation(SqlServerIdentity, "1, 1"),
+                    TotalOrder = table.Column<decimal>(type: Decimal18By2, precision: 18, scale: 2, nullable: false),
                     TotalItemsOrder = table.Column<int>(type: "int", nullable: false),
-                    ConfirmedOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DispatchedOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RequestReceived = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ConfirmedOrder = table.Column<DateTime>(type: Datetime2, nullable: false),
+                    DispatchedOrder = table.Column<DateTime>(type: Datetime2, nullable: false),
+                    RequestReceived = table.Column<DateTime>(type: Datetime2, nullable: false),
                     DeliveryAddress_Country = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     DeliveryAddress_Address = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     DeliveryAddress_Complement = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
@@ -331,11 +344,11 @@ namespace Infra_Data.Migrations
                     DeliveryAddress_State = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     DeliveryAddress_City = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     DeliveryAddress_Neighborhood = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    UserDelivery_FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    UserDelivery_LastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    UserDelivery_Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UserDelivery_FirstName = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: false),
+                    UserDelivery_LastName = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: false),
+                    UserDelivery_Email = table.Column<string>(type: NVarChar50, maxLength: 50, nullable: false),
                     UserDelivery_Phone = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    UserDelivery_Ssn = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    UserDelivery_Ssn = table.Column<string>(type: NVarChar15, maxLength: 15, nullable: false),
                     PaymentMethodId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -344,7 +357,7 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_Orders_Payment_PaymentMethodId",
                         column: x => x.PaymentMethodId,
-                        principalTable: "Payment",
+                        principalTable: Payment,
                         principalColumn: "Id");
                 });
 
@@ -353,11 +366,11 @@ namespace Infra_Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation(SqlServerIdentity, "1, 1"),
                     Comment = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     Image = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
-                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReviewDate = table.Column<DateTime>(type: Datetime2, nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -376,12 +389,12 @@ namespace Infra_Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation(SqlServerIdentity, "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ShoppingCartId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<string>(type: NVarCharMax, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -389,7 +402,7 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_ShoppingCartItems_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        principalTable: Categories,
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -405,9 +418,9 @@ namespace Infra_Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation(SqlServerIdentity, "1, 1"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Price = table.Column<decimal>(type: Decimal18By2, precision: 18, scale: 2, nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     PaymentMethodId = table.Column<int>(type: "int", nullable: false)
@@ -424,12 +437,12 @@ namespace Infra_Data.Migrations
                     table.ForeignKey(
                         name: "FK_OrdersDetails_Payment_PaymentMethodId",
                         column: x => x.PaymentMethodId,
-                        principalTable: "Payment",
+                        principalTable: Payment,
                         principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
-                table: "Categories",
+                table: Categories,
                 columns: ["Id", "ImageUrl", "IsActive", "Name"],
                 values: new object[,]
                 {
@@ -509,7 +522,7 @@ namespace Infra_Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                table: "AspNetRoles",
+                table: AspNetRoles,
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
@@ -531,12 +544,12 @@ namespace Infra_Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "AspNetUsers",
+                table: AspNetUsers,
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "AspNetUsers",
+                table: AspNetUsers,
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
@@ -608,10 +621,10 @@ namespace Infra_Data.Migrations
                 name: "ShoppingCartItems");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: AspNetRoles);
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: AspNetUsers);
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -620,10 +633,10 @@ namespace Infra_Data.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Payment");
+                name: Payment);
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: Categories);
         }
     }
 }
