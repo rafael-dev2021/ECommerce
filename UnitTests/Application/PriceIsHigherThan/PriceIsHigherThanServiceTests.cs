@@ -284,4 +284,55 @@ public class PriceIsHigherThanServiceTests
         // Assert
         Assert.Empty(result);
     }
+
+    [Fact]
+    public async Task GetProductsAboveOrBelowPriceAsync_ShouldReturnEmptyList_WhenPriceObjectValueIsNull()
+    {
+        // Arrange
+        var price = 50.0m;
+        var secondPrice = 1000.0m;
+        var productsDto = new List<ProductDto>
+    {
+        new() { PriceObjectValue = null }
+    };
+
+        var productDtoServiceMock = Substitute.For<IProductDtoService>();
+        productDtoServiceMock.GetProductsDtoAsync().Returns(Task.FromResult<IEnumerable<ProductDto>>(productsDto));
+
+        var service = new PriceIsHigherThanService(productDtoServiceMock);
+
+        // Act
+        var result = await service.GetProductsAboveOrBelowPriceAsync(price, secondPrice);
+
+        // Assert
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public async Task GetProductsAboveOrBelowPriceAsync_ShouldReturnProducts_WhenPriceEqualsProductPrice()
+    {
+        // Arrange
+        var price = 75.0m;
+        var secondPrice = 100.0m;
+        var productsDto = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(50.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(100.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(150.0m, 0m) }
+    };
+
+        var productDtoServiceMock = Substitute.For<IProductDtoService>();
+        productDtoServiceMock.GetProductsDtoAsync().Returns(Task.FromResult<IEnumerable<ProductDto>>(productsDto));
+
+        var service = new PriceIsHigherThanService(productDtoServiceMock);
+
+        // Act
+        var result = await service.GetProductsAboveOrBelowPriceAsync(price, secondPrice);
+
+        // Assert
+        Assert.Equal(2, result.Count());
+        Assert.Contains(result, p => p.PriceObjectValue?.Price == price);
+        Assert.Contains(result, p => p.PriceObjectValue?.Price == secondPrice);
+    }
 }

@@ -248,4 +248,25 @@ public class WeightedAverageCalculatorTests
         Assert.Equal(3, result.CountReviews);
         Assert.Equal(4.0, result.WeightedAverage);
     }
+
+    [Fact]
+    public void CalculateWeightedAverage_ShouldHandleWeightExactlyOne()
+    {
+        // Arrange
+        var reviews = new List<ReviewDto>
+    {
+        new(1, "Average product", "", 5, DateTime.Now, 1, null),
+        new(2, "Average product", "", 5, DateTime.Now, 1, null),
+        new(3, "Average product", "", 5, DateTime.Now, 1, null),
+        new(4, "Average product", "", 5, DateTime.Now, 1, null),
+        new(5, "Average product", "", 5, DateTime.Now, 1, null)
+    };
+
+        // Act
+        var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
+
+        // Assert
+        Assert.Equal(5, result.CountReviews);
+        Assert.Equal(5.0, result.WeightedAverage); 
+    }
 }
