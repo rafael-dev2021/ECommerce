@@ -25,6 +25,7 @@ public class ProductDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task GetProductsDtoAsync_ReturnsMappedProducts_WhenProductsExist()
     {
         // Arrange

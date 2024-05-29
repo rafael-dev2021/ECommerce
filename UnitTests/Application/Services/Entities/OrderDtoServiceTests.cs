@@ -84,11 +84,12 @@ public class OrderDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public void GetPagingListOrdersDto_ReturnsMappedOrders_WhenOrdersExist()
     {
         // Arrange
-        var orders = new List<Order> { new Order() }.AsQueryable();
-        var ordersDto = new List<OrderDto> { new OrderDto(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, new List<OrderDetailDto>(), DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto) }.AsQueryable();
+        var orders = new List<Order> { new() }.AsQueryable();
+        var ordersDto = new List<OrderDto> { new(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, new List<OrderDetailDto>(), DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto) }.AsQueryable();
 
         _orderRepository.GetPagingListOrders("filter").Returns(orders);
         _mapper.ProjectTo<OrderDto>(orders).Returns(ordersDto);
@@ -103,6 +104,7 @@ public class OrderDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task GetOrdersDetailsAsync_ReturnsMappedOrderDetails_WhenOrdersExist()
     {
         // Arrange
@@ -118,7 +120,7 @@ public class OrderDtoServiceTests
                 1,
                 12m,
                 1,
-                new DateTime(), 
+                new DateTime(),
                 new DateTime(),
                 new DateTime(),
                 [],
@@ -141,6 +143,7 @@ public class OrderDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task GetOrdersDetailsAsync_ReturnsEmptyList_WhenNoOrderDetailsExist()
     {
         // Arrange
@@ -155,6 +158,7 @@ public class OrderDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public void GetPagingListOrdersDto_ReturnsEmptyQueryable_WhenNoOrdersExist()
     {
         // Arrange

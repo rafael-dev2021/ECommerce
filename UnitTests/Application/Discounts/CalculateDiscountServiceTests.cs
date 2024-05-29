@@ -1,6 +1,5 @@
 ﻿using Application.Dtos.ObjectsValues.ProductObjectValue;
 using Application.Services.Discounts;
-using Application.Services.Discounts.Interfaces;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -8,7 +7,7 @@ namespace UnitTests.Application.Discounts;
 
 public class CalculateDiscountServiceTests
 {
-    private readonly ICalculateDiscountService _calculateDiscountService;
+    private readonly CalculateDiscountService _calculateDiscountService;
 
     public CalculateDiscountServiceTests()
     {
