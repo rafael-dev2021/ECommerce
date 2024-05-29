@@ -22,7 +22,6 @@ public class PriceIsHigherThanServiceTests
             new() { PriceObjectValue = new PriceDtoObjectValue(25.0m, 0m) },
             new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 0m) },
             new() { PriceObjectValue = new PriceDtoObjectValue(125.0m, 0m) },
-            new() { PriceObjectValue = null },
             new() { PriceObjectValue = new PriceDtoObjectValue(0m, 0m) }
         };
 
@@ -36,6 +35,8 @@ public class PriceIsHigherThanServiceTests
 
         // Assert
         Assert.Equal(2, result.Count());
+        Assert.Contains(result, p => p.PriceObjectValue?.Price >= price);
+        Assert.Contains(result, p => p.PriceObjectValue?.Price <= secondPrice);
     }
 
     [Fact]

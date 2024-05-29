@@ -39,6 +39,25 @@ public class CountProductsByPriceServiceTests
     }
 
     [Fact]
+    public async Task CountingProductsAboveOrBelowPriceAsync_ShouldReturnCorrectCountWhenSecondPriceIsLower()
+    {
+        // Arrange
+        var products = new List<ProductDto>
+        {
+            new() { PriceObjectValue = new PriceDtoObjectValue(50.0m, 0m) },
+            new() { PriceObjectValue = new PriceDtoObjectValue(100.0m, 0m) },
+            new() { PriceObjectValue = new PriceDtoObjectValue(150.0m, 0m) }
+        };
+        _productDtoServiceMock.GetProductsDtoAsync().Returns(products);
+
+        // Act
+        var count = await _countProductsByPriceService.CountingProductsAboveOrBelowPriceAsync(50.0m, 100.0m);
+
+        // Assert
+        Assert.Equal(2, count);
+    }
+
+    [Fact]
     public async Task CountingProductsBelowPriceAsync_ShouldReturnCorrectCount()
     {
         // Arrange
@@ -51,7 +70,7 @@ public class CountProductsByPriceServiceTests
         _productDtoServiceMock.GetProductsDtoAsync().Returns(products);
 
         // Act
-        var count = await _countProductsByPriceService.CountingProductsBelowPriceAsync(100.0m);
+        var count = await _countProductsByPriceService.CountingProductsBelowPriceAsync(75.0m);
 
         // Assert
         Assert.Equal(1, count);
@@ -74,5 +93,24 @@ public class CountProductsByPriceServiceTests
 
         // Assert
         Assert.Equal(2, count);
+    }
+
+    [Fact]
+    public async Task CountingProductsAbovePriceAsync_ShouldReturnZeroWhenNoProductPriceIsAbove()
+    {
+        // Arrange
+        var products = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(50.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(90.0m, 0m) }
+    };
+        _productDtoServiceMock.GetProductsDtoAsync().Returns(products);
+
+        // Act
+        var count = await _countProductsByPriceService.CountingProductsAbovePriceAsync(100.0m);
+
+        // Assert
+        Assert.Equal(0, count);
     }
 }

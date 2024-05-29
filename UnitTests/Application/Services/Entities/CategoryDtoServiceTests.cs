@@ -1,9 +1,13 @@
-﻿using Application.Dtos;
+﻿using Application.CustomExceptions;
+using Application.Dtos;
+using Application.Errors;
 using Application.Services.Entities;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -14,6 +18,7 @@ public class CategoryDtoServiceTests
     private readonly IMapper _mapper;
     private readonly ICategoryRepository _categoryRepository;
     private readonly CategoryDtoService _categoryDtoService;
+    private readonly string _message = "An unexpected error occurred while processing the request.";
 
     public CategoryDtoServiceTests()
     {
@@ -76,6 +81,36 @@ public class CategoryDtoServiceTests
         Assert.Equal(categoryDtoGetId, result);
     }
 
+    [Fact]
+    [Test]
+    public async Task GetByIdAsync_ShouldThrowCategoryException_WhenCategoryNotFound()
+    {
+        // Arrange
+        int? id = 1;
+        _categoryRepository.GetByIdAsync(id).ReturnsNull();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<CategoryException>(() => _categoryDtoService.GetByIdAsync(id));
+    }
+
+    [Fact]
+    [Test]
+    public async Task GetByIdAsync_ShouldReturnMappedCategoryDto_WhenCategoryFound()
+    {
+        // Arrange
+        int? id = 1;
+        var category = new Category(1, "Test", "Image.jpg", true);
+        var categoryDto = new CategoryDto(1, "Test", "Image.jpg", true);
+
+        _categoryRepository.GetByIdAsync(id).Returns(category);
+        _mapper.Map<CategoryDto>(category).Returns(categoryDto);
+
+        // Act
+        var result = await _categoryDtoService.GetByIdAsync(id);
+
+        // Assert
+        Assert.NotNull(result);
+    }
 
     [Fact]
     [Test]
@@ -96,6 +131,17 @@ public class CategoryDtoServiceTests
 
     [Fact]
     [Test]
+    public async Task AddAsync_ShouldThrowArgumentNullException_WhenCategoryDtoIsNull()
+    {
+        // Arrange
+        CategoryDto? nullCategoryDto = null;
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _categoryDtoService.AddAsync(nullCategoryDto));
+    }
+
+    [Fact]
+    [Test]
     public async Task UpdateAsync_CallsRepositoryUpdateAsync_WhenCategoryIsValid()
     {
         // Arrange
@@ -109,6 +155,17 @@ public class CategoryDtoServiceTests
 
         // Assert
         await _categoryRepository.Received(1).UpdateAsync(categoryUpdateSuccess);
+    }
+
+    [Fact]
+    [Test]
+    public async Task UpdateAsync_ShouldThrowArgumentNullException_WhenCategoryDtoIsNull()
+    {
+        // Arrange
+        CategoryDto? nullCategoryDto = null;
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _categoryDtoService.UpdateAsync(nullCategoryDto));
     }
 
     [Fact]
@@ -151,5 +208,131 @@ public class CategoryDtoServiceTests
         Assert.NotNull(result);
         Assert.Single(result);
         Assert.Equal(categoriesWithProductCountDto, result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task GetCategoriesWithProductDtoCountAsync_ReturnsEmptyList_WhenCategoriesWithProductCountIsNull()
+    {
+
+        // Mocking the repository call
+        _categoryRepository.GetCategoriesWithProductCountAsync().ReturnsNull();
+
+        // Act
+        var result = await _categoryDtoService.GetCategoriesWithProductDtoCountAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task GetCategoriesWithProductDtoCountAsync_ReturnsEmptyList_WhenCategoriesWithProductCountIsEmpty()
+    {
+        // Arrange
+        List<CategoryWithProductCount> emptyCategoriesWithProductCount = [];
+
+        // Mocking the repository call
+        _categoryRepository.GetCategoriesWithProductCountAsync().Returns(Task.FromResult(emptyCategoriesWithProductCount));
+
+        // Act
+        var result = await _categoryDtoService.GetCategoriesWithProductDtoCountAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task GetByIdAsync_ShouldThrowCategoryException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        int categoryId = 1;
+        _categoryRepository.GetByIdAsync(categoryId).Returns(Task.FromException<Category>(new Exception(_message)));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<CategoryException>(async () => await _categoryDtoService.GetByIdAsync(categoryId));
+    }
+
+    [Fact]
+    [Test]
+    public async Task AddAsync_ShouldThrowCategoryException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        var categoryDto = new CategoryDto(1, "Name", "image.jpg", true);
+        _categoryRepository.When(repo => repo.CreateAsync(Arg.Any<Category>())).Do(x => throw new Exception(_message));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<CategoryException>(async () => await _categoryDtoService.AddAsync(categoryDto));
+    }
+
+    [Fact]
+    [Test]
+    public async Task UpdateAsync_ShouldThrowCategoryException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        var categoryDto = new CategoryDto(1, "Name", "image.jpg", true);
+        _categoryRepository.When(repo => repo.UpdateAsync(Arg.Any<Category>())).Do(x => throw new Exception(_message));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<CategoryException>(async () => await _categoryDtoService.UpdateAsync(categoryDto));
+    }
+
+    [Fact]
+    [Test]
+    public async Task DeleteAsync_ShouldThrowCategoryException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        int? categoryId = 1;
+        _categoryRepository.GetByIdAsync(categoryId).ThrowsAsync(new Exception(_message));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<CategoryException>(async () => await _categoryDtoService.DeleteAsync(categoryId));
+    }
+
+    [Fact]
+    [Test]
+    public void CategoryIdNull_ShouldThrowArgumentNullException_WhenIdIsNull()
+    {
+        // Arrange
+        int? id = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => _categoryDtoService.CategoryIdNull(id));
+    }
+
+    [Fact]
+    [Test]
+    public void CategoryIdNull_ShouldNotThrowException_WhenIdIsNotNull()
+    {
+        // Arrange
+        int? id = 1;
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => _categoryDtoService.CategoryIdNull(id)));
+    }
+
+    [Fact]
+    [Test]
+    public void CategoryNull_ShouldThrowArgumentNullException_WhenCategoryDtoIsNull()
+    {
+        // Arrange
+        CategoryDto? categoryDto = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => _categoryDtoService.CategoryNull(categoryDto));
+    }
+
+    [Fact]
+    [Test]
+    public void CategoryNull_ShouldNotThrowException_WhenCategoryDtoIsNotNull()
+    {
+        // Arrange
+        var categoryDto = new CategoryDto(1, "Name", "image.jpg", true);
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => _categoryDtoService.CategoryNull(categoryDto)));
     }
 }

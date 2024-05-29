@@ -44,18 +44,19 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
         }
     }
 
-    public async Task AddAsync(CategoryDto entity)
+    public async Task AddAsync(CategoryDto? entity)
     {
         CategoryNull(entity);
 
         try
         {
-            var addCategoryDto = _mapper.Map<Category>(entity) ?? throw new RequestException(new RequestError
-            {
-                Message = "Error when adding category.",
-                Severity = error,
-                StatusCode = System.Net.HttpStatusCode.BadRequest
-            });
+            var addCategoryDto = _mapper.Map<Category>(entity) ??
+                throw new RequestException(new RequestError
+                {
+                    Message = "Error when adding category.",
+                    Severity = error,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                });
             await _categoryRepository.CreateAsync(addCategoryDto);
         }
         catch (Exception ex)
@@ -64,7 +65,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
         }
     }
 
-    public async Task UpdateAsync(CategoryDto entity)
+    public async Task UpdateAsync(CategoryDto? entity)
     {
         CategoryNull(entity);
 
@@ -110,20 +111,18 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
     {
         var categoriesWithProductCount = await _categoryRepository.GetCategoriesWithProductCountAsync();
 
-        if (categoriesWithProductCount == null || categoriesWithProductCount.Count == 0)
-        {
-            return [];
-        }
+        if (categoriesWithProductCount == null || categoriesWithProductCount.Count == 0) return [];
+
         return _mapper.Map<List<CategoryWithProductCountDto>>(categoriesWithProductCount);
     }
 
-    private static void CategoryIdNull(int? id)
+    public void CategoryIdNull(int? id)
     {
         if (!id.HasValue)
             throw new ArgumentNullException(nameof(id), "Category ID cannot be null.");
     }
 
-    private static void CategoryNull(CategoryDto categoryDto)
+    public void CategoryNull(CategoryDto? categoryDto)
     {
         if (categoryDto == null)
             throw new ArgumentNullException($"Category {categoryDto} cannot be null.");
