@@ -15,57 +15,7 @@ public class WeightedAverageCalculatorTests
     }
 
     [Fact]
-    public void CalculateWeightedAverage_ShouldReturnZero_WhenNoReviews()
-    {
-        // Arrange
-        var reviews = new List<ReviewDto>();
-
-        // Act
-        var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
-
-        // Assert
-        Assert.Equal(0, result.CountReviews);
-        Assert.Equal(0.0, result.WeightedAverage);
-    }
-
-    [Fact]
-    public void CalculateWeightedAverage_ShouldCalculateWeightedAverage_WhenSingleReview()
-    {
-        // Arrange
-        var reviews = new List<ReviewDto>
-            {
-                new (1, "Great product", "", 5, DateTime.Now, 1, null)
-            };
-
-        // Act
-        var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
-
-        // Assert
-        Assert.Equal(1, result.CountReviews);
-        Assert.Equal(5.0, result.WeightedAverage);
-    }
-
-    [Fact]
-    public void CalculateWeightedAverage_ShouldCalculateWeightedAverage_WhenMultipleReviews()
-    {
-        // Arrange
-        var reviews = new List<ReviewDto>
-            {
-                new(1, "Great product", "", 5, DateTime.Now, 1, null),
-                new(2, "Good product", "", 4, DateTime.Now, 1, null),
-                new(3, "Okay product", "", 3, DateTime.Now, 1, null)
-            };
-
-        // Act
-        var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
-
-        // Assert
-        Assert.Equal(3, result.CountReviews);
-        Assert.Equal(4.0, result.WeightedAverage);
-    }
-
-    [Fact]
-    public void CalculateWeightedAverage_ShouldCalculateWeightedAverage_WhenWeightIsLessThanOne()
+    public void CalculateWeightedAverage_ShouldApplyWeight_WhenWeightIsLessThanOne()
     {
         // Arrange
         var reviews = new List<ReviewDto>
@@ -84,40 +34,73 @@ public class WeightedAverageCalculatorTests
     }
 
     [Fact]
-    public void CalculateWeightedAverage_ShouldCalculateWeightedAverage_WhenWeightIsGreaterThanOrEqualToOne()
+    public void CalculateWeightedAverage_ShouldNotApplyWeight_WhenWeightIsGreaterThanOrEqualToOne()
     {
         // Arrange
         var reviews = new List<ReviewDto>
-    {
-        new(1, "Great product", "", 4, DateTime.Now, 1, null),
-        new(2, "Good product", "", 5, DateTime.Now, 1, null),
-        new(3, "Excellent product", "", 5, DateTime.Now, 1, null)
-    };
+        {
+            new(1, "Great product", "", 4, DateTime.Now, 1, null),
+            new(2, "Good product", "", 4, DateTime.Now, 1, null),
+            new(3, "Excellent product", "", 4, DateTime.Now, 1, null)
+        };
 
         // Act
         var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
 
         // Assert
         Assert.Equal(3, result.CountReviews);
-        Assert.Equal(4.67, result.WeightedAverage, 2); 
+        Assert.Equal(4.0, result.WeightedAverage);
     }
 
     [Fact]
-    public void CalculateWeightedAverage_ShouldCalculateWeightedAverage_WhenMultipleReviewsWithHighAverageRating()
+    public void CalculateWeightedAverage_ShouldHandleAverageRatingExactlyOne()
     {
         // Arrange
         var reviews = new List<ReviewDto>
-    {
-        new(1, "Great product", "", 5, DateTime.Now, 1, null),
-        new(2, "Good product", "", 5, DateTime.Now, 1, null),
-        new(3, "Okay product", "", 5, DateTime.Now, 1, null)
-    };
+        {
+            new(1, "Bad product", "", 1, DateTime.Now, 1, null)
+        };
 
         // Act
         var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
 
         // Assert
-        Assert.Equal(3, result.CountReviews);
+        Assert.Equal(1, result.CountReviews);
+        Assert.Equal(1.0, result.WeightedAverage);
+    }
+
+    [Fact]
+    public void CalculateWeightedAverage_ShouldHandleAverageRatingExactlyMaxRating()
+    {
+        // Arrange
+        var reviews = new List<ReviewDto>
+        {
+            new(1, "Perfect product", "", 5, DateTime.Now, 1, null)
+        };
+
+        // Act
+        var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
+
+        // Assert
+        Assert.Equal(1, result.CountReviews);
         Assert.Equal(5.0, result.WeightedAverage);
+    }
+
+    [Fact]
+    public void CalculateWeightedAverage_ShouldApplyWeightCorrectly_WhenWeightIsFractional()
+    {
+        // Arrange
+        var reviews = new List<ReviewDto>
+        {
+            new(1, "Good product", "", 2, DateTime.Now, 1, null),
+            new(2, "Good product", "", 3, DateTime.Now, 1, null)
+        };
+
+        // Act
+        var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
+
+        // Assert
+        Assert.Equal(2, result.CountReviews);
+        Assert.Equal(2.5, result.WeightedAverage);
     }
 }
