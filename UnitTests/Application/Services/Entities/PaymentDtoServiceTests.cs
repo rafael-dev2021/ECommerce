@@ -1,9 +1,14 @@
-﻿using Application.Dtos.PaymentsDto;
+﻿using Application.CustomExceptions;
+using Application.Dtos.PaymentsDto;
+using Application.Interfaces;
 using Application.Services.Entities;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Entities.Payments;
 using Domain.Interfaces.Payments;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -130,6 +135,18 @@ public class PaymentDtoServiceTests
 
     [Fact]
     [Test]
+    public async Task GetByIdPaymentDtoAsync_ShouldThrowsOrderException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        int? id = 1;
+        _paymentRepository.GetByIdPaymentAsync(id).Returns(Task.FromException<PaymentMethod>(new Exception("ID not found")));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<PaymentException>(async () => await _paymentDtoService.GetByIdPaymentDtoAsync(id));
+    }
+
+    [Fact]
+    [Test]
     public async Task GetByIdPaymentCreditCardDtoAsync_ReturnsMappedCreditCard_WhenCreditCardExists()
     {
         // Arrange
@@ -157,6 +174,19 @@ public class PaymentDtoServiceTests
 
     [Fact]
     [Test]
+    public async Task GetByIdPaymentCreditCardDtoAsync_ShouldThrowsPaymentException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        Guid? id = new Guid();
+
+        _paymentRepository.GetByIdPaymentCreditCardAsync(id).ThrowsAsync(new PaymentException("ID not found"));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<PaymentException>(() => _paymentDtoService.GetByIdPaymentCreditCardDtoAsync(id));
+    }
+
+    [Fact]
+    [Test]
     public async Task GetByIdPaymentDebitCardDtoAsync_ReturnsMappedDebitCard_WhenDebitCardExists()
     {
         // Arrange
@@ -180,6 +210,64 @@ public class PaymentDtoServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(debitCardDto, result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task GetByIdPaymentDebitCardDtoAsync_ShouldThrowsPaymentException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        Guid? id = new Guid();
+
+        _paymentRepository.GetByIdPaymentDebitCardAsync(id).ThrowsAsync(new PaymentException("ID not found"));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<PaymentException>(() => _paymentDtoService.GetByIdPaymentDebitCardDtoAsync(id));
+    }
+
+    [Fact]
+    [Test]
+    public async Task ListPaymentsDtoAsync_ReturnsEmptyList_WhenPaymentsAreNull()
+    {
+        // Arrange
+        _paymentRepository.ListPaymentsAsync().Returns(new List<PaymentMethod>());
+
+        // Act
+        var result = await _paymentDtoService.ListPaymentsDtoAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task ListPaymentCreditCardsDtoAsync_ReturnsEmptyList_WhenCreditCardsAreNull()
+    {
+        // Arrange
+        _paymentRepository.ListPaymentCreditCardsAsync().Returns(new List<CreditCard>());
+
+        // Act
+        var result = await _paymentDtoService.ListPaymentCreditCardsDtoAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task ListPaymentDebitCardsDtoAsync_ReturnsEmptyList_WhenDebitCardsAreNull()
+    {
+        // Arrange
+        _paymentRepository.ListPaymentDebitCardsAsync().Returns(new List<DebitCard>());
+
+        // Act
+        var result = await _paymentDtoService.ListPaymentDebitCardsDtoAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
     }
 }
 
