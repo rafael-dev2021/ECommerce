@@ -1,6 +1,7 @@
 ﻿using Application.Dtos;
 using Application.Dtos.ObjectsValues.ProductObjectValue;
 using Application.Dtos.Reviews;
+using Application.Services.Discounts;
 using Domain.Entities;
 using Xunit;
 using Assert = Xunit.Assert;
@@ -146,6 +147,17 @@ public class ProductDtoTests
 
         // Assert
         Assert.Equal(reviews, result);
+    }
+
+    [Fact]
+    public void CalculateDiscountService_ReturnsValidInstance()
+    {
+        // Act
+        var result = ProductDto.CalculateDiscountService();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<CalculateDiscountService>(result);
     }
 }
 

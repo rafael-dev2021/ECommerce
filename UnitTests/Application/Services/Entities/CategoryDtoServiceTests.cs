@@ -1,6 +1,5 @@
 ﻿using Application.CustomExceptions;
 using Application.Dtos;
-using Application.Errors;
 using Application.Services.Entities;
 using AutoMapper;
 using Domain.Entities;

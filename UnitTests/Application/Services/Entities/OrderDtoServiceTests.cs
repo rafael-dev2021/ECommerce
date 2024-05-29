@@ -91,7 +91,7 @@ public class OrderDtoServiceTests
     {
         // Arrange
         var orders = new List<Order> { new() }.AsQueryable();
-        var ordersDto = new List<OrderDto> { new(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, new List<OrderDetailDto>(), DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto) }.AsQueryable();
+        var ordersDto = new List<OrderDto> { new(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, [], DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto) }.AsQueryable();
 
         _orderRepository.GetPagingListOrders("filter").Returns(orders);
         _mapper.ProjectTo<OrderDto>(orders).Returns(ordersDto);
@@ -289,8 +289,8 @@ public class OrderDtoServiceTests
     public async Task FindByOrderDispatchedDateDtoAsync_ReturnsMappedOrders_WhenOrdersExist()
     {
         // Arrange
-        var orders = new List<Order> { new Order() };
-        var ordersDto = new List<OrderDto> { new OrderDto(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, [], DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto) };
+        var orders = new List<Order> { new() };
+        var ordersDto = new List<OrderDto> { new(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, [], DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto) };
 
         _orderRepository.FindByOrderDispatchedDateAsync(DateTime.MinValue, DateTime.MaxValue).Returns(orders);
         _mapper.Map<IEnumerable<OrderDto>>(orders).Returns(ordersDto);
@@ -369,6 +369,20 @@ public class OrderDtoServiceTests
 
         // Assert
         Assert.Equal(150, result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task Average_ReturnsZero_WhenNoOrdersExist()
+    {
+        // Arrange
+        _orderRepository.GetEntitiesAsync().Returns(new List<Order>()); 
+
+        // Act
+        var result = await _orderDtoService.Average();
+
+        // Assert
+        Assert.Equal(0, result);
     }
 
     [Fact]

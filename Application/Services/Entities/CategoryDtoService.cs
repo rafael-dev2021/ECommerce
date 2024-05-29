@@ -34,6 +34,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                 {
                     Message = $"Category with ID {id} not found.",
                     Severity = error,
+                    Response = true,
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 });
             return _mapper.Map<CategoryDto>(getCategoryId);
@@ -55,6 +56,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                 {
                     Message = "Error when adding category.",
                     Severity = error,
+                    Response = true,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 });
             await _categoryRepository.CreateAsync(addCategoryDto);
@@ -76,6 +78,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                 {
                     Message = $"Error when updating the category",
                     Severity = error,
+                    Response = true,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 });
             await _categoryRepository.UpdateAsync(updateCategory);
@@ -97,6 +100,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                 {
                     Message = "Error when removing category.",
                     Severity = error,
+                    Response = true,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 });
             await _categoryRepository.DeleteAsync(deleteCategory);

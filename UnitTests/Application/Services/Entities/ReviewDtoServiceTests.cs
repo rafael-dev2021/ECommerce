@@ -6,6 +6,7 @@ using Domain.Entities;
 using Domain.Entities.Reviews;
 using Domain.Interfaces;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Assert = Xunit.Assert;
@@ -178,6 +179,21 @@ public class ReviewDtoServiceTests
 
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentNullException>(() => _reviewDtoService.DeleteAsync(id));
+    }
+
+    [Fact]
+    [Test]
+    public async Task DeleteAsync_ThrowsOrderException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        int? id = 1;
+        _repository.GetByIdAsync(id).ThrowsAsync(new Exception("Simulated exception"));
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<ReviewException>(() => _reviewDtoService.DeleteAsync(id));
+        Assert.Equal("An unexpected error occurred while processing the request.", exception.Message);
+        Assert.NotNull(exception.InnerException);
+        Assert.IsType<Exception>(exception.InnerException);
     }
 
     [Fact]
