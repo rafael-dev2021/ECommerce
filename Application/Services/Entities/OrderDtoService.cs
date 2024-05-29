@@ -79,7 +79,6 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
         }
     }
 
-
     public async Task DeleteOrder(int? id)
     {
         OrderDtoIdNull(id);
@@ -179,13 +178,13 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
         return 0;
     }
 
-    private static void OrderDtoIdNull(int? id)
+    public static void OrderDtoIdNull(int? id)
     {
         if (!id.HasValue)
             throw new ArgumentNullException(nameof(id), "Order ID cannot be null.");
     }
 
-    private static void OrderDtoNull(OrderDto orderDto)
+    public static void OrderDtoNull(OrderDto? orderDto)
     {
         if (orderDto == null)
             throw new ArgumentNullException(nameof(orderDto), "OrderDto cannot be null.");

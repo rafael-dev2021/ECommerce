@@ -1,4 +1,5 @@
-﻿using Application.Dtos;
+﻿using Application.CustomExceptions;
+using Application.Dtos;
 using Application.Dtos.DeliveriesDto;
 using Application.Dtos.OrderDtos;
 using Application.Dtos.PaymentsDto;
@@ -8,6 +9,7 @@ using Domain.Entities.Orders;
 using Domain.Entities.Payments.Enums;
 using Domain.Interfaces;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -174,10 +176,22 @@ public class OrderDtoServiceTests
 
     [Fact]
     [Test]
+    public async Task GetByIdAsync_ShouldThrowsOrderException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        int? id = 1;
+        _orderRepository.GetByIdAsync(id).Returns(Task.FromException<Order>(new Exception($"An error occurred while retrieving the order with ID {id}.")));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<OrderException>(async () => await _orderDtoService.GetByIdAsync(id));
+    }
+
+    [Fact]
+    [Test]
     public async Task AddOrder_CallsRepositoryCreateOrder_WhenOrderIsValid()
     {
         // Arrange
-        var orderDto = new OrderDto(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, new List<OrderDetailDto>(), DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto);
+        var orderDto = new OrderDto(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, [], DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto);
         var order = new Order();
 
         _mapper.Map<Order>(orderDto).Returns(order);
@@ -208,6 +222,19 @@ public class OrderDtoServiceTests
 
     [Fact]
     [Test]
+    public async Task UpdateOrderPropertyAsync_ShouldThrowCategoryException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        var orderDto = new OrderDto(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, [], DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto);
+
+        _orderRepository.When(repo => repo.UpdateAsync(Arg.Any<Order>())).Do(x => throw new Exception("Error updating order."));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<OrderException>(async () => await _orderDtoService.UpdateOrderPropertyAsync(orderDto));
+    }
+
+    [Fact]
+    [Test]
     public async Task DeleteOrder_CallsRepositoryDeleteAsync_WhenOrderExists()
     {
         // Arrange
@@ -220,6 +247,21 @@ public class OrderDtoServiceTests
 
         // Assert
         await _orderRepository.Received(1).DeleteAsync(order);
+    }
+
+    [Fact]
+    [Test]
+    public async Task DeleteOrder_ThrowsOrderException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        int? id = 1;
+        _orderRepository.GetByIdAsync(id).ThrowsAsync(new Exception("Simulated exception"));
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<OrderException>(() => _orderDtoService.DeleteOrder(id));
+        Assert.Equal($"Error deleting order.", exception.Message);
+        Assert.NotNull(exception.InnerException);
+        Assert.IsType<Exception>(exception.InnerException);
     }
 
     [Fact]
@@ -327,5 +369,49 @@ public class OrderDtoServiceTests
 
         // Assert
         Assert.Equal(150, result);
+    }
+
+    [Fact]
+    [Test]
+    public void OrderDtoIdNull_ShouldThrowArgumentNullException_WhenIdIsNull()
+    {
+        // Arrange
+        int? id = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => OrderDtoService.OrderDtoIdNull(id));
+    }
+
+    [Fact]
+    [Test]
+    public void OrderDtoIdNull_ShouldNotThrowException_WhenIdIsNotNull()
+    {
+        // Arrange
+        int? id = 1;
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => OrderDtoService.OrderDtoIdNull(id)));
+    }
+
+    [Fact]
+    [Test]
+    public void OrderDtoNull_ShouldThrowArgumentNullException_WhenCategoryDtoIsNull()
+    {
+        // Arrange
+        OrderDto? orderDto = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => OrderDtoService.OrderDtoNull(orderDto));
+    }
+
+    [Fact]
+    [Test]
+    public void OrderDtoNull_ShouldNotThrowException_WhenCategoryDtoIsNotNull()
+    {
+        // Arrange
+        var orderDto = new OrderDto(1, 100, 2, DateTime.Now, DateTime.Now, DateTime.Now, [], DeliveryAddressDto, UserDeliveryDto, PaymentMethodDto);
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => OrderDtoService.OrderDtoNull(orderDto)));
     }
 }

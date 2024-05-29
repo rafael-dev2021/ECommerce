@@ -116,13 +116,13 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
         return _mapper.Map<List<CategoryWithProductCountDto>>(categoriesWithProductCount);
     }
 
-    public void CategoryIdNull(int? id)
+    public static void CategoryIdNull(int? id)
     {
         if (!id.HasValue)
             throw new ArgumentNullException(nameof(id), "Category ID cannot be null.");
     }
 
-    public void CategoryNull(CategoryDto? categoryDto)
+    public static void CategoryNull(CategoryDto? categoryDto)
     {
         if (categoryDto == null)
             throw new ArgumentNullException($"Category {categoryDto} cannot be null.");

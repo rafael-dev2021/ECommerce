@@ -186,6 +186,17 @@ public class CategoryDtoServiceTests
 
     [Fact]
     [Test]
+    public async Task DeleteAsync_ShouldThrowArgumentNullException_WhenCategoryDtoIsNull()
+    {
+        // Arrange
+        int? id = null;
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _categoryDtoService.DeleteAsync(id));
+    }
+
+    [Fact]
+    [Test]
     public async Task GetCategoriesWithProductDtoCountAsync_ReturnsMappedCategoriesWithProductCount_WhenCategoriesExist()
     {
         // Arrange
@@ -300,7 +311,7 @@ public class CategoryDtoServiceTests
         int? id = null;
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => _categoryDtoService.CategoryIdNull(id));
+        Assert.Throws<ArgumentNullException>(() => CategoryDtoService.CategoryIdNull(id));
     }
 
     [Fact]
@@ -311,7 +322,7 @@ public class CategoryDtoServiceTests
         int? id = 1;
 
         // Act & Assert
-        Assert.Null(Record.Exception(() => _categoryDtoService.CategoryIdNull(id)));
+        Assert.Null(Record.Exception(() => CategoryDtoService.CategoryIdNull(id)));
     }
 
     [Fact]
@@ -322,7 +333,7 @@ public class CategoryDtoServiceTests
         CategoryDto? categoryDto = null;
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => _categoryDtoService.CategoryNull(categoryDto));
+        Assert.Throws<ArgumentNullException>(() => CategoryDtoService.CategoryNull(categoryDto));
     }
 
     [Fact]
@@ -333,6 +344,6 @@ public class CategoryDtoServiceTests
         var categoryDto = new CategoryDto(1, "Name", "image.jpg", true);
 
         // Act & Assert
-        Assert.Null(Record.Exception(() => _categoryDtoService.CategoryNull(categoryDto)));
+        Assert.Null(Record.Exception(() => CategoryDtoService.CategoryNull(categoryDto)));
     }
 }
