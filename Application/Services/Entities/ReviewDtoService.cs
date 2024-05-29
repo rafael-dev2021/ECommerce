@@ -109,13 +109,13 @@ public class ReviewDtoService(IReviewRepository repository, IMapper mapper) : IR
         }
     }
 
-    private static void ReviewIdNull(int? id)
+    public static void ReviewIdNull(int? id)
     {
         if (!id.HasValue)
             throw new ArgumentNullException(nameof(id), "Review ID cannot be null.");
     }
 
-    private static void ReviewNull(ReviewDto reviewDto)
+    public static void ReviewNull(ReviewDto? reviewDto)
     {
         if (reviewDto == null)
             throw new ArgumentNullException(nameof(reviewDto), "Review cannot be null.");

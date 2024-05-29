@@ -1,14 +1,11 @@
 ﻿using Application.CustomExceptions;
 using Application.Dtos.PaymentsDto;
-using Application.Interfaces;
 using Application.Services.Entities;
 using AutoMapper;
-using Domain.Entities;
 using Domain.Entities.Payments;
 using Domain.Interfaces.Payments;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
-using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Assert = Xunit.Assert;
 

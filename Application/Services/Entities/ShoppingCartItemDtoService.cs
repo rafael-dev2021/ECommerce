@@ -87,13 +87,13 @@ public class ShoppingCartItemDtoService(IShoppingCartItemRepository repository, 
         }
     }
 
-    private static void ProductDtoNull(ProductDto productDto)
+    public static void ProductDtoNull(ProductDto? productDto)
     {
         if (productDto == null)
             throw new ArgumentNullException(nameof(productDto), "ProductDto cannot be null.");
     }
 
-    private static void CategoryDtoNull(CategoryDto categoryDto)
+    public static void CategoryDtoNull(CategoryDto? categoryDto)
     {
         if (categoryDto == null)
             throw new ArgumentNullException(nameof(categoryDto), "CategoryDto cannot be null.");

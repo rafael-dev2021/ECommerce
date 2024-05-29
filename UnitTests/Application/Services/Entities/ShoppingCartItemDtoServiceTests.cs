@@ -26,6 +26,7 @@ public class ShoppingCartItemDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task GetShoppingCartItemsDtoAsync_ReturnsMappedCartItems_WhenCartItemsExist()
     {
         // Arrange
@@ -51,6 +52,7 @@ public class ShoppingCartItemDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task GetShoppingCartItemsDtoAsync_ReturnsEmptyList_WhenNoCartItemsExist()
     {
         // Arrange
@@ -65,6 +67,7 @@ public class ShoppingCartItemDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task GetTotalAmountCartServiceAsync_ReturnsTotalAmount()
     {
         // Arrange
@@ -79,6 +82,7 @@ public class ShoppingCartItemDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task GetTotalCartItemsServiceAsync_ReturnsTotalItems()
     {
         // Arrange
@@ -93,6 +97,7 @@ public class ShoppingCartItemDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task RemoveItemServiceAsync_CallsRepositoryRemoveItemAsync_WhenProductIsValid()
     {
         // Arrange
@@ -110,6 +115,7 @@ public class ShoppingCartItemDtoServiceTests
 
 
     [Fact]
+    [Test]
     public async Task AddCartItemAsync_CallsRepositoryAddItemToCartAsync_WhenProductAndCategoryAreValid()
     {
         // Arrange
@@ -130,6 +136,7 @@ public class ShoppingCartItemDtoServiceTests
 
 
     [Fact]
+    [Test]
     public async Task RemoveItemCartServiceAsync_CallsRepositoryRemoveItemToCartAsync_WhenProductAndCategoryAreValid()
     {
         // Arrange
@@ -149,6 +156,7 @@ public class ShoppingCartItemDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task ClearShoppingCartServiceAsync_CallsRepositoryClearShoppingCartAsync()
     {
         // Act
@@ -159,6 +167,7 @@ public class ShoppingCartItemDtoServiceTests
     }
 
     [Fact]
+    [Test]
     public async Task ClearShoppingCartServiceAsync_ThrowsException_WhenRepositoryFails()
     {
         // Arrange
@@ -166,5 +175,72 @@ public class ShoppingCartItemDtoServiceTests
 
         // Act & Assert
         await Assert.ThrowsAsync<ShoppingCartItemException>(_shoppingCartItemDtoService.ClearShoppingCartServiceAsync);
+    }
+
+    [Fact]
+    [Test]
+    public void ProductDtoNull_ShouldThrowArgumentNullException_WhenProductDtoIsNull()
+    {
+        // Arrange
+        ProductDto? productDto = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => ShoppingCartItemDtoService.ProductDtoNull(productDto));
+    }
+
+    [Fact]
+    [Test]
+    public void ProductDtoNull_ShouldNotThrowException_WhenProductDtoIsNotNull()
+    {
+        // Arrange
+        var productDto = new ProductDto();
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => ShoppingCartItemDtoService.ProductDtoNull(productDto)));
+    }
+
+    [Fact]
+    [Test]
+    public void CategoryDtoNull_ShouldThrowArgumentNullException_WhenCategoryDtoIsNull()
+    {
+        // Arrange
+        CategoryDto? categoryDto = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => ShoppingCartItemDtoService.CategoryDtoNull(categoryDto));
+    }
+
+    [Fact]
+    [Test]
+    public void CategoryDtoNull_ShouldNotThrowException_WhenCategoryDtoIsNotNull()
+    {
+        // Arrange
+        var categoryDto = new CategoryDto(1, "", "", true);
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => ShoppingCartItemDtoService.CategoryDtoNull(categoryDto)));
+    }
+
+    [Fact]
+    [Test]
+    public async Task AddCartItemAsync_ThrowsShoppingCartItemException_WhenProductIsNull()
+    {
+        // Arrange
+        var productDto = new ProductDto();
+        var categoryDto = new CategoryDto(1, "", "", true);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ShoppingCartItemException>(async () => await _shoppingCartItemDtoService.AddCartItemAsync(productDto, categoryDto));
+    }
+
+    [Fact]
+    [Test]
+    public async Task RemoveItemServiceAsync_ThrowsShoppingCartItemException_WhenProductIsNull()
+    {
+        // Arrange
+        var productDto = new ProductDto();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ShoppingCartItemException>(async () => await _shoppingCartItemDtoService.RemoveItemServiceAsync(productDto));
     }
 }

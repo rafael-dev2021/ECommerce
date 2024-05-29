@@ -6,6 +6,7 @@ using Domain.Entities;
 using Domain.Entities.Reviews;
 using Domain.Interfaces;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -78,6 +79,17 @@ public class ReviewDtoServiceTests
         Assert.Equal(reviewDto, result);
     }
 
+    [Fact]
+    [Test]
+    public async Task GetByIdAsync_ShouldThrowReviewException_WhenReviewNotFound()
+    {
+        // Arrange
+        int? id = 1;
+        _repository.GetByIdAsync(id).ReturnsNull();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ReviewException>(() => _reviewDtoService.GetByIdAsync(id));
+    }
 
     [Fact]
     [Test]
@@ -155,5 +167,60 @@ public class ReviewDtoServiceTests
 
         // Assert
         await _repository.Received(1).DeleteAsync(review);
+    }
+
+    [Fact]
+    [Test]
+    public async Task DeleteAsync_ShouldThrowArgumentNullException_WhenReviewDtoIsNull()
+    {
+        // Arrange
+        int? id = null;
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _reviewDtoService.DeleteAsync(id));
+    }
+
+    [Fact]
+    [Test]
+    public void ReviewIdNull_ShouldThrowArgumentNullException_WhenIdIsNull()
+    {
+        // Arrange
+        int? id = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => ReviewDtoService.ReviewIdNull(id));
+    }
+
+    [Fact]
+    [Test]
+    public void ReviewIdNull_ShouldNotThrowException_WhenIdIsNotNull()
+    {
+        // Arrange
+        int? id = 1;
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => ReviewDtoService.ReviewIdNull(id)));
+    }
+
+    [Fact]
+    [Test]
+    public void ReviewNull_ShouldThrowArgumentNullException_WhenReviewDtoIsNull()
+    {
+        // Arrange
+        ReviewDto? reviewDto = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => ReviewDtoService.ReviewNull(reviewDto));
+    }
+
+    [Fact]
+    [Test]
+    public void ReviewNull_ShouldNotThrowException_WhenReviewDtoIsNotNull()
+    {
+        // Arrange
+        var review = new ReviewDto(1, "Update Comment", "image.jpg", 1, new DateTime(), 1, new Product());
+
+        // Act & Assert
+        Assert.Null(Record.Exception(() => ReviewDtoService.ReviewNull(review)));
     }
 }
