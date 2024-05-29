@@ -1,5 +1,6 @@
 ﻿using Application.CustomExceptions;
 using Application.Dtos.Reviews;
+using Application.Errors;
 using Application.Services.Entities;
 using AutoMapper;
 using Domain.Entities;
@@ -8,6 +9,7 @@ using Domain.Interfaces;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
+using System.Net;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -238,5 +240,23 @@ public class ReviewDtoServiceTests
 
         // Act & Assert
         Assert.Null(Record.Exception(() => ReviewDtoService.ReviewNull(review)));
+    }
+
+    [Fact]
+    [Test]
+    public async Task DeleteAsync_ShouldThrowRequestException_WhenReviewNotFound()
+    {
+        // Arrange
+        int? id = 1;
+        _repository.GetByIdAsync(id).ReturnsNull();
+
+        // Act & Assert
+        var ex = await Assert.ThrowsAsync<ReviewException>(() => _reviewDtoService.DeleteAsync(id));
+
+        var innerException = Assert.IsType<RequestException>(ex.InnerException);
+
+        Assert.Equal("Error when removing review.", innerException.Message);
+        Assert.Equal(HttpStatusCode.BadRequest, innerException.StatusCode);
+        Assert.Equal("Error", innerException.Severity);
     }
 }

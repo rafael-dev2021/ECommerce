@@ -20,6 +20,82 @@ public class CountProductsByPriceServiceTests
     }
 
     [Fact]
+    public async Task CountingProductsAboveOrBelowPriceAsync_ShouldReturnCorrectCount_WhenPriceIsInRange()
+    {
+        // Arrange
+        var products = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(50.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(100.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(150.0m, 0m) }
+    };
+        _productDtoServiceMock.GetProductsDtoAsync().Returns(products);
+
+        // Act
+        var count = await _countProductsByPriceService.CountingProductsAboveOrBelowPriceAsync(50.0m, 150.0m);
+
+        // Assert
+        Assert.Equal(3, count);
+    }
+
+    [Fact]
+    public async Task CountingProductsAboveOrBelowPriceAsync_ShouldReturnCorrectCount_WhenPriceIsOutsideRange()
+    {
+        // Arrange
+        var products = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(50.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(100.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(150.0m, 0m) }
+    };
+        _productDtoServiceMock.GetProductsDtoAsync().Returns(products);
+
+        // Act
+        var count = await _countProductsByPriceService.CountingProductsAboveOrBelowPriceAsync(75.0m, 125.0m);
+
+        // Assert
+        Assert.Equal(1, count);
+    }
+
+    [Fact]
+    public async Task CountingProductsBelowPriceAsync_ShouldReturnCorrectCount_WhenPriceIsAbove()
+    {
+        // Arrange
+        var products = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(50.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(100.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(150.0m, 0m) }
+    };
+        _productDtoServiceMock.GetProductsDtoAsync().Returns(products);
+
+        // Act
+        var count = await _countProductsByPriceService.CountingProductsBelowPriceAsync(75.0m);
+
+        // Assert
+        Assert.Equal(1, count);
+    }
+
+    [Fact]
+    public async Task CountingProductsAbovePriceAsync_ShouldReturnZero_WhenNoProductsAvailableAbovePrice()
+    {
+        // Arrange
+        var products = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(50.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(90.0m, 0m) }
+    };
+        _productDtoServiceMock.GetProductsDtoAsync().Returns(products);
+
+        // Act
+        var count = await _countProductsByPriceService.CountingProductsAbovePriceAsync(100.0m);
+
+        // Assert
+        Assert.Equal(0, count);
+    }
+
+    [Fact]
     public async Task CountingProductsAboveOrBelowPriceAsync_ShouldReturnCorrectCount()
     {
         // Arrange

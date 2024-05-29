@@ -148,4 +148,33 @@ public class PriceIsHigherThanServiceTests
         // Assert
         Assert.Empty(result);
     }
+
+    [Fact]
+    public async Task GetProductsAboveOrBelowPriceAsync_ShouldReturnFilteredProducts_WhenPriceIsHigherOrEqual()
+    {
+        // Arrange
+        var price = 50.0m;
+        var secondPrice = 1000.0m;
+        var productsDto = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(25.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(125.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(0m, 0m) }, 
+        new() { PriceObjectValue = new PriceDtoObjectValue(100.0m, 0m) }, 
+    };
+
+        var productDtoServiceMock = Substitute.For<IProductDtoService>();
+        productDtoServiceMock.GetProductsDtoAsync().Returns(Task.FromResult<IEnumerable<ProductDto>>(productsDto));
+
+        var service = new PriceIsHigherThanService(productDtoServiceMock);
+
+        // Act
+        var result = await service.GetProductsAboveOrBelowPriceAsync(price, secondPrice);
+
+        // Assert
+        Assert.Equal(3, result.Count()); 
+        Assert.Contains(result, p => p.PriceObjectValue?.Price >= price);
+        Assert.Contains(result, p => p.PriceObjectValue?.Price <= secondPrice);
+    }
 }

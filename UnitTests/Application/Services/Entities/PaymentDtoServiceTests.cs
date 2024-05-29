@@ -227,7 +227,8 @@ public class PaymentDtoServiceTests
     public async Task ListPaymentsDtoAsync_ReturnsEmptyList_WhenPaymentsAreNull()
     {
         // Arrange
-        _paymentRepository.ListPaymentsAsync().Returns(new List<PaymentMethod>());
+        List<PaymentMethod>? nullPayments = null;
+        _paymentRepository.ListPaymentsAsync().Returns(nullPayments);
 
         // Act
         var result = await _paymentDtoService.ListPaymentsDtoAsync();
@@ -242,7 +243,8 @@ public class PaymentDtoServiceTests
     public async Task ListPaymentCreditCardsDtoAsync_ReturnsEmptyList_WhenCreditCardsAreNull()
     {
         // Arrange
-        _paymentRepository.ListPaymentCreditCardsAsync().Returns(new List<CreditCard>());
+        List<CreditCard>? nullCreditCards = null;
+        _paymentRepository.ListPaymentCreditCardsAsync().Returns(nullCreditCards);
 
         // Act
         var result = await _paymentDtoService.ListPaymentCreditCardsDtoAsync();
@@ -257,7 +259,8 @@ public class PaymentDtoServiceTests
     public async Task ListPaymentDebitCardsDtoAsync_ReturnsEmptyList_WhenDebitCardsAreNull()
     {
         // Arrange
-        _paymentRepository.ListPaymentDebitCardsAsync().Returns(new List<DebitCard>());
+        List<DebitCard>? nullDebitCards = null;
+        _paymentRepository.ListPaymentDebitCardsAsync().Returns(nullDebitCards);
 
         // Act
         var result = await _paymentDtoService.ListPaymentDebitCardsDtoAsync();
