@@ -22,7 +22,7 @@ public class Product
     public WarrantyObjectValue? WarrantyObjectValue { get; protected set; }
     public CommonPropertiesObjectValue? CommonPropertiesObjectValue { get; set; }
 
-    protected Product()
+    public Product()
     {
     }
 
@@ -92,4 +92,6 @@ public class Product
     public void SetId(int id) => Id = id;
     public void SetStock(int stock) => Stock = stock;
     public void SetCategoryId(int categoryId) => CategoryId = categoryId;
+    public void SetFlagsObjectValue(FlagsObjectValue value) => FlagsObjectValue = value;
+    public void SetSpecificationObjectValue(SpecificationObjectValue value) => SpecificationObjectValue = value;
 }

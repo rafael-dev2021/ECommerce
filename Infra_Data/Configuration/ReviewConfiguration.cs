@@ -39,9 +39,9 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
             new Review(11, "Pay attention to size. Nike models are smaller. The ideal is to buy 1 size larger.", "", 4,
                 DateTime.Now, 7),
             new Review(12, "It was small on me. I want to return it. To get my refund.", "", 1, DateTime.Now, 7),
-            new Review(14, "Excellent product.", "", 5, DateTime.Now, 9),
-            new Review(15, "I liked the original, it has to be laced but it\'s perfect.", "", 5, DateTime.Now, 10),
-            new Review(16, "I\'m a fan of this sneaker. One of the most beautiful on the foot, in my opinion.", "", 4,
+            new Review(13, "Excellent product.", "", 5, DateTime.Now, 9),
+            new Review(14, "I liked the original, it has to be laced but it\'s perfect.", "", 5, DateTime.Now, 10),
+            new Review(15, "I\'m a fan of this sneaker. One of the most beautiful on the foot, in my opinion.", "", 4,
                 DateTime.Now, 10)
         );
     }

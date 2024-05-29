@@ -27,6 +27,18 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
                     .IsRequired();
             });
 
+        builder
+            .OwnsOne(x => x.FlagsObjectValue, productData =>
+            {
+                productData.Property(pd => pd.IsDailyOffer)
+                .HasConversion<bool>();
+
+                productData.Property(pd => pd.IsBestSeller)
+                .HasConversion<bool>();
+
+                productData.Property(pd => pd.IsFavorite)
+                .HasConversion<bool>();
+            });
 
         builder
             .OwnsOne(x => x.WarrantyObjectValue, warranty =>
@@ -81,24 +93,19 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .OwnsOne(x => x.CommonPropertiesObjectValue, pp =>
             {
                 pp.Property(p => p.Gender)
-                    .HasMaxLength(20)
-                    .IsRequired();
+                    .HasMaxLength(20);
 
                 pp.Property(p => p.Color)
-                    .HasMaxLength(20)
-                    .IsRequired();
+                    .HasMaxLength(20);
 
                 pp.Property(p => p.Age)
-                    .HasMaxLength(20)
-                    .IsRequired();
+                    .HasMaxLength(20);
 
                 pp.Property(p => p.RecommendedUses)
-                    .HasMaxLength(20)
-                    .IsRequired();
+                    .HasMaxLength(20);
 
                 pp.Property(p => p.Size)
-                    .HasMaxLength(20)
-                    .IsRequired();
+                    .HasMaxLength(20);
             });
     }
 }

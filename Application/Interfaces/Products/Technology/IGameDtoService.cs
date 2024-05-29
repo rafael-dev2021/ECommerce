@@ -2,5 +2,5 @@
 
 namespace Application.Interfaces.Products.Technology;
 
-public interface IGameDtoService : IGenericCRUDService<GameDto>
+public interface IGameDtoService : IGenericProductsCrudService<GameDto>
 { }

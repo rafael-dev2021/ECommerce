@@ -17,7 +17,7 @@ namespace Infra_Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -369,7 +369,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_637616-MLA70484274053_072023-O.webp",
                             ProductId = 1,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5144)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1947)
                         },
                         new
                         {
@@ -378,7 +378,7 @@ namespace Infra_Data.Migrations
                             Image = "https://m.media-amazon.com/images/I/71a4vqXqxbL._SY256.jpg",
                             ProductId = 1,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5184)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1963)
                         },
                         new
                         {
@@ -387,7 +387,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_743184-MLA69501979268_052023-F.webp",
                             ProductId = 1,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5186)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1964)
                         },
                         new
                         {
@@ -396,7 +396,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_936910-MLA54765476953_032023-F.webp",
                             ProductId = 2,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5187)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1965)
                         },
                         new
                         {
@@ -405,7 +405,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_960098-MLA73264672831_122023-F.webp",
                             ProductId = 3,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5187)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1966)
                         },
                         new
                         {
@@ -414,7 +414,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_911842-MLA73095448948_112023-F.webp",
                             ProductId = 4,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5188)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1966)
                         },
                         new
                         {
@@ -423,7 +423,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_696237-MLA71736945652_092023-F.webp",
                             ProductId = 5,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5189)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1967)
                         },
                         new
                         {
@@ -432,7 +432,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_918056-MLA72166744514_102023-F.webp",
                             ProductId = 5,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5190)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1968)
                         },
                         new
                         {
@@ -441,7 +441,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_661229-MLA72108620029_102023-F.webp",
                             ProductId = 6,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5191)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1969)
                         },
                         new
                         {
@@ -450,7 +450,7 @@ namespace Infra_Data.Migrations
                             Image = "https://http2.mlstatic.com/D_NQ_NP_2X_942915-MLA54965635426_042023-F.webp",
                             ProductId = 6,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5192)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1970)
                         },
                         new
                         {
@@ -459,7 +459,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 7,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5193)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1971)
                         },
                         new
                         {
@@ -468,7 +468,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 7,
                             Rating = 1,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5194)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1972)
                         },
                         new
                         {
@@ -477,7 +477,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 9,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5195)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1973)
                         },
                         new
                         {
@@ -486,7 +486,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 10,
                             Rating = 5,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5196)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1974)
                         },
                         new
                         {
@@ -495,7 +495,7 @@ namespace Infra_Data.Migrations
                             Image = "",
                             ProductId = 10,
                             Rating = 4,
-                            ReviewDate = new DateTime(2024, 4, 1, 2, 0, 52, 781, DateTimeKind.Local).AddTicks(5197)
+                            ReviewDate = new DateTime(2024, 5, 28, 0, 56, 8, 736, DateTimeKind.Local).AddTicks(1975)
                         });
                 });
 
@@ -515,22 +515,25 @@ namespace Infra_Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsSubscribedToNewsletter")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -550,7 +553,9 @@ namespace Infra_Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -560,7 +565,8 @@ namespace Infra_Data.Migrations
 
                     b.Property<string>("Ssn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -1141,6 +1147,60 @@ namespace Infra_Data.Migrations
                                     Gender = "Man",
                                     RecommendedUses = "skateboarding",
                                     Size = "7.5"
+                                },
+                                new
+                                {
+                                    Id = 5,
+                                    Age = "",
+                                    Color = "",
+                                    Gender = "",
+                                    RecommendedUses = "",
+                                    Size = ""
+                                },
+                                new
+                                {
+                                    Id = 6,
+                                    Age = "",
+                                    Color = "",
+                                    Gender = "",
+                                    RecommendedUses = "",
+                                    Size = ""
+                                },
+                                new
+                                {
+                                    Id = 1,
+                                    Age = "",
+                                    Color = "Phantom Black",
+                                    Gender = "",
+                                    RecommendedUses = "",
+                                    Size = ""
+                                },
+                                new
+                                {
+                                    Id = 2,
+                                    Age = "",
+                                    Color = "Violet",
+                                    Gender = "",
+                                    RecommendedUses = "",
+                                    Size = ""
+                                },
+                                new
+                                {
+                                    Id = 3,
+                                    Age = "",
+                                    Color = "Titanium Blue",
+                                    Gender = "",
+                                    RecommendedUses = "",
+                                    Size = ""
+                                },
+                                new
+                                {
+                                    Id = 4,
+                                    Age = "",
+                                    Color = "Titanium White",
+                                    Gender = "",
+                                    RecommendedUses = "",
+                                    Size = ""
                                 });
                         });
 
@@ -1797,16 +1857,16 @@ namespace Infra_Data.Migrations
                                     Id = 7,
                                     Composition = "Polyester",
                                     ItsSporty = false,
-                                    MainMaterial = "Polyester",
+                                    MainMaterial = "",
                                     UnitsPerKit = 1,
                                     WithRecycledMaterials = false
                                 },
                                 new
                                 {
                                     Id = 8,
-                                    Composition = "Polyester",
+                                    Composition = "",
                                     ItsSporty = true,
-                                    MainMaterial = "Polyester",
+                                    MainMaterial = "Cotton",
                                     UnitsPerKit = 1,
                                     WithRecycledMaterials = false
                                 });
@@ -2433,11 +2493,6 @@ namespace Infra_Data.Migrations
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)");
 
-                            b1.Property<string>("Color")
-                                .IsRequired()
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)");
-
                             b1.Property<string>("ManufacturerPartNumber")
                                 .IsRequired()
                                 .HasMaxLength(50)
@@ -2467,7 +2522,6 @@ namespace Infra_Data.Migrations
                                 {
                                     Id = 1,
                                     CellNetworkTechnology = "WCDMA (UMTS) / GSM / 5G",
-                                    Color = "Phantom Black",
                                     ManufacturerPartNumber = "SM-S918UZKFXAA",
                                     VirtualAssistant = "Samsung Bixby,Alexa,Google Assistant"
                                 },
@@ -2475,7 +2529,6 @@ namespace Infra_Data.Migrations
                                 {
                                     Id = 2,
                                     CellNetworkTechnology = "WCDMA (UMTS) / GSM / 5G",
-                                    Color = "Violet",
                                     ManufacturerPartNumber = "SM-B518UZKFX22",
                                     VirtualAssistant = "Samsung Bixby,Alexa,Google Assistant"
                                 },
@@ -2483,7 +2536,6 @@ namespace Infra_Data.Migrations
                                 {
                                     Id = 3,
                                     CellNetworkTechnology = "WCDMA (UMTS) / GSM / 5G",
-                                    Color = "Titanium Blue",
                                     ManufacturerPartNumber = "AA-12SF7832SD301EW3",
                                     VirtualAssistant = "Apple Watch,HomePod,Siri Assistant"
                                 },
@@ -2491,7 +2543,6 @@ namespace Infra_Data.Migrations
                                 {
                                     Id = 4,
                                     CellNetworkTechnology = "WCDMA (UMTS) / GSM / 5G",
-                                    Color = "Titanium White",
                                     ManufacturerPartNumber = "AA-12VD783HR230SW19",
                                     VirtualAssistant = "Apple Watch,HomePod,Siri Assistant"
                                 });

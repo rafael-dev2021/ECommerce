@@ -31,4 +31,5 @@ public class Order
     }
 
     public void WhenConfirmedOrder() => ConfirmedOrder = DateTime.Now;
+    public void SetPaymentMethod(PaymentMethod paymentMethod) => PaymentMethod = paymentMethod;
 }

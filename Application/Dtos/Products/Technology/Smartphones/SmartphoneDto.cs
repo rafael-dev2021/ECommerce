@@ -2,7 +2,7 @@
 
 namespace Application.Dtos.Products.Technology.Smartphones;
 
-public class SmartphoneDto
+public record SmartphoneDto : ProductDto
 {
     public BatteryDtoObjectValue? BatteryObjectValue { get; set; }
     public CameraDtoObjectValue? CameraObjectValue { get; set; }

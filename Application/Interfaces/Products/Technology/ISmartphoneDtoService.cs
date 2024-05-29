@@ -2,6 +2,6 @@
 
 namespace Application.Interfaces.Products.Technology;
 
-public interface ISmartphoneDtoService : IGenericCRUDService<SmartphoneDto>
+public interface ISmartphoneDtoService : IGenericProductsCrudService<SmartphoneDto>
 {
 }
