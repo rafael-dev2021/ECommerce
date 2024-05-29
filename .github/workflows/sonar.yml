@@ -50,7 +50,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rafael-dev2021_ECommerce" /o:"rafael-dev2021" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rafael-dev2021_ECommerce" /o:"rafael-dev2021" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
 
       - name: Build project
         shell: powershell
@@ -58,7 +58,19 @@ jobs:
 
       - name: Run tests
         shell: powershell
-        run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
+        run: |
+          dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      - name: Verify Coverage Report
+        shell: powershell
+        run: |
+          $coverageReport = Get-ChildItem -Path . -Recurse -Filter "coverage.opencover.xml" | Select-Object -First 1
+          if ($coverageReport) {
+            Write-Output "Coverage report found: $coverageReport.FullName"
+          } else {
+            Write-Error "Coverage report not found."
+            exit 1
+          }
 
       - name: SonarCloud - End Analysis
         env:
