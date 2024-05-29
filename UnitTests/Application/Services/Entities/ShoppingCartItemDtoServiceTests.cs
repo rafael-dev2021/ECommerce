@@ -243,4 +243,16 @@ public class ShoppingCartItemDtoServiceTests
         // Act & Assert
         await Assert.ThrowsAsync<ShoppingCartItemException>(async () => await _shoppingCartItemDtoService.RemoveItemServiceAsync(productDto));
     }
+
+    [Fact]
+    [Test]
+    public async Task RemoveItemCartServiceAsync_ThrowsException_WhenProductIsNull()
+    {
+        // Arrange
+        var productDto = new ProductDto();
+        var categoryDto = new CategoryDto(1, "Test Category", "", true);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ShoppingCartItemException>(async () => await _shoppingCartItemDtoService.RemoveItemCartServiceAsync(productDto, categoryDto));
+    }
 }
