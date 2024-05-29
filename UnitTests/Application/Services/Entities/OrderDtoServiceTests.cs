@@ -10,6 +10,7 @@ using Domain.Entities.Payments.Enums;
 using Domain.Interfaces;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -427,5 +428,68 @@ public class OrderDtoServiceTests
 
         // Act & Assert
         Assert.Null(Record.Exception(() => OrderDtoService.OrderDtoNull(orderDto)));
+    }
+
+    [Fact]
+    [Test]
+    public async Task DeleteOrder_ShouldThrowOrderException_WhenOrderNotFound()
+    {
+        // Arrange
+        int? id = 1;
+        _orderRepository.GetByIdAsync(id).ReturnsNull();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<OrderException>(() => _orderDtoService.DeleteOrder(id));
+    }
+
+    [Fact]
+    [Test]
+    public async Task FindByOrderConfirmDateDtoAsync_ReturnsEmptyList_WhenNoOrdersExist()
+    {
+        // Arrange
+        var minDate = DateTime.MinValue;
+        var maxDate = DateTime.MaxValue;
+        _orderRepository.FindByOrderConfirmDateAsync(minDate, maxDate).Returns(new List<Order>());
+
+        // Act
+        var result = await _orderDtoService.FindByOrderConfirmDateDtoAsync(minDate, maxDate);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task FindByOrderDispatchedDateDtoAsync_ReturnsEmptyList_WhenNoOrdersExist()
+    {
+        // Arrange
+        var minDate = DateTime.MinValue;
+        var maxDate = DateTime.MaxValue;
+        _orderRepository.FindByOrderDispatchedDateAsync(minDate, maxDate).Returns(new List<Order>());
+
+        // Act
+        var result = await _orderDtoService.FindByOrderDispatchedDateDtoAsync(minDate, maxDate);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    [Test]
+    public async Task FindByOrderRequestReceivedDateDtoAsync_ReturnsEmptyList_WhenNoOrdersExist()
+    {
+        // Arrange
+        var minDate = DateTime.MinValue;
+        var maxDate = DateTime.MaxValue;
+        _orderRepository.FindByOrderRequestReceivedDateAsync(minDate, maxDate).Returns(new List<Order>());
+
+        // Act
+        var result = await _orderDtoService.FindByOrderRequestReceivedDateDtoAsync(minDate, maxDate);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
     }
 }

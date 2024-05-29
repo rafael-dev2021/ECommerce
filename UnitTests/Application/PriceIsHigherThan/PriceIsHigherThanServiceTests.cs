@@ -157,11 +157,11 @@ public class PriceIsHigherThanServiceTests
         var secondPrice = 1000.0m;
         var productsDto = new List<ProductDto>
     {
-        new() { PriceObjectValue = new PriceDtoObjectValue(25.0m, 0m) },
-        new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 0m) },
-        new() { PriceObjectValue = new PriceDtoObjectValue(125.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(25.0m, 100.0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 80.0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(125.0m, 150.0m) },
         new() { PriceObjectValue = new PriceDtoObjectValue(0m, 0m) }, 
-        new() { PriceObjectValue = new PriceDtoObjectValue(100.0m, 0m) }, 
+        new() { PriceObjectValue = new PriceDtoObjectValue(100.0m, 1000m) }, 
     };
 
         var productDtoServiceMock = Substitute.For<IProductDtoService>();

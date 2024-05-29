@@ -69,10 +69,29 @@ public class WeightedAverageCalculatorTests
     {
         // Arrange
         var reviews = new List<ReviewDto>
+        {
+            new(1, "Decent product", "", 2, DateTime.Now, 1, null),
+            new(2, "Good product", "", 2, DateTime.Now, 1, null),
+            new(3, "Okay product", "", 2, DateTime.Now, 1, null)
+        };
+
+        // Act
+        var result = _weightedAverageCalculator.CalculateWeightedAverage(reviews);
+
+        // Assert
+        Assert.Equal(3, result.CountReviews);
+        Assert.Equal(2.0, result.WeightedAverage);
+    }
+
+    [Fact]
+    public void CalculateWeightedAverage_ShouldCalculateWeightedAverage_WhenWeightIsGreaterThanOrEqualToOne()
     {
-        new(1, "Great product", "", 3, DateTime.Now, 1, null),
-        new(2, "Good product", "", 4, DateTime.Now, 1, null),
-        new(3, "Okay product", "", 5, DateTime.Now, 1, null)
+        // Arrange
+        var reviews = new List<ReviewDto>
+    {
+        new(1, "Great product", "", 4, DateTime.Now, 1, null),
+        new(2, "Good product", "", 5, DateTime.Now, 1, null),
+        new(3, "Excellent product", "", 5, DateTime.Now, 1, null)
     };
 
         // Act
@@ -80,7 +99,7 @@ public class WeightedAverageCalculatorTests
 
         // Assert
         Assert.Equal(3, result.CountReviews);
-        Assert.Equal(4.0, result.WeightedAverage);
+        Assert.Equal(4.67, result.WeightedAverage, 2); 
     }
 
     [Fact]

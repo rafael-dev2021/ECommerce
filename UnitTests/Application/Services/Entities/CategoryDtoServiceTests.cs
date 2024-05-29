@@ -1,5 +1,6 @@
 ﻿using Application.CustomExceptions;
 using Application.Dtos;
+using Application.Errors;
 using Application.Services.Entities;
 using AutoMapper;
 using Domain.Entities;
@@ -344,5 +345,23 @@ public class CategoryDtoServiceTests
 
         // Act & Assert
         Assert.Null(Record.Exception(() => CategoryDtoService.CategoryNull(categoryDto)));
+    }
+
+    [Fact]
+    [Test]
+    public async Task DeleteAsync_ShouldThrowRequestException_WhenCategoryNotFound()
+    {
+        // Arrange
+        int? id = 1;
+        _categoryRepository.GetByIdAsync(id).ReturnsNull();
+
+        // Act & Assert
+        var ex = await Assert.ThrowsAsync<CategoryException>(() => _categoryDtoService.DeleteAsync(id));
+
+        var innerException = Assert.IsType<RequestException>(ex.InnerException);
+
+        Assert.Equal("Error when removing category.", innerException.Message);
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, innerException.StatusCode);
+        Assert.Equal("Error", innerException.Severity);
     }
 }
