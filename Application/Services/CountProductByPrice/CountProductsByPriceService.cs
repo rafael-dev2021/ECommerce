@@ -19,7 +19,7 @@ public class CountProductsByPriceService(IProductDtoService productDtoService) :
     public async Task<int> CountingProductsBelowPriceAsync(decimal price)
     {
         var listProducts = await _productDtoService.GetProductsDtoAsync();
-        var count = listProducts.Count(x => x.PriceObjectValue?.Price <= price);
+        var count = listProducts.Count(x => x.PriceObjectValue?.Price < price);
         return count;
     }
 
