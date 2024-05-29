@@ -8,7 +8,7 @@ public class PriceIsHigherThanService(IProductDtoService productDtoService) : IP
 {
     private readonly IProductDtoService _productDtoService = productDtoService;
 
-    public async Task<IEnumerable<ProductDto>> GetProductsAboveOrBelowPriceAsync(decimal price, decimal secondPrice)
+    public async Task<IEnumerable<ProductDto>> GetProductsAboveOrBelowPriceAsync(decimal? price, decimal? secondPrice)
     {
         var listProducts = await _productDtoService.GetProductsDtoAsync();
         var filteredProducts = listProducts

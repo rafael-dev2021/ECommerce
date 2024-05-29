@@ -68,6 +68,60 @@ public class PriceIsHigherThanServiceTests
     }
 
     [Fact]
+    public async Task GetProductsAboveOrBelowPriceAsync_ShouldReturnEmptyList_WhenPriceEqualsSecondPrice()
+    {
+        // Arrange
+        var price = 50.0m;
+        var secondPrice = 50.0m;
+        var productsDto = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(25.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(125.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(0m, 0m) },
+        new() { PriceObjectValue = null }
+    };
+
+        var productDtoServiceMock = Substitute.For<IProductDtoService>();
+        productDtoServiceMock.GetProductsDtoAsync().Returns(Task.FromResult<IEnumerable<ProductDto>>(productsDto));
+
+        var service = new PriceIsHigherThanService(productDtoServiceMock);
+
+        // Act
+        var result = await service.GetProductsAboveOrBelowPriceAsync(price, secondPrice);
+
+        // Assert
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public async Task GetProductsAboveOrBelowPriceAsync_ShouldReturnEmptyList_WhenBothPricesAreNull()
+    {
+        // Arrange
+        decimal? price = null;
+        decimal? secondPrice = null;
+        var productsDto = new List<ProductDto>
+    {
+        new() { PriceObjectValue = new PriceDtoObjectValue(25.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(75.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(125.0m, 0m) },
+        new() { PriceObjectValue = new PriceDtoObjectValue(0m, 0m) },
+        new() { PriceObjectValue = null }
+    };
+
+        var productDtoServiceMock = Substitute.For<IProductDtoService>();
+        productDtoServiceMock.GetProductsDtoAsync().Returns(Task.FromResult<IEnumerable<ProductDto>>(productsDto));
+
+        var service = new PriceIsHigherThanService(productDtoServiceMock);
+
+        // Act
+        var result = await service.GetProductsAboveOrBelowPriceAsync(price, secondPrice);
+
+        // Assert
+        Assert.Empty(result);
+    }
+
+    [Fact]
     public async Task GetProductsAbovePriceAsync_ShouldReturnFilteredProducts()
     {
         // Arrange
