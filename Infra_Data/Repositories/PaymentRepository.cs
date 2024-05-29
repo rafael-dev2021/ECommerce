@@ -12,8 +12,6 @@ public class PaymentRepository(AppDbContext appDbContext) : IPaymentRepository
     public async Task<IEnumerable<PaymentMethod>> ListPaymentsAsync() =>
         await _appDbContext.PaymentMethods
             .AsNoTracking()
-            .Include(x=>x.CreditCard)
-            .Include(x=>x.DebitCard)
             .Include(x => x.PaymentMethodObjectValue)
             .ThenInclude(x => x.PaymentStatusObjectValue)
             .ToListAsync();

@@ -7,4 +7,6 @@ public sealed class Category(int id, string name, string imageUrl, bool isActive
     public string ImageUrl { get; private set; } = imageUrl;
     public bool IsActive { get; private set; } = isActive;
     public ICollection<Product> Products { get; } = [];
+
+    public void SetName(string name) => Name = name;
 }

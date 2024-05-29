@@ -27,6 +27,18 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
                     .IsRequired();
             });
 
+        builder
+            .OwnsOne(x => x.FlagsObjectValue, productData =>
+            {
+                productData.Property(pd => pd.IsDailyOffer)
+                .HasConversion<bool>();
+
+                productData.Property(pd => pd.IsBestSeller)
+                .HasConversion<bool>();
+
+                productData.Property(pd => pd.IsFavorite)
+                .HasConversion<bool>();
+            });
 
         builder
             .OwnsOne(x => x.WarrantyObjectValue, warranty =>
