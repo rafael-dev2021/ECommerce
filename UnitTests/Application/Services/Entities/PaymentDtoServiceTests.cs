@@ -6,6 +6,7 @@ using Domain.Entities.Payments;
 using Domain.Interfaces.Payments;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -227,8 +228,7 @@ public class PaymentDtoServiceTests
     public async Task ListPaymentsDtoAsync_ReturnsEmptyList_WhenPaymentsAreNull()
     {
         // Arrange
-        List<PaymentMethod>? nullPayments = null;
-        _paymentRepository.ListPaymentsAsync().Returns(nullPayments);
+        _paymentRepository.ListPaymentsAsync().ReturnsNull();
 
         // Act
         var result = await _paymentDtoService.ListPaymentsDtoAsync();
@@ -243,8 +243,7 @@ public class PaymentDtoServiceTests
     public async Task ListPaymentCreditCardsDtoAsync_ReturnsEmptyList_WhenCreditCardsAreNull()
     {
         // Arrange
-        List<CreditCard>? nullCreditCards = null;
-        _paymentRepository.ListPaymentCreditCardsAsync().Returns(nullCreditCards);
+        _paymentRepository.ListPaymentCreditCardsAsync().ReturnsNull();
 
         // Act
         var result = await _paymentDtoService.ListPaymentCreditCardsDtoAsync();
@@ -259,8 +258,7 @@ public class PaymentDtoServiceTests
     public async Task ListPaymentDebitCardsDtoAsync_ReturnsEmptyList_WhenDebitCardsAreNull()
     {
         // Arrange
-        List<DebitCard>? nullDebitCards = null;
-        _paymentRepository.ListPaymentDebitCardsAsync().Returns(nullDebitCards);
+        _paymentRepository.ListPaymentDebitCardsAsync().ReturnsNull();
 
         // Act
         var result = await _paymentDtoService.ListPaymentDebitCardsDtoAsync();
