@@ -37,6 +37,33 @@ public class PriceIsHigherThanServiceBooleansTests
     }
 
     [Fact]
+    public void IsPriceHigherThanTwoThousand_ShouldReturnFalseWhenProductDtoIsNull()
+    {
+        // Arrange
+        var service = new PriceIsHigherThanServiceBooleans { ProductDto = null };
+
+        // Act
+        var result = service.IsPriceHigherThanTwoThousand;
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsPriceHigherThanTwoThousand_ShouldReturnFalseWhenPriceObjectValueIsNull()
+    {
+        // Arrange
+        var productDto = new ProductDto { PriceObjectValue = null };
+        var service = new PriceIsHigherThanServiceBooleans { ProductDto = productDto };
+
+        // Act
+        var result = service.IsPriceHigherThanTwoThousand;
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
     public void IsPriceIsBetweenTwoHundredAndAThousand_ShouldReturnTrueWhenPriceIsBetweenTwoHundredAndAThousand()
     {
         // Arrange
@@ -79,6 +106,33 @@ public class PriceIsHigherThanServiceBooleansTests
     }
 
     [Fact]
+    public void IsPriceIsBetweenTwoHundredAndAThousand_ShouldReturnFalseWhenProductDtoIsNull()
+    {
+        // Arrange
+        var service = new PriceIsHigherThanServiceBooleans { ProductDto = null };
+
+        // Act
+        var result = service.IsPriceIsBetweenTwoHundredAndAThousand;
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsPriceIsBetweenTwoHundredAndAThousand_ShouldReturnFalseWhenPriceObjectValueIsNull()
+    {
+        // Arrange
+        var productDto = new ProductDto { PriceObjectValue = null };
+        var service = new PriceIsHigherThanServiceBooleans { ProductDto = productDto };
+
+        // Act
+        var result = service.IsPriceIsBetweenTwoHundredAndAThousand;
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
     public void IsPriceIsLowerThanOneHundred_ShouldReturnTrueWhenPriceIsLowerThanOneHundred()
     {
         // Arrange
@@ -97,6 +151,33 @@ public class PriceIsHigherThanServiceBooleansTests
     {
         // Arrange
         var productDto = new ProductDto { PriceObjectValue = new PriceDtoObjectValue(150.0m, 0m) };
+        var service = new PriceIsHigherThanServiceBooleans { ProductDto = productDto };
+
+        // Act
+        var result = service.IsPriceIsLowerThanOneHundred;
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsPriceIsLowerThanOneHundred_ShouldReturnFalseWhenProductDtoIsNull()
+    {
+        // Arrange
+        var service = new PriceIsHigherThanServiceBooleans { ProductDto = null };
+
+        // Act
+        var result = service.IsPriceIsLowerThanOneHundred;
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsPriceIsLowerThanOneHundred_ShouldReturnFalseWhenPriceObjectValueIsNull()
+    {
+        // Arrange
+        var productDto = new ProductDto { PriceObjectValue = null };
         var service = new PriceIsHigherThanServiceBooleans { ProductDto = productDto };
 
         // Act
