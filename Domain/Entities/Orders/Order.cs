@@ -11,9 +11,9 @@ public class Order
     public DateTime ConfirmedOrder { get; private set; }
     public DateTime DispatchedOrder { get; private set; }
     public DateTime RequestReceived { get; private set; }
-    public List<OrderDetail> OrderDetails { get; } = [];
-    public DeliveryAddress DeliveryAddress { get; set; } = new DeliveryAddress();
-    public UserDelivery UserDelivery { get; set; } = new UserDelivery();
+    public List<OrderDetail> OrderDetails { get; private set; } = [];
+    public DeliveryAddress DeliveryAddress { get; private set; } = new DeliveryAddress();
+    public UserDelivery UserDelivery { get; private set; } = new UserDelivery();
     public PaymentMethod? PaymentMethod { get; private set; }
 
 
@@ -31,5 +31,8 @@ public class Order
     }
 
     public void WhenConfirmedOrder() => ConfirmedOrder = DateTime.Now;
+    public void SetOrderDetails(List<OrderDetail> values) => OrderDetails = values;
+    public void SetDeliveryAddress(DeliveryAddress value) => DeliveryAddress = value;
+    public void SetUserDelivery(UserDelivery value) => UserDelivery = value;
     public void SetPaymentMethod(PaymentMethod paymentMethod) => PaymentMethod = paymentMethod;
 }

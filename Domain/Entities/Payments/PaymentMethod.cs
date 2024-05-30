@@ -4,8 +4,11 @@ namespace Domain.Entities.Payments;
 
 public class PaymentMethod : Payment
 {
-    public CreditCard CreditCard { get; } = new();
-    public DebitCard DebitCard { get; } = new();
+    public CreditCard CreditCard { get; private set; } = new();
+    public DebitCard DebitCard { get; private set; } = new();
+
+    public void SetCreditCard(CreditCard value) => CreditCard = value;
+    public void SetDebitCard(DebitCard value) => DebitCard = value;
 
     public override void DefaultPayment(EPaymentMethod ePaymentMethod)
     {
