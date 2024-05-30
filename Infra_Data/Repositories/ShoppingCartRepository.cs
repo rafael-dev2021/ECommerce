@@ -93,7 +93,9 @@ public class ShoppingCartRepository(AppDbContext appDbContext, IHttpContextAcces
             .SingleOrDefaultAsync(x => x.ProductId == product.Id && x.ShoppingCartId == ShoppingCartId);
 
         var quantities = 0;
-        if (removeItem?.Product == null) return quantities;
+
+        if (removeItem == null) return quantities;
+
         if (removeItem.Quantity > 1)
         {
             removeItem.SetQuantity(removeItem.Quantity - 1);
@@ -102,6 +104,7 @@ public class ShoppingCartRepository(AppDbContext appDbContext, IHttpContextAcces
         else
         {
             _appDbContext.ShoppingCartItems.Remove(removeItem);
+            quantities = 0;
         }
 
         await _appDbContext.SaveChangesAsync();

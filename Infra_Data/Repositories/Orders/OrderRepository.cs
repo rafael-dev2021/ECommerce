@@ -30,6 +30,7 @@ public class OrderRepository(
             .OrderBy(x => x.Id)
             .ToListAsync();
     }
+
     public IQueryable<Order> GetPagingListOrders(string filter)
     {
         var result = _appDbContext.Orders
