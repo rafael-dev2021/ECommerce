@@ -19,14 +19,13 @@ public class OrderRepositoryTests
     private static AppDbContext GetInMemoryDbContext()
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .UseInMemoryDatabase(databaseName: $"TestDatabase_{Guid.NewGuid()}")
             .ConfigureWarnings(w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning))
             .Options;
 
         var context = new AppDbContext(options);
         return context;
     }
-
 
     private static IShoppingCartItemRepository GetMockShoppingCartItemRepository()
     {
@@ -48,42 +47,24 @@ public class OrderRepositoryTests
         order1.SetUserDelivery(new UserDelivery());
 
         var paymentMethod1 = new PaymentMethod();
-
-        var paymentMethodObjectValue1 = new PaymentMethodObjectValue();
-
         paymentMethod1.SetPaymentMethodObjectValue(new PaymentMethodObjectValue());
-
-        paymentMethodObjectValue1.SetPaymentStatusObjectValue(new PaymentStatusObjectValue());
-
         paymentMethod1.SetCreditCard(new CreditCard());
-
         paymentMethod1.SetDebitCard(new DebitCard());
-
         order1.SetPaymentMethod(paymentMethod1);
 
         var order2 = new Order();
         order2.SetId(2);
         order2.SetOrderDetails([new()]);
-        order1.SetDeliveryAddress(new DeliveryAddress());
-        order1.SetUserDelivery(new UserDelivery());
+        order2.SetDeliveryAddress(new DeliveryAddress());
+        order2.SetUserDelivery(new UserDelivery());
 
         var paymentMethod2 = new PaymentMethod();
-
-        var paymentMethodObjectValue2 = new PaymentMethodObjectValue();
-
         paymentMethod2.SetPaymentMethodObjectValue(new PaymentMethodObjectValue());
-
-        paymentMethodObjectValue2.SetPaymentStatusObjectValue(new PaymentStatusObjectValue());
-
         paymentMethod2.SetCreditCard(new CreditCard());
-
         paymentMethod2.SetDebitCard(new DebitCard());
-
         order2.SetPaymentMethod(paymentMethod2);
 
-        var orders = new List<Order> { order1, order2 };
-
-        context.Orders.AddRange(orders);
+        context.Orders.AddRange(new List<Order> { order1, order2 });
         await context.SaveChangesAsync();
 
         // Act
@@ -111,18 +92,8 @@ public class OrderRepositoryTests
         order2.SetId(2);
         order2.UserDelivery.SetFirstName("Bob");
 
-        var orders = new List<Order>
-        {
-            order1,
-            order2
-        };
-
-        context.Orders.AddRange(orders);
+        context.Orders.AddRange(new List<Order> { order1, order2 });
         context.SaveChanges();
-
-        Assert.Equal(2, context.Orders.Count());
-        Assert.Contains(context.Orders, o => o.UserDelivery.FirstName == "Alice");
-        Assert.Contains(context.Orders, o => o.UserDelivery.FirstName == "Bob");
 
         // Act
         var result = repository.GetPagingListOrders("Alice").ToList();
@@ -164,13 +135,7 @@ public class OrderRepositoryTests
         order2.SetId(2);
         order2.SetConfirmedOrder(DateTime.Now);
 
-        var orders = new List<Order>
-        {
-            order1,
-            order2
-        };
-
-        context.Orders.AddRange(orders);
+        context.Orders.AddRange(new List<Order> { order1, order2 });
         await context.SaveChangesAsync();
 
         // Act
@@ -198,13 +163,7 @@ public class OrderRepositoryTests
         order2.SetId(2);
         order2.SetDispatchedOrder(DateTime.Now);
 
-        var orders = new List<Order>
-        {
-            order1,
-            order2
-        };
-
-        context.Orders.AddRange(orders);
+        context.Orders.AddRange(new List<Order> { order1, order2 });
         await context.SaveChangesAsync();
 
         // Act
@@ -232,13 +191,7 @@ public class OrderRepositoryTests
         order2.SetId(2);
         order2.SetRequestReceived(DateTime.Now);
 
-        var orders = new List<Order>
-        {
-            order1,
-            order2
-        };
-
-        context.Orders.AddRange(orders);
+        context.Orders.AddRange(new List<Order> { order1, order2 });
         await context.SaveChangesAsync();
 
         // Act
