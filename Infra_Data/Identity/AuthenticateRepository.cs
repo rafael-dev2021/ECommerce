@@ -12,9 +12,6 @@ public class AuthenticateRepository(
     UserManager<ApplicationUser> userManager,
     AppDbContext appDbContext) : IAuthenticateRepository
 {
-    private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
-    private readonly UserManager<ApplicationUser> _userManager = userManager;
-    private readonly AppDbContext _appDbContext = appDbContext;
     private readonly AuthenticateHelper _authenticateHelper = new(signInManager);
 
     private readonly RegisterHelper _registerHelper = new(
@@ -47,32 +44,32 @@ public class AuthenticateRepository(
 
     public async Task LogoutAsync()
     {
-        await _signInManager.SignOutAsync();
+        await signInManager.SignOutAsync();
     }
 
     public async Task<bool> ChangePasswordAsync(string email, string oldPassword, string newPassword)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await userManager.FindByEmailAsync(email);
         if (user == null) return false;
-        var changePasswordResult = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        var changePasswordResult = await userManager.ChangePasswordAsync(user, oldPassword, newPassword);
 
         return changePasswordResult.Succeeded;
     }
 
     public async Task<bool> ForgotPasswordAsync(string email, string newPassWord)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await userManager.FindByEmailAsync(email);
         if (user == null) return false;
 
-        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        var resetPasswordResult = await _userManager.ResetPasswordAsync(user, token, newPassWord);
+        var token = await userManager.GeneratePasswordResetTokenAsync(user);
+        var resetPasswordResult = await userManager.ResetPasswordAsync(user, token, newPassWord);
 
         return resetPasswordResult.Succeeded;
     }
 
     public async Task<SeedUserUpdate> GetUserProfileAsync(string userEmail)
     {
-        var user = await _userManager.FindByEmailAsync(userEmail);
+        var user = await userManager.FindByEmailAsync(userEmail);
 
         var userProfile = new SeedUserUpdate
         {
@@ -91,7 +88,7 @@ public class AuthenticateRepository(
         string lastName, string phone,
         DateTime birthDate, bool iSSubscribedToNewsletter)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await userManager.FindByEmailAsync(email);
         if (user == null)
         {
             return (false, "User not found.");
@@ -103,7 +100,7 @@ public class AuthenticateRepository(
         user.BirthDate = birthDate;
         user.IsSubscribedToNewsletter = iSSubscribedToNewsletter;
 
-        var result = await _userManager.UpdateAsync(user);
+        var result = await userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {
             return (false, "Failed to update profile.");
@@ -115,7 +112,7 @@ public class AuthenticateRepository(
 
     public async Task<bool> IsPhoneAlreadyUsed(string phone, string userId)
     {
-        return await _appDbContext
+        return await appDbContext
             .Users
             .AnyAsync(u => u.PhoneNumber == phone && u.Id != userId);
     }
