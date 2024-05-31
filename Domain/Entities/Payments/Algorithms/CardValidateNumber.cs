@@ -1,17 +1,17 @@
 ﻿namespace Domain.Entities.Payments.Algorithms;
 
-public class CardValidateNumber
+public abstract class CardValidateNumber
 {
     public static bool ValidateCardNumber(string creditCardNumber)
     {
         creditCardNumber = new string(creditCardNumber.Where(char.IsDigit).ToArray());
 
-        int sum = 0;
-        bool alternate = false;
+        var sum = 0;
+        var alternate = false;
 
-        for (int i = creditCardNumber.Length - 1; i >= 0; i--)
+        for (var i = creditCardNumber.Length - 1; i >= 0; i--)
         {
-            int digit = int.Parse(creditCardNumber[i].ToString());
+            var digit = int.Parse(creditCardNumber[i].ToString());
 
             if (alternate)
             {
