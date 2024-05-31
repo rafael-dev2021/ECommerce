@@ -10,36 +10,31 @@ namespace Application.Services.Entities;
 
 public class ShoppingCartItemDtoService(IShoppingCartItemRepository repository, IMapper mapper) : IShoppingCartItemDtoService
 {
-    private readonly IShoppingCartItemRepository _repository = repository;
-    private readonly IMapper _mapper = mapper;
-
     public async Task<IEnumerable<ShoppingCartItemDto>> GetShoppingCartItemsDtoAsync()
     {
-        var getCartItems = await _repository.GetShoppingCartItemsAsync();
+        var getCartItems = await repository.GetShoppingCartItemsAsync();
 
-        if (getCartItems == null || !getCartItems.Any()) return [];
-
-        return _mapper.Map<IEnumerable<ShoppingCartItemDto>>(getCartItems);
+        return !getCartItems.Any() ? [] : mapper.Map<IEnumerable<ShoppingCartItemDto>>(getCartItems);
     }
 
     public async Task<decimal> GetTotalAmountCartServiceAsync()
     {
-        return await _repository.GetTotalAmountCartAsync();
+        return await repository.GetTotalAmountCartAsync();
     }
 
     public async Task<int> GetTotalCartItemsServiceAsync()
     {
-        return await _repository.GetTotalCartItemsAsync();
+        return await repository.GetTotalCartItemsAsync();
     }
 
     public async Task RemoveItemServiceAsync(ProductDto productDto)
     {
         ProductDtoNull(productDto);
 
-        var product = _mapper.Map<Product>(productDto) ??
+        var product = mapper.Map<Product>(productDto) ??
             throw new ShoppingCartItemException("Error removing product.");
 
-        await _repository.RemoveItemAsync(product);
+        await repository.RemoveItemAsync(product);
     }
 
 
@@ -49,14 +44,14 @@ public class ShoppingCartItemDtoService(IShoppingCartItemRepository repository, 
 
         CategoryDtoNull(categoryDto);
 
-        var addProduct = _mapper.Map<Product>(productDto);
+        var addProduct = mapper.Map<Product>(productDto);
 
-        var addCategory = _mapper.Map<Category>(categoryDto);
+        var addCategory = mapper.Map<Category>(categoryDto);
 
         if (addProduct == null)
             throw new ShoppingCartItemException("Error adding product to cart.");
 
-        await _repository.AddItemToCartAsync(addProduct, addCategory);
+        await repository.AddItemToCartAsync(addProduct, addCategory);
     }
 
     public async Task RemoveItemCartServiceAsync(ProductDto productDto, CategoryDto categoryDto)
@@ -65,21 +60,21 @@ public class ShoppingCartItemDtoService(IShoppingCartItemRepository repository, 
 
         CategoryDtoNull(categoryDto);
 
-        var removeProduct = _mapper.Map<Product>(productDto);
+        var removeProduct = mapper.Map<Product>(productDto);
 
-        var removeCategory = _mapper.Map<Category>(categoryDto);
+        var removeCategory = mapper.Map<Category>(categoryDto);
 
         if (removeProduct == null)
             throw new ShoppingCartItemException("Error removing product.");
 
-        await _repository.RemoveItemToCartAsync(removeProduct, removeCategory);
+        await repository.RemoveItemToCartAsync(removeProduct, removeCategory);
     }
 
     public async Task ClearShoppingCartServiceAsync()
     {
         try
         {
-            await _repository.ClearShoppingCartAsync();
+            await repository.ClearShoppingCartAsync();
         }
         catch (Exception ex)
         {

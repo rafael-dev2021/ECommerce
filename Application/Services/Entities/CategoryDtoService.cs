@@ -10,15 +10,13 @@ namespace Application.Services.Entities;
 
 public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepository) : ICategoryDtoService
 {
-    private readonly IMapper _mapper = mapper;
-    private readonly ICategoryRepository _categoryRepository = categoryRepository;
     private const string Message = "An unexpected error occurred while processing the request.";
     private const string Error = "Error";
 
     public async Task<IEnumerable<CategoryDto>> GetEntitiesAsync()
     {
-        var categoriesDto = await _categoryRepository.GetEntitiesAsync();
-        return !categoriesDto.Any() ? [] : _mapper.Map<IEnumerable<CategoryDto>>(categoriesDto);
+        var categoriesDto = await categoryRepository.GetEntitiesAsync();
+        return !categoriesDto.Any() ? [] : mapper.Map<IEnumerable<CategoryDto>>(categoriesDto);
     }
 
     public async Task<CategoryDto> GetByIdAsync(int? id)
@@ -27,7 +25,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
 
         try
         {
-            var getCategoryId = await _categoryRepository.GetByIdAsync(id) ??
+            var getCategoryId = await categoryRepository.GetByIdAsync(id) ??
                 throw new RequestException(new RequestError
                 {
                     Message = $"Category with ID {id} not found.",
@@ -35,7 +33,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                     Response = true,
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 });
-            return _mapper.Map<CategoryDto>(getCategoryId);
+            return mapper.Map<CategoryDto>(getCategoryId);
         }
         catch (Exception ex)
         {
@@ -49,7 +47,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
 
         try
         {
-            var addCategoryDto = _mapper.Map<Category>(entity) ??
+            var addCategoryDto = mapper.Map<Category>(entity) ??
                 throw new RequestException(new RequestError
                 {
                     Message = "Error when adding category.",
@@ -57,7 +55,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                     Response = true,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 });
-            await _categoryRepository.CreateAsync(addCategoryDto);
+            await categoryRepository.CreateAsync(addCategoryDto);
         }
         catch (Exception ex)
         {
@@ -71,7 +69,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
 
         try
         {
-            var updateCategory = _mapper.Map<Category>(entity) ??
+            var updateCategory = mapper.Map<Category>(entity) ??
                 throw new RequestException(new RequestError
                 {
                     Message = $"Error when updating the category",
@@ -79,7 +77,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                     Response = true,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 });
-            await _categoryRepository.UpdateAsync(updateCategory);
+            await categoryRepository.UpdateAsync(updateCategory);
         }
         catch (Exception ex)
         {
@@ -93,7 +91,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
 
         try
         {
-            var deleteCategory = await _categoryRepository.GetByIdAsync(id) ??
+            var deleteCategory = await categoryRepository.GetByIdAsync(id) ??
                 throw new RequestException(new RequestError
                 {
                     Message = "Error when removing category.",
@@ -101,7 +99,7 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
                     Response = true,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 });
-            await _categoryRepository.DeleteAsync(deleteCategory);
+            await categoryRepository.DeleteAsync(deleteCategory);
         }
         catch (Exception ex)
         {
@@ -111,10 +109,10 @@ public class CategoryDtoService(IMapper mapper, ICategoryRepository categoryRepo
 
     public async Task<List<CategoryWithProductCountDto>> GetCategoriesWithProductDtoCountAsync()
     {
-        var categoriesWithProductCount = await _categoryRepository.GetCategoriesWithProductCountAsync();
+        var categoriesWithProductCount = await categoryRepository.GetCategoriesWithProductCountAsync();
 
         return categoriesWithProductCount.Count == 0 ? [] : 
-            _mapper.Map<List<CategoryWithProductCountDto>>(categoriesWithProductCount);
+            mapper.Map<List<CategoryWithProductCountDto>>(categoriesWithProductCount);
     }
 
     public static void CategoryIdNull(int? id)
