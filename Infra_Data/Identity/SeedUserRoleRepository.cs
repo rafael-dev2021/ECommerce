@@ -35,7 +35,7 @@ public class SeedUserRoleRepository(RoleManager<IdentityRole> roleManager, UserM
                 NormalizedUserName = email.ToUpper(),
                 FirstName = "Rafael",
                 LastName = "Silva",
-                BirthDate = new DateTime(2000, 02, 20),
+                BirthDate = new DateTime(2000, 02, 20, 0, 0, 0,DateTimeKind.Utc),
                 Ssn = "123-45-6789",
                 PhoneNumber = "161-240-7675",
                 EmailConfirmed = true,
