@@ -11,12 +11,11 @@ public class OrderRepository(
     AppDbContext appDbContext, 
     IShoppingCartItemRepository shoppingCartItemRepository) : IOrderRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
     private readonly OrderRepositoryHelper _orderRepositoryHelper = new(appDbContext, shoppingCartItemRepository);
 
     public async Task<IEnumerable<Order>> GetEntitiesAsync()
     {
-        return await _appDbContext.Orders
+        return await appDbContext.Orders
             .AsNoTracking()
             .Include(x => x.OrderDetails)
             .ThenInclude(x => x.Product)
@@ -33,7 +32,7 @@ public class OrderRepository(
 
     public IQueryable<Order> GetPagingListOrders(string filter)
     {
-        var result = _appDbContext.Orders
+        var result = appDbContext.Orders
             .AsNoTracking()
             .Include(x => x.DeliveryAddress)
             .Include(x => x.UserDelivery)
@@ -52,7 +51,7 @@ public class OrderRepository(
 
     public async Task<IEnumerable<OrderDetail>> GetOrdersDetailsAsync()
     {
-        return await _appDbContext.OrdersDetails
+        return await appDbContext.OrdersDetails
             .AsNoTracking()
             .Include(x => x.Product)
             .Include(x => x.Order)
@@ -80,7 +79,7 @@ public class OrderRepository(
 
     public async Task<Order> GetByIdAsync(int? id)
     {
-        return await _appDbContext.Orders
+        return await appDbContext.Orders
             .Include(x => x.OrderDetails)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -88,53 +87,52 @@ public class OrderRepository(
 
     public async Task CreateOrder(Order order, EPaymentMethod ePaymentMethod)
     {
-        using var transaction = _appDbContext.Database.BeginTransaction();
+        await using var transaction = await appDbContext.Database.BeginTransactionAsync();
 
         try
         {
-            _orderRepositoryHelper.ConfirmOrder(order, ePaymentMethod);
+            OrderRepositoryHelper.ConfirmOrder(order, ePaymentMethod);
 
             await _orderRepositoryHelper.SaveMainOrder(order);
 
             await _orderRepositoryHelper.ProcessShoppingCartItems(order);
 
-            await _appDbContext.SaveChangesAsync();
+            await appDbContext.SaveChangesAsync();
 
-            transaction.Commit();
+            await transaction.CommitAsync();
         }
         catch (Exception ex)
         {
-            transaction.Rollback();
+            await transaction.RollbackAsync();
             throw new Exception("There was an error processing the request.", ex);
         }
     }
 
     public async Task<Order> UpdateAsync(Order order)
     {
-        var existingOrder = await _appDbContext.Orders.FindAsync(order.Id);
+        var existingOrder = await appDbContext.Orders.FindAsync(order.Id);
 
-        if (existingOrder != null)
-        {
-            existingOrder
-                .Update(order.DispatchedOrder, order.RequestReceived);
+        if (existingOrder == null) return null;
+        
+        existingOrder
+            .Update(order.DispatchedOrder, order.RequestReceived);
 
-            existingOrder.DeliveryAddress
-                .Update(order.DeliveryAddress.Address,
-                        order.DeliveryAddress.Complement,
-                        order.DeliveryAddress.Neighborhood);
+        existingOrder.DeliveryAddress
+            .Update(order.DeliveryAddress.Address,
+                order.DeliveryAddress.Complement,
+                order.DeliveryAddress.Neighborhood);
 
-            existingOrder.UserDelivery
-                .Update(order.UserDelivery.Phone, order.UserDelivery.Email);
+        existingOrder.UserDelivery
+            .Update(order.UserDelivery.Phone, order.UserDelivery.Email);
 
-            await _appDbContext.SaveChangesAsync();
-        }
+        await appDbContext.SaveChangesAsync();
         return existingOrder;
     }
 
     public async Task<Order> DeleteAsync(Order order)
     {
-        _appDbContext.Remove(order);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Remove(order);
+        await appDbContext.SaveChangesAsync();
         return order;
     }
     

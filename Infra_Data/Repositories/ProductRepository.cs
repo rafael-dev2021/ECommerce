@@ -7,11 +7,9 @@ namespace Infra_Data.Repositories;
 
 public class ProductRepository(AppDbContext appDbContext) : IProductRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-
     public async Task<IEnumerable<Product>> GetProductsAsync()
     {
-        return await _appDbContext.Products
+        return await appDbContext.Products
             .AsNoTracking()
             .Include(review => review.Reviews)
             .Include(category => category.Category)
@@ -19,12 +17,11 @@ public class ProductRepository(AppDbContext appDbContext) : IProductRepository
     }
     public async Task<Product> GetByIdAsync(int? id)
     {
-        return await _appDbContext.Products
+        return await appDbContext.Products
            .Include(review => review.Reviews)
            .Include(category => category.Category)
            .FirstOrDefaultAsync(x => x.Id == id);
     }
-
 
     public async Task<IEnumerable<Product>> GetProductsFavoritesAsync()
     {
@@ -57,7 +54,7 @@ public class ProductRepository(AppDbContext appDbContext) : IProductRepository
     }
     public async Task<IEnumerable<Product>> GetProductsByCategoriesAsync(string categoryStr)
     {
-        return await (_appDbContext.Products ?? throw new InvalidOperationException())
+        return await (appDbContext.Products ?? throw new InvalidOperationException())
              .AsNoTracking()
              .Where(category => category.Category != null && category.Category.Name.Equals(categoryStr))
              .Include(review => review.Reviews)
@@ -67,7 +64,7 @@ public class ProductRepository(AppDbContext appDbContext) : IProductRepository
 
     public async Task<IEnumerable<Product>> GetSearchProductAsync(string keyword)
     {
-        var products = await _appDbContext.Products
+        var products = await appDbContext.Products
             .AsNoTracking()
             .Include(product => product.SpecificationObjectValue)
             .Include(x => x.Category)

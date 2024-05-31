@@ -2,14 +2,14 @@
 
 public class ShoppingCartItem
 {
-    public int Id { get; private set; }
-    public int ProductId { get; private set; }
+    public int Id { get;  set; }
+    public int ProductId { get;  set; }
     public Product? Product { get; set; }
     public int CategoryId { get; private set; }
     public Category? Category { get; set; }
-    public int Quantity { get; private set; }
-    public string ShoppingCartId { get; private set; } = string.Empty;
-    public string UserId { get; private set; } = string.Empty;
+    public int Quantity { get;  set; }
+    public string ShoppingCartId { get;  set; } = string.Empty;
+    public string UserId { get;  set; } = string.Empty;
 
     public void SetId(int id) => Id = id;
     public void SetProductId(int productId) => ProductId = productId;
