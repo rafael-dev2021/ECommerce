@@ -2,5 +2,5 @@
 
 namespace Domain.Interfaces;
 
-public interface IReviewRepository : IGenericCRUDRepository<Review>
+public interface IReviewRepository : IGenericCrudRepository<Review>
 { }

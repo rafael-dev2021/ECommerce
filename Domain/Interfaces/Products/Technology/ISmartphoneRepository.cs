@@ -2,5 +2,5 @@
 
 namespace Domain.Interfaces.Products.Technology;
 
-public interface ISmartphoneRepository : IGenericCRUDRepository<Smartphone>
+public interface ISmartphoneRepository : IGenericCrudRepository<Smartphone>
 { }

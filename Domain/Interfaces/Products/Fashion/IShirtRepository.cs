@@ -2,5 +2,5 @@
 
 namespace Domain.Interfaces.Products.Fashion;
 
-public interface IShirtRepository : IGenericCRUDRepository<Shirt>
+public interface IShirtRepository : IGenericCrudRepository<Shirt>
 { }

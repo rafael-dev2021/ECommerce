@@ -2,5 +2,5 @@
 
 namespace Domain.Interfaces.Products.Technology;
 
-public interface IGameRepository : IGenericCRUDRepository<Game>
+public interface IGameRepository : IGenericCrudRepository<Game>
 { }

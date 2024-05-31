@@ -3,7 +3,7 @@ using Domain.Entities.Payments.Enums;
 
 namespace Domain.Interfaces;
 
-public interface IOrderRepository : IGenericCRUDRepository<Order>
+public interface IOrderRepository : IGenericCrudRepository<Order>
 {
     IQueryable<Order> GetPagingListOrders(string filter);
     Task<IEnumerable<OrderDetail>> GetOrdersDetailsAsync();

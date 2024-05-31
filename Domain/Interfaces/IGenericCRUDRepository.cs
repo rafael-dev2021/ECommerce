@@ -1,6 +1,6 @@
 ﻿namespace Domain.Interfaces;
 
-public interface IGenericCRUDRepository<T> where T : class
+public interface IGenericCrudRepository<T> where T : class
 {
     Task<IEnumerable<T>> GetEntitiesAsync();
     Task<T> GetByIdAsync(int? id);

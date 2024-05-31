@@ -2,5 +2,5 @@
 
 namespace Domain.Interfaces.Products.Fashion;
 
-public interface IShoesRepository : IGenericCRUDRepository<Shoe>
+public interface IShoesRepository : IGenericCrudRepository<Shoe>
 { }
