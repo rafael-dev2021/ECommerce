@@ -11,5 +11,4 @@ public interface IPaymentRepository
     Task<PaymentMethod> GetByIdPaymentAsync(int? id);
     Task<CreditCard> GetByIdPaymentCreditCardAsync(Guid? id);
     Task<DebitCard> GetByIdPaymentDebitCardAsync(Guid? id);
-    //Task<IEnumerable<Payment>> ListPaymentBankSlipAsync();
 }
