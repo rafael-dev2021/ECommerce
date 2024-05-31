@@ -10,7 +10,7 @@ public class OrderExceptionTests
     public void OrderException_WhenInitializedWithMessage_ShouldContainMessage()
     {
         // Arrange
-        string expectedMessage = "Test exception message";
+        const string expectedMessage = "Test exception message";
 
         // Act
         var exception = new OrderException(expectedMessage);
@@ -23,7 +23,7 @@ public class OrderExceptionTests
     public void OrderException_WhenInitializedWithMessageAndInnerException_ShouldContainMessageAndInnerException()
     {
         // Arrange
-        string expectedMessage = "Test exception message";
+        const string expectedMessage = "Test exception message";
         var innerException = new Exception("Inner exception message");
 
         // Act
