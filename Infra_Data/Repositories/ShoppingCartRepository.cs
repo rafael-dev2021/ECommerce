@@ -22,32 +22,13 @@ public class ShoppingCartRepository(AppDbContext appDbContext, IHttpContextAcces
         }
     }
 
-    public IEnumerable<ShoppingCartItem> ShoppingCartItems
+    public async Task<IEnumerable<ShoppingCartItem>> GetShoppingCartItemsAsync()
     {
-        get
-        {
-            return appDbContext.ShoppingCartItems
-                .Include(x => x.Product)
-                .Include(x => x.Category)
-                .Where(x => x.ShoppingCartId == ShoppingCartId)
-                .ToList();
-        }
-        set
-        {
-            var existingItems = appDbContext.ShoppingCartItems
-                .Where(x => x.ShoppingCartId == ShoppingCartId)
-                .ToList();
-            appDbContext.ShoppingCartItems.RemoveRange(existingItems);
-
-            appDbContext.ShoppingCartItems.AddRange(value);
-
-            appDbContext.SaveChanges();
-        }
-    }
-
-    public Task<IEnumerable<ShoppingCartItem>> GetShoppingCartItemsAsync()
-    {
-        return Task.FromResult(ShoppingCartItems);
+        return await appDbContext.ShoppingCartItems
+            .Include(x => x.Product)
+            .Include(x => x.Category)
+            .Where(x => x.ShoppingCartId == ShoppingCartId)
+            .ToListAsync();
     }
 
     public async Task AddItemToCartAsync(Product product, Category category)

@@ -12,6 +12,4 @@ public interface IShoppingCartItemRepository
     Task<int> GetTotalCartItemsAsync();
     Task<decimal> GetTotalAmountCartAsync();
     Task ClearShoppingCartAsync();
-    IEnumerable<ShoppingCartItem> ShoppingCartItems { get; set; }
-    string ShoppingCartId { get; }
 }
