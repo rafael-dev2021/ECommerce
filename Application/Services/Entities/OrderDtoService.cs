@@ -18,21 +18,14 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
     {
         var ordersDto = await _orderRepository.GetEntitiesAsync();
 
-        if (ordersDto == null || !ordersDto.Any()) return [];
-
-        return _mapper.Map<IEnumerable<OrderDto>>(ordersDto);
+        return !ordersDto.Any() ? [] : _mapper.Map<IEnumerable<OrderDto>>(ordersDto);
     }
 
     public IQueryable<OrderDto> GetPagingListOrdersDto(string filter)
     {
         var ordersDto = _orderRepository.GetPagingListOrders(filter);
 
-        if (ordersDto == null || !ordersDto.Any())
-        {
-            return Enumerable.Empty<OrderDto>().AsQueryable();
-        }
-
-        return _mapper.ProjectTo<OrderDto>(ordersDto.AsQueryable());
+        return !ordersDto.Any() ? Enumerable.Empty<OrderDto>().AsQueryable() : _mapper.ProjectTo<OrderDto>(ordersDto.AsQueryable());
     }
 
     public async Task<OrderDto> GetByIdAsync(int? id)
@@ -100,16 +93,14 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
     {
         var ordersDto = await _orderRepository.GetOrdersDetailsAsync();
 
-        if (ordersDto == null || !ordersDto.Any()) return [];
-
-        return _mapper.Map<IEnumerable<OrderDetailDto>>(ordersDto);
+        return !ordersDto.Any() ? [] : _mapper.Map<IEnumerable<OrderDetailDto>>(ordersDto);
     }
 
     public async Task<IEnumerable<OrderDto>> FindByOrderConfirmDateDtoAsync(DateTime? minDate, DateTime? maxDate)
     {
         var orders = await _orderRepository.FindByOrderConfirmDateAsync(minDate, maxDate);
 
-        if (orders == null || !orders.Any()) return [];
+        if (!orders.Any()) return [];
 
         var orderDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
 
@@ -120,7 +111,7 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
     {
         var orders = await _orderRepository.FindByOrderDispatchedDateAsync(minDate, maxDate);
 
-        if (orders == null || !orders.Any()) return [];
+        if (!orders.Any()) return [];
 
         var orderDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
 
@@ -131,7 +122,7 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
     {
         var orders = await _orderRepository.FindByOrderRequestReceivedDateAsync(minDate, maxDate);
 
-        if (orders == null || !orders.Any()) return [];
+        if (!orders.Any()) return [];
 
         var orderDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
 
@@ -157,25 +148,17 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
 
     public async Task<decimal> Average()
     {
-        decimal totalSum = 0;
-
         var orders = await GetOrdersDtoAsync();
 
-        if (orders != null)
         {
-            int totalCount = orders.Count();
-            foreach (var item in orders)
-            {
-                totalSum += item.TotalOrder;
-            }
+            var orderDtos = orders as OrderDto[] ?? orders.ToArray();
+            var totalCount = orderDtos.Length;
+            var totalSum = orderDtos.Sum(item => item.TotalOrder);
 
-            if (totalCount > 0)
-            {
-                decimal average = totalSum / totalCount;
-                return average;
-            }
+            if (totalCount <= 0) return 0;
+            var average = totalSum / totalCount;
+            return average;
         }
-        return 0;
     }
 
     public static void OrderDtoIdNull(int? id)
