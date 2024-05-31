@@ -8,11 +8,11 @@ public class OrderDetail
     public int Quantity { get; private set; }
     public decimal Price { get; private set; }
     public int ProductId { get; private set; }
-    public Product? Product { get; private set; }
+    public Product? Product { get; init; }
     public int OrderId { get; private set; }
-    public Order? Order { get; private set; }
+    public Order? Order { get; init; }
     public int PaymentMethodId { get; private set; }
-    public PaymentMethod? PaymentMethod { get; private set; }
+    public PaymentMethod? PaymentMethod { get; init; } 
 
     public OrderDetail() { }
 
@@ -28,9 +28,4 @@ public class OrderDetail
     public void SetId(int id) => Id = id;
     public void SetQuantity(int quantity) => Quantity = quantity;
     public void SetPrice(decimal price) => Price = price;
-    public void SetProductId(int productId) => ProductId = productId;
-    public void SetProduct(Product value) => Product = value;
-    public void SetOrderId(int orderId) => OrderId = orderId;
-    public void SetOrder(Order value) => Order = value;
-    public void SetPaymentMethodId(int paymentMethodId) => PaymentMethodId = paymentMethodId;
 }
