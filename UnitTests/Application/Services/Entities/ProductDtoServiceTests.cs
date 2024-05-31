@@ -12,7 +12,6 @@ namespace UnitTests.Application.Services.Entities;
 
 public class ProductDtoServiceTests
 {
-
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
     private readonly ProductDtoService _productDtoService;
@@ -25,17 +24,21 @@ public class ProductDtoServiceTests
     }
 
     [Fact]
-    [Test]
     public async Task GetProductsDtoAsync_ReturnsMappedProducts_WhenProductsExist()
     {
         // Arrange
         var products = new List<Product> { new() };
-        var productDtos = new List<ProductDto> { new() {
-            Id = 1,
-            Name = "Test Product",
-            Description = "Description",
-            ImagesUrl= [],
-            Stock = 1} };
+        var productDtos = new List<ProductDto>
+        {
+            new()
+            {
+                Id = 1,
+                Name = "Test Product",
+                Description = "Description",
+                ImagesUrl = [],
+                Stock = 1
+            }
+        };
 
         _mediator.Send(Arg.Any<ProductsQueries>()).Returns(products);
         _mapper.Map<IEnumerable<ProductDto>>(products).Returns(productDtos);
@@ -45,22 +48,27 @@ public class ProductDtoServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Equal(productDtos, result);
+        var collection = result as ProductDto[] ?? result.ToArray();
+        Assert.Single(collection);
+        Assert.Equal(productDtos, collection);
     }
 
     [Fact]
-    [Test]
     public async Task GetProductsDtoFavoritesAsync_ReturnsMappedProducts_WhenProductsExist()
     {
         // Arrange
         var favoriteProducts = new List<Product> { new() };
-        var favoriteProductDtos = new List<ProductDto> { new() {
-            Id = 1,
-            Name = "Test Product",
-            Description = "Description",
-            ImagesUrl= [],
-            Stock = 1} };
+        var favoriteProductDtos = new List<ProductDto>
+        {
+            new()
+            {
+                Id = 1,
+                Name = "Test Product",
+                Description = "Description",
+                ImagesUrl = [],
+                Stock = 1
+            }
+        };
 
         _mediator.Send(Arg.Any<ProductsFavoritesQueries>()).Returns(favoriteProducts);
         _mapper.Map<IEnumerable<ProductDto>>(favoriteProducts).Returns(favoriteProductDtos);
@@ -70,13 +78,13 @@ public class ProductDtoServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Equal(favoriteProductDtos, result);
+        var productDtos = result as ProductDto[] ?? result.ToArray();
+        Assert.Single(productDtos);
+        Assert.Equal(favoriteProductDtos, productDtos);
     }
 
 
     [Fact]
-    [Test]
     public async Task GetProductsDtoDailyOffersAsync_ReturnsMappedProducts_WhenProductsExist()
     {
         // Arrange
@@ -91,12 +99,12 @@ public class ProductDtoServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Equal(dailyOfferProductDtos, result);
+        var productDtos = result as ProductDto[] ?? result.ToArray();
+        Assert.Single(productDtos);
+        Assert.Equal(dailyOfferProductDtos, productDtos);
     }
 
     [Fact]
-    [Test]
     public async Task GetProductsDtoBestSellersAsync_ReturnsMappedProducts_WhenProductsExist()
     {
         // Arrange
@@ -111,17 +119,17 @@ public class ProductDtoServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Equal(bestSellerProductDtos, result);
+        var productDtos = result as ProductDto[] ?? result.ToArray();
+        Assert.Single(productDtos);
+        Assert.Equal(bestSellerProductDtos, productDtos);
     }
 
     [Fact]
-    [Test]
     public async Task GetProductsDtoByCategoriesAsync_ReturnsMappedProducts_WhenProductsExist()
     {
         // Arrange
-        var category = "Electronics";
-        var productsByCategory = new List<Product> { new(1, "Category Productt", "Description", [], 1, 1) };
+        const string category = "Electronics";
+        var productsByCategory = new List<Product> { new(1, "Category Product", "Description", [], 1, 1) };
         var productDtosByCategory = new List<ProductDto> { new() { Id = 1, Name = "Category Product" } };
 
         _mediator.Send(Arg.Any<ProductByCategoryQueries>()).Returns(productsByCategory);
@@ -132,16 +140,16 @@ public class ProductDtoServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Equal(productDtosByCategory, result);
+        var productDtos = result as ProductDto[] ?? result.ToArray();
+        Assert.Single(productDtos);
+        Assert.Equal(productDtosByCategory, productDtos);
     }
 
     [Fact]
-    [Test]
     public async Task GetSearchProductsDtoAsync_ReturnsMappedProducts_WhenProductsExist()
     {
         // Arrange
-        var keyword = "Test";
+        const string keyword = "Test";
         var searchProducts = new List<Product> { new(1, "Search Productt", "Description", [], 1, 1) };
         var searchProductDtos = new List<ProductDto> { new() { Id = 1, Name = "Search Product" } };
 
@@ -153,36 +161,38 @@ public class ProductDtoServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Equal(searchProductDtos, result);
+        var productDtos = result as ProductDto[] ?? result.ToArray();
+        Assert.Single(productDtos);
+        Assert.Equal(searchProductDtos, productDtos);
     }
 
-    [Fact]
-    [Test]
-    public async Task GetByIdAsync_ReturnsMappedProduct_WhenProductExists()
+    public class GetByIdAsyncTests : ProductDtoServiceTests
     {
-        // Arrange
-        var productId = 1;
-        var product = new Product(1, "Test Product", "Description", [], 1, 1);
-        var productDto = new ProductDto { Id = 1, Name = "Test Product" };
+        [Fact]
+        public async Task GetByIdAsync_ReturnsMappedProduct_WhenProductExists()
+        {
+            // Arrange
+            var productId = 1;
+            var product = new Product(1, "Test Product", "Description", [], 1, 1);
+            var productDto = new ProductDto { Id = 1, Name = "Test Product" };
 
-        _mediator.Send(Arg.Any<GetByIdProductQuery>()).Returns(product);
-        _mapper.Map<ProductDto>(product).Returns(productDto);
+            _mediator.Send(Arg.Any<GetByIdProductQuery>()).Returns(product);
+            _mapper.Map<ProductDto>(product).Returns(productDto);
 
-        // Act
-        var result = await _productDtoService.GetByIdAsync(productId);
+            // Act
+            var result = await _productDtoService.GetByIdAsync(productId);
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(productDto, result);
-    }
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(productDto, result);
+        }
 
-    [Fact]
-    [Test]
-    public async Task GetByIdAsync_ThrowsArgumentException_WhenIdIsNullOrZero()
-    {
-        // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => _productDtoService.GetByIdAsync(null));
-        await Assert.ThrowsAsync<ArgumentException>(() => _productDtoService.GetByIdAsync(0));
+        [Fact]
+        public async Task GetByIdAsync_ThrowsArgumentException_WhenIdIsNullOrZero()
+        {
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(() => _productDtoService.GetByIdAsync(null));
+            await Assert.ThrowsAsync<ArgumentException>(() => _productDtoService.GetByIdAsync(0));
+        }
     }
 }
