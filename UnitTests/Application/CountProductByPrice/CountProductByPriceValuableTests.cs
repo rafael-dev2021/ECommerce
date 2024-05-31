@@ -22,9 +22,9 @@ public class CountProductByPriceValuableTests
     public void CountProductByPriceValuable_ShouldSetValuesCorrectly()
     {
         // Arrange
-        var countPriceIsHigherThanTwoThousand = 10;
-        var countPriceIsBetweenTwoHundredAndAThousand = 20;
-        var countPriceIsLowerThanOneHundred = 30;
+        const int countPriceIsHigherThanTwoThousand = 10;
+        const int countPriceIsBetweenTwoHundredAndAThousand = 20;
+        const int countPriceIsLowerThanOneHundred = 30;
 
         // Act
         var countProductByPriceValuable = new CountProductByPriceValuable

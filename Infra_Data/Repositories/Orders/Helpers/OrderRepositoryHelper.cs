@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Domain.Entities;
 using Domain.Entities.Cart;
 using Domain.Entities.Orders;
 using Domain.Entities.Payments.Enums;
@@ -9,17 +10,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Infra_Data.Repositories.Orders.Helpers;
 
-public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemRepository shoppingCartItemRepository)
+public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemRepository shoppingCartItemRepository) 
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-    private readonly IShoppingCartItemRepository _shoppingCartItemRepository = shoppingCartItemRepository;
-
     public async Task<IEnumerable<Order>> FindOrdersByDateAsync(
         DateTime? minDate,
         DateTime? maxDate,
         Expression<Func<Order, DateTime>> datePropertySelector)
     {
-        return await _appDbContext.Orders
+        return await appDbContext.Orders
             .AsNoTracking()
             .Include(o => o.OrderDetails)
             .ThenInclude(p => p.Product)
@@ -35,8 +33,7 @@ public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemR
             .ToListAsync();
     }
 
-
-    public void ConfirmOrder(Order order, EPaymentMethod ePaymentMethod)
+    public static void ConfirmOrder(Order order, EPaymentMethod ePaymentMethod)
     {
         order.WhenConfirmedOrder();
         order.PaymentMethod?.DefaultPayment(ePaymentMethod);
@@ -50,13 +47,13 @@ public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemR
 
     public async Task SaveMainOrder(Order order)
     {
-        _appDbContext.Add(order);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Add(order);
+        await appDbContext.SaveChangesAsync();
     }
 
     public async Task ProcessShoppingCartItems(Order order)
     {
-        var cartItems = await _shoppingCartItemRepository.GetShoppingCartItemsAsync();
+        var cartItems = await shoppingCartItemRepository.GetShoppingCartItemsAsync();
 
         foreach (var cartItem in cartItems)
         {
@@ -66,25 +63,46 @@ public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemR
 
     public async Task ProcessCartItem(Order order, ShoppingCartItem cartItem)
     {
-        var product = await _appDbContext.Products.FindAsync(cartItem.Product.Id);
+        var product = await GetProductById(cartItem.Product?.Id ?? cartItem.ProductId);
 
-        if (product.Stock >= cartItem.Quantity)
-        {
-            product.SetStock(product.Stock - cartItem.Quantity);
-            var orderDetails = new OrderDetail
-            (
-                cartItem.Quantity,
-                cartItem.Product.PriceObjectValue.Price,
-                order.Id,
-                cartItem.Product.Id,
-                order.PaymentMethod.Id
-            );
-
-            _appDbContext.OrdersDetails.Add(orderDetails);
-        }
-        else
+        if (product.Stock < cartItem.Quantity)
         {
             throw new Exception("Product stock not available.");
         }
+
+        ReduceProductStock(product, cartItem.Quantity);
+        await CreateOrderDetail(order, cartItem);
+    }
+
+    public async Task<Product> GetProductById(int productId)
+    {
+        var product = await appDbContext.Products.FindAsync(productId);
+        if (product == null)
+        {
+            throw new Exception("Product not found.");
+        }
+
+        return product;
+    }
+
+    private static void ReduceProductStock(Product product, int quantity)
+    {
+        product.SetStock(product.Stock - quantity);
+    }
+
+    private async Task CreateOrderDetail(Order order, ShoppingCartItem cartItem)
+    {
+        var orderDetails = new OrderDetail
+        (
+            cartItem.Quantity,
+            cartItem.Product.PriceObjectValue.Price,
+            order.Id,
+            cartItem.Product.Id,
+            order.PaymentMethod.Id
+        );
+
+        appDbContext.OrdersDetails.Add(orderDetails);
+
+        await appDbContext.SaveChangesAsync();
     }
 }

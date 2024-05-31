@@ -10,7 +10,7 @@ public class CalculateDiscountValuableTests
     public void CalculateDiscountValuable_SetDiscountPercentage_ShouldSetCorrectValue()
     {
         // Arrange
-        decimal expectedDiscountPercentage = 10.5m;
+        const decimal expectedDiscountPercentage = 10.5m;
         var calculateDiscountValuable = new CalculateDiscountValuable
         {
             // Act
@@ -25,11 +25,12 @@ public class CalculateDiscountValuableTests
     public void CalculateDiscountValuable_SetInTwelveInstallmentWithoutInterest_ShouldSetCorrectValue()
     {
         // Arrange
-        decimal expectedValue = 500m;
-        var calculateDiscountValuable = new CalculateDiscountValuable();
-
-        // Act
-        calculateDiscountValuable.InTwelveInstallmentWithoutInterest = expectedValue;
+        const decimal expectedValue = 500m;
+        var calculateDiscountValuable = new CalculateDiscountValuable
+        {
+            // Act
+            InTwelveInstallmentWithoutInterest = expectedValue
+        };
 
         // Assert
         Assert.Equal(expectedValue, calculateDiscountValuable.InTwelveInstallmentWithoutInterest);
@@ -39,11 +40,12 @@ public class CalculateDiscountValuableTests
     public void CalculateDiscountValuable_SetInThreeInstallmentWithInterest_ShouldSetCorrectValue()
     {
         // Arrange
-        decimal expectedValue = 200m;
-        var calculateDiscountValuable = new CalculateDiscountValuable();
-
-        // Act
-        calculateDiscountValuable.InThreeInstallmentWithInterest = expectedValue;
+        const decimal expectedValue = 200m;
+        var calculateDiscountValuable = new CalculateDiscountValuable
+        {
+            // Act
+            InThreeInstallmentWithInterest = expectedValue
+        };
 
         // Assert
         Assert.Equal(expectedValue, calculateDiscountValuable.InThreeInstallmentWithInterest);
@@ -53,7 +55,7 @@ public class CalculateDiscountValuableTests
     public void CalculateDiscountValuable_SetInSixInstallmentWithoutInterest_ShouldSetCorrectValue()
     {
         // Arrange
-        decimal expectedValue = 400m;
+        const decimal expectedValue = 400m;
         var calculateDiscountValuable = new CalculateDiscountValuable
         {
             // Act

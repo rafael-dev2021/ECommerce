@@ -28,16 +28,16 @@ public class AuthenticateRepository(
         string lastName, string phone, string ssn, DateTime birthDate)
     {
         var validationErrors = await _registerHelper.ValidateAsync(email, ssn, phone);
-        if (validationErrors.Count > 0)
-        {
-            var errorMessage = string.Join(Environment.NewLine, validationErrors);
-            var registrationResult = new RegistrationResult();
-            registrationResult.SetIsRegistered(false);
-            registrationResult.SetErrorMessage(errorMessage);
-            return registrationResult;
-        }
+        
+        if (validationErrors.Count <= 0)
+            return await _registerHelper.CreateUserAsync(email, password, firstName, lastName, phone, ssn, birthDate);
+        
+        var errorMessage = string.Join(Environment.NewLine, validationErrors);
+        var registrationResult = new RegistrationResult();
+        registrationResult.SetIsRegistered(false);
+        registrationResult.SetErrorMessage(errorMessage);
+        return registrationResult;
 
-        return await _registerHelper.CreateUserAsync(email, password, firstName, lastName, phone, ssn, birthDate);
     }
 
     public async Task<AuthenticationResult> AuthenticateAsync(string email, string password, bool rememberMe)
@@ -110,15 +110,10 @@ public class AuthenticateRepository(
         }
 
         var phoneAlreadyUsed = await IsPhoneAlreadyUsed(phone, user.Id);
-        if (phoneAlreadyUsed)
-        {
-            return (false, "Phone number already registered.");
-        }
-
-        return (true, "");
+        return phoneAlreadyUsed ? (false, "Phone number already registered.") : (true, "");
     }
 
-    private async Task<bool> IsPhoneAlreadyUsed(string phone, string userId)
+    public async Task<bool> IsPhoneAlreadyUsed(string phone, string userId)
     {
         return await _appDbContext
             .Users

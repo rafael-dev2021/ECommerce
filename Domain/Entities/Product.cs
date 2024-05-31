@@ -90,8 +90,10 @@ public class Product
     }
 
     public void SetId(int id) => Id = id;
+    public void SetName(string name) => Name = name;
     public void SetStock(int stock) => Stock = stock;
     public void SetCategoryId(int categoryId) => CategoryId = categoryId;
     public void SetFlagsObjectValue(FlagsObjectValue value) => FlagsObjectValue = value;
     public void SetSpecificationObjectValue(SpecificationObjectValue value) => SpecificationObjectValue = value;
+    public void SetPriceObjectValue(PriceObjectValue value) => PriceObjectValue = value;
 }

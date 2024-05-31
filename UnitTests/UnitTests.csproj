@@ -47,4 +47,8 @@
 		<ProjectReference Include="..\Infra_Ioc\Infra_Ioc.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Infra_Data\Repositories\Orders\Helpers\" />
+	</ItemGroup>
+
 </Project>

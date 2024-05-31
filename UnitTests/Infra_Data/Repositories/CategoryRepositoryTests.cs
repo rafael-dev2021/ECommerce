@@ -7,9 +7,8 @@ using Assert = Xunit.Assert;
 
 namespace UnitTests.Infra_Data.Repositories;
 
-public class CategoryRepositoryTests
+public abstract class CategoryRepositoryTests
 {
-
     private static AppDbContext GetInMemoryDbContext()
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -19,139 +18,158 @@ public class CategoryRepositoryTests
         return new AppDbContext(options);
     }
 
-    [Fact]
-    public async Task GetEntitiesAsync_ShouldReturnCategories()
+    public class GetCategoriesWithProductCountAsyncTests
     {
-        // Arrange
-        var context = GetInMemoryDbContext();
-        var repository = new CategoryRepository(context);
+        [Fact]
+        public async Task GetCategoriesWithProductCountAsync_ShouldReturnCategoriesWithProductCount()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var repository = new CategoryRepository(context);
 
-        var categories = new List<Category>
+            var categories = new List<Category>
             {
                 new(1, "Category1", "image.jpg", true),
                 new(2, "Category2", "image.jpg", true)
             };
 
-        context.Categories.AddRange(categories);
-        await context.SaveChangesAsync();
+            context.Categories.AddRange(categories);
+            await context.SaveChangesAsync();
 
-        // Act
-        var result = await repository.GetEntitiesAsync();
+            // Act
+            var result = await repository.GetCategoriesWithProductCountAsync();
 
-        // Assert
-        Assert.Equal(2, result.Count());
-        Assert.Contains(result, c => c.Name == "Category1");
-        Assert.Contains(result, c => c.Name == "Category2");
+            // Assert
+            Assert.Equal(2, result.Count);
+            Assert.Contains(result, c => c.CategoryName == "Category1" && c.ProductCount == 0);
+            Assert.Contains(result, c => c.CategoryName == "Category2" && c.ProductCount == 0);
+        }
     }
 
-    [Fact]
-    public async Task CreateAsync_ShouldAddCategory()
+    public class GetEntitiesAsyncTests
     {
-        // Arrange
-        var context = GetInMemoryDbContext();
-        var repository = new CategoryRepository(context);
+        [Fact]
+        public async Task GetEntitiesAsync_ShouldReturnCategories()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var repository = new CategoryRepository(context);
 
-        var category = new Category(3, "Category3", "image.jpg", true);
-
-        // Act
-        var result = await repository.CreateAsync(category);
-
-        // Assert
-        Assert.Equal(3, result.Id);
-        Assert.Equal("Category3", result.Name);
-
-        var categoryInDb = await context.Categories.FindAsync(3);
-        Assert.NotNull(categoryInDb);
-        Assert.Equal("Category3", categoryInDb.Name);
-    }
-
-    [Fact]
-    public async Task GetByIdAsync_ShouldReturnCategory()
-    {
-        // Arrange
-        var context = GetInMemoryDbContext();
-        var repository = new CategoryRepository(context);
-
-        var category = new Category(1, "Category1", "image.jpg", true);
-        context.Categories.Add(category);
-        await context.SaveChangesAsync();
-
-        // Act
-        var result = await repository.GetByIdAsync(1);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(1, result.Id);
-        Assert.Equal("Category1", result.Name);
-    }
-
-    [Fact]
-    public async Task GetCategoriesWithProductCountAsync_ShouldReturnCategoriesWithProductCount()
-    {
-        // Arrange
-        var context = GetInMemoryDbContext();
-        var repository = new CategoryRepository(context);
-
-        var categories = new List<Category>
+            var categories = new List<Category>
             {
                 new(1, "Category1", "image.jpg", true),
                 new(2, "Category2", "image.jpg", true)
             };
 
-        context.Categories.AddRange(categories);
-        await context.SaveChangesAsync();
+            context.Categories.AddRange(categories);
+            await context.SaveChangesAsync();
 
-        // Act
-        var result = await repository.GetCategoriesWithProductCountAsync();
+            // Act
+            var result = await repository.GetEntitiesAsync();
 
-        // Assert
-        Assert.Equal(2, result.Count);
-        Assert.Contains(result, c => c.CategoryName == "Category1" && c.ProductCount == 0);
-        Assert.Contains(result, c => c.CategoryName == "Category2" && c.ProductCount == 0);
+            // Assert
+            var enumerable = result as Category[] ?? result.ToArray();
+            Assert.Equal(2, enumerable.Length);
+            Assert.Contains(enumerable, c => c.Name == "Category1");
+            Assert.Contains(enumerable, c => c.Name == "Category2");
+        }
     }
 
-    [Fact]
-    public async Task UpdateAsync_ShouldUpdateCategory()
+    public class GetByIdAsyncTests
     {
-        // Arrange
-        var context = GetInMemoryDbContext();
-        var repository = new CategoryRepository(context);
+        [Fact]
+        public async Task GetByIdAsync_ShouldReturnCategory()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var repository = new CategoryRepository(context);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        context.Categories.Add(category);
-        await context.SaveChangesAsync();
+            var category = new Category(1, "Category1", "image.jpg", true);
+            context.Categories.Add(category);
+            await context.SaveChangesAsync();
 
-        category.SetName("UpdatedCategory1");
+            // Act
+            var result = await repository.GetByIdAsync(1);
 
-        // Act
-        var result = await repository.UpdateAsync(category);
-
-        // Assert
-        Assert.Equal("UpdatedCategory1", result.Name);
-
-        var updatedCategoryInDb = await context.Categories.FindAsync(1);
-        Assert.NotNull(updatedCategoryInDb);
-        Assert.Equal("UpdatedCategory1", updatedCategoryInDb.Name);
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Id);
+            Assert.Equal("Category1", result.Name);
+        }
     }
 
-    [Fact]
-    public async Task DeleteAsync_ShouldRemoveCategory()
+    public class CreateAsyncTests
     {
-        // Arrange
-        var context = GetInMemoryDbContext();
-        var repository = new CategoryRepository(context);
+        [Fact]
+        public async Task CreateAsync_ShouldAddCategory()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var repository = new CategoryRepository(context);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        context.Categories.Add(category);
-        await context.SaveChangesAsync();
+            var category = new Category(3, "Category3", "image.jpg", true);
 
-        // Act
-        var result = await repository.DeleteAsync(category);
+            // Act
+            var result = await repository.CreateAsync(category);
 
-        // Assert
-        Assert.Equal(1, result.Id);
+            // Assert
+            Assert.Equal(3, result.Id);
+            Assert.Equal("Category3", result.Name);
 
-        var categoryInDb = await context.Categories.FindAsync(1);
-        Assert.Null(categoryInDb);
+            var categoryInDb = await context.Categories.FindAsync(3);
+            Assert.NotNull(categoryInDb);
+            Assert.Equal("Category3", categoryInDb.Name);
+        }
+    }
+
+    public class UpdateAsyncTests
+    {
+        [Fact]
+        public async Task UpdateAsync_ShouldUpdateCategory()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var repository = new CategoryRepository(context);
+
+            var category = new Category(1, "Category1", "image.jpg", true);
+            context.Categories.Add(category);
+            await context.SaveChangesAsync();
+
+            category.SetName("UpdatedCategory1");
+
+            // Act
+            var result = await repository.UpdateAsync(category);
+
+            // Assert
+            Assert.Equal("UpdatedCategory1", result.Name);
+
+            var updatedCategoryInDb = await context.Categories.FindAsync(1);
+            Assert.NotNull(updatedCategoryInDb);
+            Assert.Equal("UpdatedCategory1", updatedCategoryInDb.Name);
+        }
+    }
+
+    public class DeleteAsyncTests
+    {
+        [Fact]
+        public async Task DeleteAsync_ShouldRemoveCategory()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var repository = new CategoryRepository(context);
+
+            var category = new Category(1, "Category1", "image.jpg", true);
+            context.Categories.Add(category);
+            await context.SaveChangesAsync();
+
+            // Act
+            var result = await repository.DeleteAsync(category);
+
+            // Assert
+            Assert.Equal(1, result.Id);
+
+            var categoryInDb = await context.Categories.FindAsync(1);
+            Assert.Null(categoryInDb);
+        }
     }
 }

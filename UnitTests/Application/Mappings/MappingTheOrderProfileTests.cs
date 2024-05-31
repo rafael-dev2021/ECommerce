@@ -39,8 +39,8 @@ public class MappingTheOrderProfileTests
         order.SetConfirmedOrder(DateTime.Now);
         order.SetDispatchedOrder(DateTime.Now.AddDays(1));
         order.SetRequestReceived(DateTime.Now.AddDays(-1));
-        order.DeliveryAddress = new DeliveryAddress();
-        order.UserDelivery = new UserDelivery();
+        order.SetDeliveryAddress(new DeliveryAddress());
+        order.SetUserDelivery(new UserDelivery());
         order.SetPaymentMethod(new PaymentMethod());
 
         // Act

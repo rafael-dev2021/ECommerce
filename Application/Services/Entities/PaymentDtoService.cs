@@ -8,42 +8,33 @@ namespace Application.Services.Entities;
 
 public class PaymentDtoService(IPaymentRepository paymentRepository, IMapper mapper) : IPaymentDtoService
 {
-    private readonly IPaymentRepository _paymentRepository = paymentRepository;
-    private readonly IMapper _mapper = mapper;
-
     public async Task<IEnumerable<PaymentMethodDto>> ListPaymentsDtoAsync()
     {
-        var payments = await _paymentRepository.ListPaymentsAsync();
+        var payments = await paymentRepository.ListPaymentsAsync();
 
-        if (payments == null) return [];
-
-        return _mapper.Map<IEnumerable<PaymentMethodDto>>(payments);
+        return mapper.Map<IEnumerable<PaymentMethodDto>>(payments);
     }
 
     public async Task<IEnumerable<CreditCardDto>> ListPaymentCreditCardsDtoAsync()
     {
-        var creditCards = await _paymentRepository.ListPaymentCreditCardsAsync();
+        var creditCards = await paymentRepository.ListPaymentCreditCardsAsync();
 
-        if (creditCards == null) return [];
-
-        return _mapper.Map<IEnumerable<CreditCardDto>>(creditCards);
+        return mapper.Map<IEnumerable<CreditCardDto>>(creditCards);
     }
 
     public async Task<IEnumerable<DebitCardDto>> ListPaymentDebitCardsDtoAsync()
     {
-        var debitCards = await _paymentRepository.ListPaymentDebitCardsAsync();
+        var debitCards = await paymentRepository.ListPaymentDebitCardsAsync();
 
-        if (debitCards == null) return [];
-
-        return _mapper.Map<IEnumerable<DebitCardDto>>(debitCards);
+        return mapper.Map<IEnumerable<DebitCardDto>>(debitCards);
     }
 
     public async Task<PaymentMethodDto> GetByIdPaymentDtoAsync(int? id)
     {
         try
         {
-            var paymentId = await _paymentRepository.GetByIdPaymentAsync(id);
-            return _mapper.Map<PaymentMethodDto>(paymentId);
+            var paymentId = await paymentRepository.GetByIdPaymentAsync(id);
+            return mapper.Map<PaymentMethodDto>(paymentId);
         }
         catch (Exception ex)
         {
@@ -55,8 +46,8 @@ public class PaymentDtoService(IPaymentRepository paymentRepository, IMapper map
     {
         try
         {
-            var creditCardId = await _paymentRepository.GetByIdPaymentCreditCardAsync(id);
-            return _mapper.Map<CreditCardDto>(creditCardId);
+            var creditCardId = await paymentRepository.GetByIdPaymentCreditCardAsync(id);
+            return mapper.Map<CreditCardDto>(creditCardId);
         }
         catch (Exception ex)
         {
@@ -68,8 +59,8 @@ public class PaymentDtoService(IPaymentRepository paymentRepository, IMapper map
     {
         try
         {
-            var debitCardId = await _paymentRepository.GetByIdPaymentDebitCardAsync(id);
-            return _mapper.Map<DebitCardDto>(debitCardId);
+            var debitCardId = await paymentRepository.GetByIdPaymentDebitCardAsync(id);
+            return mapper.Map<DebitCardDto>(debitCardId);
         }
         catch (Exception ex)
         {

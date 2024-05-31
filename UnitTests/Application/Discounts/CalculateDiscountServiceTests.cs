@@ -7,12 +7,7 @@ namespace UnitTests.Application.Discounts;
 
 public class CalculateDiscountServiceTests
 {
-    private readonly CalculateDiscountService _calculateDiscountService;
-
-    public CalculateDiscountServiceTests()
-    {
-        _calculateDiscountService = new CalculateDiscountService();
-    }
+    private readonly CalculateDiscountService _calculateDiscountService = new();
 
     [Fact]
     public void DiscountPercentage_ShouldReturnZero_WhenHistoryPriceIsZero()
