@@ -2,6 +2,7 @@
 using Domain.Entities.Payments.Enums;
 using Domain.Interfaces;
 using Infra_Data.Context;
+using Infra_Data.CustomExceptions;
 using Infra_Data.Repositories.Orders.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,7 +49,6 @@ public class OrderRepository(
         return result.OrderBy(x => x.Id);
     }
 
-
     public async Task<IEnumerable<OrderDetail>> GetOrdersDetailsAsync()
     {
         return await appDbContext.OrdersDetails
@@ -59,7 +59,6 @@ public class OrderRepository(
             .OrderBy(x => x.Id)
             .ToListAsync();
     }
-
 
     public async Task<IEnumerable<Order>> FindByOrderConfirmDateAsync(DateTime? minDate, DateTime? maxDate)
     {
@@ -76,14 +75,12 @@ public class OrderRepository(
         return await _orderRepositoryHelper.FindOrdersByDateAsync(minDate, maxDate, x => x.RequestReceived);
     }
 
-
     public async Task<Order> GetByIdAsync(int? id)
     {
         return await appDbContext.Orders
             .Include(x => x.OrderDetails)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
-
 
     public async Task CreateOrder(Order order, EPaymentMethod ePaymentMethod)
     {
@@ -104,7 +101,7 @@ public class OrderRepository(
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
-            throw new Exception("There was an error processing the request.", ex);
+            throw new OrderRepositoryException("There was an error processing the request.", ex);
         }
     }
 
@@ -135,7 +132,6 @@ public class OrderRepository(
         await appDbContext.SaveChangesAsync();
         return order;
     }
-    
     
     public Task<Order> CreateAsync(Order entity)
     {
