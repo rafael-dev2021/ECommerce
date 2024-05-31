@@ -59,7 +59,7 @@ public class SeedUserRoleRepositoryTests
         var createUserIfNotExistsMethod = typeof(SeedUserRoleRepository)
             .GetMethod("CreateUserIfNotExists",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-        await (Task)createUserIfNotExistsMethod.Invoke(_seedUserRoleRepository, new object[] { email, roleName });
+        await (Task)createUserIfNotExistsMethod?.Invoke(_seedUserRoleRepository, [email, roleName])!;
 
         // Assert
         await _userManagerMock.Received(1).CreateAsync(
@@ -81,7 +81,7 @@ public class SeedUserRoleRepositoryTests
         var createUserIfNotExistsMethod = typeof(SeedUserRoleRepository)
             .GetMethod("CreateUserIfNotExists",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-        await (Task)createUserIfNotExistsMethod.Invoke(_seedUserRoleRepository, new object[] { email, roleName });
+        await (Task)createUserIfNotExistsMethod?.Invoke(_seedUserRoleRepository, [email, roleName])!;
 
         // Assert
         await _userManagerMock.DidNotReceive().CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>());
