@@ -1,17 +1,18 @@
-﻿using Domain.Entities;
+﻿using System.Security.Claims;
+using Domain.Entities;
 using Domain.Entities.Cart;
+using Domain.Entities.ObjectValues.ProductObjectValue;
 using Infra_Data.Context;
 using Infra_Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using System.Security.Claims;
 using Xunit;
 using Assert = Xunit.Assert;
 
 namespace UnitTests.Infra_Data.Repositories;
 
-public class ShoppingCartRepositoryTests
+public abstract class ShoppingCartRepositoryTests
 {
     private static AppDbContext GetInMemoryDbContext()
     {
@@ -35,7 +36,7 @@ public class ShoppingCartRepositoryTests
         {
             var user = new ClaimsPrincipal(new ClaimsIdentity(
             [
-                new(ClaimTypes.NameIdentifier, "test-user-id")
+                new Claim(ClaimTypes.NameIdentifier, "test-user-id")
             ], "mock"));
 
             httpContext.User = user;
@@ -46,200 +47,329 @@ public class ShoppingCartRepositoryTests
         return httpContextAccessor;
     }
 
-    [Fact]
-    public void ShoppingCartId_ShouldReturnUserId_WhenUserIsAuthenticated()
+    public class ShoppingCartItemsTests
     {
-        var context = GetInMemoryDbContext();
-        var httpContextAccessor = GetHttpContextAccessor(true);
-        var repository = new ShoppingCartRepository(context, httpContextAccessor);
+        [Fact]
+        public void ShoppingCartItems_Get_ShouldReturnItemsForCorrectShoppingCartId()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
-        var shoppingCartId = repository.ShoppingCartId;
+            var category = new Category(1, "Category1", "image.jpg", true);
+            var product = new Product(1, "Product1", "Description1", [], 10, 1);
+            var shoppingCartItem = new ShoppingCartItem();
+            shoppingCartItem.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem.SetQuantity(2);
+            shoppingCartItem.Product = product;
+            shoppingCartItem.Category = category;
 
-        Assert.Equal("user-test-user-id", shoppingCartId);
+
+            context.Products.Add(product);
+            context.Categories.Add(category);
+            context.ShoppingCartItems.Add(shoppingCartItem);
+            context.SaveChanges();
+
+            var items = repository.ShoppingCartItems;
+
+            var shoppingCartItems = items as ShoppingCartItem[] ?? items.ToArray();
+            Assert.Single(shoppingCartItems);
+            Assert.Equal(product.Id, shoppingCartItems.First().ProductId);
+            Assert.Equal(category.Id, shoppingCartItems.First().CategoryId);
+            Assert.Equal(2, shoppingCartItems.First().Quantity);
+        }
+
+        [Fact]
+        public void ShoppingCartItems_Set_ShouldReplaceExistingItems()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
+
+            var category1 = new Category(1, "Category1", "image.jpg", true);
+            var product1 = new Product(1, "Product1", "Description1", [], 10, 1);
+            var shoppingCartItem1 = new ShoppingCartItem();
+            shoppingCartItem1.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem1.SetQuantity(2);
+            shoppingCartItem1.Product = product1;
+            shoppingCartItem1.Category = category1;
+
+            var category2 = new Category(2, "Category2", "image2.jpg", true);
+            var product2 = new Product(2, "Product2", "Description2", [], 20, 2);
+            var shoppingCartItem2 = new ShoppingCartItem();
+            shoppingCartItem2.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem2.SetQuantity(3);
+            shoppingCartItem2.Product = product2;
+            shoppingCartItem2.Category = category2;
+
+            context.Products.Add(product1);
+            context.Categories.Add(category1);
+            context.ShoppingCartItems.Add(shoppingCartItem1);
+            context.SaveChanges();
+
+            // Act
+            var newShoppingCartItems = new List<ShoppingCartItem> { shoppingCartItem2 };
+            repository.ShoppingCartItems = newShoppingCartItems;
+
+            // Assert
+            var items = repository.ShoppingCartItems.ToList();
+            Assert.Single(items);
+            Assert.Equal(product2.Id, items.First().ProductId);
+            Assert.Equal(category2.Id, items.First().CategoryId);
+            Assert.Equal(3, items.First().Quantity);
+        }
     }
 
-    [Fact]
-    public void ShoppingCartItems_Get_ShouldReturnItemsForCorrectShoppingCartId()
+    public class GetShoppingCartItemsAsyncTests
     {
-        var context = GetInMemoryDbContext();
-        var httpContextAccessor = GetHttpContextAccessor(true);
-        var repository = new ShoppingCartRepository(context, httpContextAccessor);
+        [Fact]
+        public async Task GetShoppingCartItemsAsync_ShouldReturnItemsForCorrectShoppingCartId()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        var product = new Product(1, "Product1", "Description1", [], 10, 1);
-        var shoppingCartItem = new ShoppingCartItem();
-        shoppingCartItem.SetShoppingCartId("user-test-user-id");
-        shoppingCartItem.SetQuantity(2);
-        shoppingCartItem.Product = product;
-        shoppingCartItem.Category = category;
+            var category = new Category(1, "Category1", "image.jpg", true);
+            var product = new Product(1, "Product1", "Description1", [], 10, 1);
+            var shoppingCartItem = new ShoppingCartItem();
+            shoppingCartItem.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem.SetQuantity(2);
+            shoppingCartItem.Product = product;
+            shoppingCartItem.Category = category;
 
 
-        context.Products.Add(product);
-        context.Categories.Add(category);
-        context.ShoppingCartItems.Add(shoppingCartItem);
-        context.SaveChanges();
+            context.Products.Add(product);
+            context.Categories.Add(category);
+            context.ShoppingCartItems.Add(shoppingCartItem);
+            await context.SaveChangesAsync();
 
-        var items = repository.ShoppingCartItems;
+            var items = await repository.GetShoppingCartItemsAsync();
 
-        Assert.Single(items);
-        Assert.Equal(product.Id, items.First().ProductId);
-        Assert.Equal(category.Id, items.First().CategoryId);
-        Assert.Equal(2, items.First().Quantity);
+            var shoppingCartItems = items as ShoppingCartItem[] ?? items.ToArray();
+            Assert.Single(shoppingCartItems);
+            Assert.Equal(product.Id, shoppingCartItems.First().ProductId);
+            Assert.Equal(category.Id, shoppingCartItems.First().CategoryId);
+            Assert.Equal(2, shoppingCartItems.First().Quantity);
+        }
     }
 
-    [Fact]
-    public async Task GetShoppingCartItemsAsync_ShouldReturnItemsForCorrectShoppingCartId()
+    public class AddItemToCartAsyncTests
     {
-        var context = GetInMemoryDbContext();
-        var httpContextAccessor = GetHttpContextAccessor(true);
-        var repository = new ShoppingCartRepository(context, httpContextAccessor);
+        [Fact]
+        public async Task AddItemToCartAsync_ShouldAddNewItem()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        var product = new Product(1, "Product1", "Description1", [], 10, 1);
-        var shoppingCartItem = new ShoppingCartItem();
-        shoppingCartItem.SetShoppingCartId("user-test-user-id");
-        shoppingCartItem.SetQuantity(2);
-        shoppingCartItem.Product = product;
-        shoppingCartItem.Category = category;
+            var category = new Category(1, "Category1", "image.jpg", true);
+            var product = new Product(1, "Product1", "Description1", [], 10, 1);
 
+            context.Products.Add(product);
+            context.Categories.Add(category);
+            await context.SaveChangesAsync();
 
-        context.Products.Add(product);
-        context.Categories.Add(category);
-        context.ShoppingCartItems.Add(shoppingCartItem);
-        await context.SaveChangesAsync();
+            await repository.AddItemToCartAsync(product, category);
 
-        var items = await repository.GetShoppingCartItemsAsync();
-
-        Assert.Single(items);
-        Assert.Equal(product.Id, items.First().ProductId);
-        Assert.Equal(category.Id, items.First().CategoryId);
-        Assert.Equal(2, items.First().Quantity);
+            var items = await repository.GetShoppingCartItemsAsync();
+            var shoppingCartItems = items as ShoppingCartItem[] ?? items.ToArray();
+            Assert.Single(shoppingCartItems);
+            var item = shoppingCartItems.First();
+            Assert.Equal(product.Id, item.ProductId);
+            Assert.Equal(category.Id, item.CategoryId);
+            Assert.Equal(1, item.Quantity);
+        }
     }
 
-    [Fact]
-    public async Task AddItemToCartAsync_ShouldAddNewItem()
+    public class RemoveItemToCartAsyncTests
     {
-        var context = GetInMemoryDbContext();
-        var httpContextAccessor = GetHttpContextAccessor(true);
-        var repository = new ShoppingCartRepository(context, httpContextAccessor);
+        [Fact]
+        public async Task RemoveItemToCartAsync_ShouldRemoveItem()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        var product = new Product(1, "Product1", "Description1", [], 10, 1);
+            var category = new Category(1, "Category1", "image.jpg", true);
+            var product = new Product(1, "Product1", "Description1", [], 10, 1);
 
-        context.Products.Add(product);
-        context.Categories.Add(category);
-        await context.SaveChangesAsync();
+            await repository.AddItemToCartAsync(product, category);
+            await repository.AddItemToCartAsync(product, category);
 
-        await repository.AddItemToCartAsync(product, category);
+            var quantity = await repository.RemoveItemToCartAsync(product, category);
 
-        var items = await repository.GetShoppingCartItemsAsync();
-        Assert.Single(items);
-        var item = items.First();
-        Assert.Equal(product.Id, item.ProductId);
-        Assert.Equal(category.Id, item.CategoryId);
-        Assert.Equal(1, item.Quantity);
+            Assert.Equal(1, quantity);
+
+            quantity = await repository.RemoveItemToCartAsync(product, category);
+
+            Assert.Equal(0, quantity);
+        }
     }
 
-    [Fact]
-    public async Task RemoveItemToCartAsync_ShouldRemoveItem()
+    public class GetTotalCartItemsAsyncTests
     {
-        var context = GetInMemoryDbContext();
-        var httpContextAccessor = GetHttpContextAccessor(true);
-        var repository = new ShoppingCartRepository(context, httpContextAccessor);
+        [Fact]
+        public async Task GetTotalCartItemsAsync_ShouldReturnCorrectTotal()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        var product = new Product(1, "Product1", "Description1", [], 10, 1);
+            var category = new Category(1, "Category1", "image.jpg", true);
+            var product = new Product(1, "Product1", "Description1", [], 10, 1);
 
-        await repository.AddItemToCartAsync(product, category);
-        await repository.AddItemToCartAsync(product, category);
+            var shoppingCartItem1 = new ShoppingCartItem();
+            shoppingCartItem1.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem1.SetQuantity(2);
+            shoppingCartItem1.Product = product;
+            shoppingCartItem1.Category = category;
 
-        var quantity = await repository.RemoveItemToCartAsync(product, category);
+            var shoppingCartItem2 = new ShoppingCartItem();
+            shoppingCartItem2.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem2.SetQuantity(2);
+            shoppingCartItem2.Product = product;
+            shoppingCartItem2.Category = category;
 
-        Assert.Equal(1, quantity);
 
-        quantity = await repository.RemoveItemToCartAsync(product, category);
+            context.ShoppingCartItems.AddRange(shoppingCartItem1, shoppingCartItem2);
+            await context.SaveChangesAsync();
 
-        Assert.Equal(0, quantity);
+            var totalItems = await repository.GetTotalCartItemsAsync();
+
+            Assert.Equal(4, totalItems);
+        }
     }
 
-    [Fact]
-    public async Task GetTotalCartItemsAsync_ShouldReturnCorrectTotal()
+    public class ShoppingCartItemIdTests
     {
-        var context = GetInMemoryDbContext();
-        var httpContextAccessor = GetHttpContextAccessor(true);
-        var repository = new ShoppingCartRepository(context, httpContextAccessor);
+        [Fact]
+        public void ShoppingCartId_ShouldReturnUserId_WhenUserIsAuthenticated()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        var product = new Product(1, "Product1", "Description1", [], 10, 1);
+            var shoppingCartId = repository.ShoppingCartId;
 
-        var shoppingCartItem1 = new ShoppingCartItem();
-        shoppingCartItem1.SetShoppingCartId("user-test-user-id");
-        shoppingCartItem1.SetQuantity(2);
-        shoppingCartItem1.Product = product;
-        shoppingCartItem1.Category = category;
+            Assert.Equal("user-test-user-id", shoppingCartId);
+        }
 
-        var shoppingCartItem2 = new ShoppingCartItem();
-        shoppingCartItem2.SetShoppingCartId("user-test-user-id");
-        shoppingCartItem2.SetQuantity(2);
-        shoppingCartItem2.Product = product;
-        shoppingCartItem2.Category = category;
+        [Fact]
+        public void ShoppingCartId_ShouldReturnSessionId_WhenUserIsNotAuthenticated()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(false);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
+            var shoppingCartId = repository.ShoppingCartId;
 
-        context.ShoppingCartItems.AddRange(shoppingCartItem1, shoppingCartItem2);
-        await context.SaveChangesAsync();
-
-        var totalItems = await repository.GetTotalCartItemsAsync();
-
-        Assert.Equal(4, totalItems);
+            Assert.StartsWith("session-", shoppingCartId);
+            Assert.Equal($"session-{httpContextAccessor.HttpContext?.Session.Id}", shoppingCartId);
+        }
     }
 
-    [Fact]
-    public async Task ClearShoppingCartAsync_ShouldRemoveAllItems()
+    public class ClearShoppingCartAsyncTests
     {
-        var context = GetInMemoryDbContext();
-        var httpContextAccessor = GetHttpContextAccessor(true);
-        var repository = new ShoppingCartRepository(context, httpContextAccessor);
+        [Fact]
+        public async Task ClearShoppingCartAsync_ShouldRemoveAllItems()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        var product = new Product(1, "Product1", "Description1", [], 10, 1);
-        var shoppingCartItem = new ShoppingCartItem();
-        shoppingCartItem.SetUserId("user-test-user-id");
-        shoppingCartItem.SetQuantity(2);
-        shoppingCartItem.Product = product;
-        shoppingCartItem.Category = category;
+            var category = new Category(1, "Category1", "image.jpg", true);
+            var product = new Product(1, "Product1", "Description1", [], 10, 1);
+            var shoppingCartItem = new ShoppingCartItem();
+            shoppingCartItem.SetUserId("user-test-user-id");
+            shoppingCartItem.SetQuantity(2);
+            shoppingCartItem.Product = product;
+            shoppingCartItem.Category = category;
 
-        context.ShoppingCartItems.Add(shoppingCartItem);
-        await context.SaveChangesAsync();
+            context.ShoppingCartItems.Add(shoppingCartItem);
+            await context.SaveChangesAsync();
 
-        await repository.ClearShoppingCartAsync();
+            await repository.ClearShoppingCartAsync();
 
-        var itemsAfterClearing = await context.ShoppingCartItems.Where(x => x.UserId == "user-test-user-id").ToListAsync();
-        Assert.Empty(itemsAfterClearing);
+            var itemsAfterClearing =
+                await context.ShoppingCartItems.Where(x => x.UserId == "user-test-user-id").ToListAsync();
+            Assert.Empty(itemsAfterClearing);
 
-        var items = await repository.GetShoppingCartItemsAsync();
-        Assert.Empty(items);
+            var items = await repository.GetShoppingCartItemsAsync();
+            Assert.Empty(items);
+        }
     }
 
-    [Fact]
-    public async Task RemoveItemAsync_ShouldRemoveItem()
+    public class RemoveItemAsyncTests
     {
-        var context = GetInMemoryDbContext();
-        var httpContextAccessor = GetHttpContextAccessor(true);
-        var repository = new ShoppingCartRepository(context, httpContextAccessor);
+        [Fact]
+        public async Task RemoveItemAsync_ShouldRemoveItem()
+        {
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
 
-        var category = new Category(1, "Category1", "image.jpg", true);
-        var product = new Product(1, "Product1", "Description1", [], 10, 1);
-        var shoppingCartItem = new ShoppingCartItem();
-        shoppingCartItem.SetShoppingCartId("user-test-user-id");
-        shoppingCartItem.SetQuantity(2);
-        shoppingCartItem.Product = product;
-        shoppingCartItem.Category = category;
+            var category = new Category(1, "Category1", "image.jpg", true);
+            var product = new Product(1, "Product1", "Description1", [], 10, 1);
+            var shoppingCartItem = new ShoppingCartItem();
+            shoppingCartItem.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem.SetQuantity(2);
+            shoppingCartItem.Product = product;
+            shoppingCartItem.Category = category;
 
-        context.ShoppingCartItems.Add(shoppingCartItem);
-        await context.SaveChangesAsync();
+            context.ShoppingCartItems.Add(shoppingCartItem);
+            await context.SaveChangesAsync();
 
-        var removedCount = await repository.RemoveItemAsync(product);
+            var removedCount = await repository.RemoveItemAsync(product);
 
-        Assert.Equal(1, removedCount);
+            Assert.Equal(1, removedCount);
+        }
+    }
+
+    public class GetTotalAmountCartAsyncTests
+    {
+        [Fact]
+        public async Task GetTotalAmountCartAsync_ShouldReturnCorrectTotalAmount()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var httpContextAccessor = GetHttpContextAccessor(true);
+            var repository = new ShoppingCartRepository(context, httpContextAccessor);
+
+            var category = new Category(1, "Category1", "image.jpg", true);
+
+            var product1 = new Product(1, "Product1", "Description1", [], 10, 1);
+            var price1 = new PriceObjectValue();
+            price1.SetPrice(10.0m);
+            product1.SetPriceObjectValue(price1);
+
+            var product2 = new Product(2, "Product2", "Description2", [], 20, 2);
+            var price2 = new PriceObjectValue();
+            price2.SetPrice(20.0m);
+            product2.SetPriceObjectValue(price2);
+
+            var shoppingCartItem1 = new ShoppingCartItem();
+            shoppingCartItem1.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem1.SetQuantity(2);
+            shoppingCartItem1.Product = product1;
+            shoppingCartItem1.Category = category;
+
+            var shoppingCartItem2 = new ShoppingCartItem();
+            shoppingCartItem2.SetShoppingCartId("user-test-user-id");
+            shoppingCartItem2.SetQuantity(3);
+            shoppingCartItem2.Product = product2;
+            shoppingCartItem2.Category = category;
+
+            context.Products.AddRange(product1, product2);
+            context.Categories.Add(category);
+            context.ShoppingCartItems.AddRange(shoppingCartItem1, shoppingCartItem2);
+            await context.SaveChangesAsync();
+
+            // Act
+            var totalAmount = await repository.GetTotalAmountCartAsync();
+
+            // Assert
+            Assert.Equal(80.0m, totalAmount);
+        }
     }
 }

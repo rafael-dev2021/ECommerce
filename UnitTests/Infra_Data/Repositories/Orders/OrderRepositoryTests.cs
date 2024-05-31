@@ -42,7 +42,7 @@ public class OrderRepositoryTests
 
         var order1 = new Order();
         order1.SetId(1);
-        order1.SetOrderDetails([new()]);
+        order1.SetOrderDetails([new OrderDetail()]);
         order1.SetDeliveryAddress(new DeliveryAddress());
         order1.SetUserDelivery(new UserDelivery());
 
@@ -54,7 +54,7 @@ public class OrderRepositoryTests
 
         var order2 = new Order();
         order2.SetId(2);
-        order2.SetOrderDetails([new()]);
+        order2.SetOrderDetails([new OrderDetail()]);
         order2.SetDeliveryAddress(new DeliveryAddress());
         order2.SetUserDelivery(new UserDelivery());
 
@@ -71,9 +71,10 @@ public class OrderRepositoryTests
         var result = await repository.GetEntitiesAsync();
 
         // Assert
-        Assert.Equal(2, result.Count());
-        Assert.Contains(result, o => o.Id == 1);
-        Assert.Contains(result, o => o.Id == 2);
+        var enumerable = result as Order[] ?? result.ToArray();
+        Assert.Equal(2, enumerable.Length);
+        Assert.Contains(enumerable, o => o.Id == 1);
+        Assert.Contains(enumerable, o => o.Id == 2);
     }
 
     [Fact]
@@ -142,9 +143,10 @@ public class OrderRepositoryTests
         var result = await repository.FindByOrderConfirmDateAsync(DateTime.Now.AddDays(-2), DateTime.Now);
 
         // Assert
-        Assert.Equal(2, result.Count());
-        Assert.Contains(result, o => o.Id == 1);
-        Assert.Contains(result, o => o.Id == 2);
+        var enumerable = result as Order[] ?? result.ToArray();
+        Assert.Equal(2, enumerable.Length);
+        Assert.Contains(enumerable, o => o.Id == 1);
+        Assert.Contains(enumerable, o => o.Id == 2);
     }
 
     [Fact]
@@ -170,9 +172,10 @@ public class OrderRepositoryTests
         var result = await repository.FindByOrderDispatchedDateAsync(DateTime.Now.AddDays(-2), DateTime.Now);
 
         // Assert
-        Assert.Equal(2, result.Count());
-        Assert.Contains(result, o => o.Id == 1);
-        Assert.Contains(result, o => o.Id == 2);
+        var enumerable = result as Order[] ?? result.ToArray();
+        Assert.Equal(2, enumerable.Length);
+        Assert.Contains(enumerable, o => o.Id == 1);
+        Assert.Contains(enumerable, o => o.Id == 2);
     }
 
     [Fact]
@@ -198,9 +201,10 @@ public class OrderRepositoryTests
         var result = await repository.FindByOrderRequestReceivedDateAsync(DateTime.Now.AddDays(-2), DateTime.Now);
 
         // Assert
-        Assert.Equal(2, result.Count());
-        Assert.Contains(result, o => o.Id == 1);
-        Assert.Contains(result, o => o.Id == 2);
+        var enumerable = result as Order[] ?? result.ToArray();
+        Assert.Equal(2, enumerable.Length);
+        Assert.Contains(enumerable, o => o.Id == 1);
+        Assert.Contains(enumerable, o => o.Id == 2);
     }
 
     [Fact]
@@ -276,9 +280,9 @@ public class OrderRepositoryTests
         var result = await repository.UpdateAsync(order);
 
         // Assert
-        Assert.Equal(DateTime.Now, result.DispatchedOrder, TimeSpan.FromMinutes(1)); // Using TimeSpan to account for small time differences
+        Assert.Equal(DateTime.Now, result.DispatchedOrder, TimeSpan.FromMinutes(1));
     }
-
+    
     [Fact]
     public async Task DeleteAsync_ShouldRemoveOrder()
     {

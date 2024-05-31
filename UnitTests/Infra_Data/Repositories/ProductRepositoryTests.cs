@@ -28,10 +28,10 @@ public class ProductRepositoryTests
 
         var category = new Category(1, "Category1", "image.jpg", true);
         var products = new List<Product>
-            {
-                new(1, "Product1", "Description1", [], 10, category.Id),
-                new(2, "Product2", "Description2", [], 5, category.Id)
-            };
+        {
+            new(1, "Product1", "Description1", [], 10, category.Id),
+            new(2, "Product2", "Description2", [], 5, category.Id)
+        };
 
         context.Categories.Add(category);
         context.Products.AddRange(products);
@@ -41,9 +41,10 @@ public class ProductRepositoryTests
         var result = await repository.GetProductsAsync();
 
         // Assert
-        Assert.Equal(2, result.Count());
-        Assert.Contains(result, p => p.Name == "Product1");
-        Assert.Contains(result, p => p.Name == "Product2");
+        var enumerable = result as Product[] ?? result.ToArray();
+        Assert.Equal(2, enumerable.Length);
+        Assert.Contains(enumerable, p => p.Name == "Product1");
+        Assert.Contains(enumerable, p => p.Name == "Product2");
     }
 
     [Fact]
@@ -94,8 +95,9 @@ public class ProductRepositoryTests
         var result = await repository.GetProductsFavoritesAsync();
 
         // Assert
-        Assert.Single(result);
-        Assert.Contains(result, p => p.Name == "Product1" && p.FlagsObjectValue?.IsFavorite == true);
+        var collection = result as Product[] ?? result.ToArray();
+        Assert.Single(collection);
+        Assert.Contains(collection, p => p.Name == "Product1" && p.FlagsObjectValue?.IsFavorite == true);
     }
 
     [Fact]
@@ -123,8 +125,9 @@ public class ProductRepositoryTests
         var result = await repository.GetProductsDailyOffersAsync();
 
         // Assert
-        Assert.Single(result);
-        Assert.Contains(result, p => p.Name == "Product1" && p.FlagsObjectValue?.IsDailyOffer == true);
+        var collection = result as Product[] ?? result.ToArray();
+        Assert.Single(collection);
+        Assert.Contains(collection, p => p.Name == "Product1" && p.FlagsObjectValue?.IsDailyOffer == true);
     }
 
     [Fact]
@@ -152,8 +155,9 @@ public class ProductRepositoryTests
         var result = await repository.GetProductsBestSellersAsync();
 
         // Assert
-        Assert.Single(result);
-        Assert.Contains(result, p => p.Name == "Product1" && p.FlagsObjectValue?.IsBestSeller == true);
+        var collection = result as Product[] ?? result.ToArray();
+        Assert.Single(collection);
+        Assert.Contains(collection, p => p.Name == "Product1" && p.FlagsObjectValue?.IsBestSeller == true);
     }
 
     [Fact]
@@ -166,10 +170,10 @@ public class ProductRepositoryTests
         var category1 = new Category(1, "Category1", "image.jpg", true);
         var category2 = new Category(2, "Category2", "image.jpg", true);
         var products = new List<Product>
-            {
-                new(1, "Product1", "Description1", [], 10, category1.Id),
-                new(2, "Product2", "Description2", [], 5, category2.Id)
-            };
+        {
+            new(1, "Product1", "Description1", [], 10, category1.Id),
+            new(2, "Product2", "Description2", [], 5, category2.Id)
+        };
 
         context.Categories.AddRange(category1, category2);
         context.Products.AddRange(products);
@@ -179,8 +183,9 @@ public class ProductRepositoryTests
         var result = await repository.GetProductsByCategoriesAsync("Category1");
 
         // Assert
-        Assert.Single(result);
-        Assert.Contains(result, p => p.Name == "Product1" && p.Category?.Name == "Category1");
+        var collection = result as Product[] ?? result.ToArray();
+        Assert.Single(collection);
+        Assert.Contains(collection, p => p.Name == "Product1" && p.Category?.Name == "Category1");
     }
 
     [Fact]
@@ -213,7 +218,8 @@ public class ProductRepositoryTests
         var result = await repository.GetSearchProductAsync("BrandA");
 
         // Assert
-        Assert.Single(result);
-        Assert.Contains(result, p => p.Name == "Product1" && p.SpecificationObjectValue?.Brand == "BrandA");
+        var collection = result as Product[] ?? result.ToArray();
+        Assert.Single(collection);
+        Assert.Contains(collection, p => p.Name == "Product1" && p.SpecificationObjectValue?.Brand == "BrandA");
     }
 }
