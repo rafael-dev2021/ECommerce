@@ -146,16 +146,8 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
     public async Task<decimal> Average()
     {
         var orders = await GetOrdersDtoAsync();
-
-        {
-            var orderDtos = orders as OrderDto[] ?? orders.ToArray();
-            var totalCount = orderDtos.Length;
-            var totalSum = orderDtos.Sum(item => item.TotalOrder);
-
-            if (totalCount <= 0) return 0;
-            var average = totalSum / totalCount;
-            return average;
-        }
+        var orderDtos = orders as OrderDto[] ?? orders.ToArray();
+        return CalculateAverage(orderDtos);
     }
 
     public static void OrderDtoIdNull(int? id)
@@ -168,6 +160,16 @@ public class OrderDtoService(IMapper mapper, IOrderRepository orderRepository) :
     {
         if (orderDto == null)
             throw new ArgumentNullException(nameof(orderDto), "OrderDto cannot be null.");
+    }
+    
+    private static decimal CalculateAverage(OrderDto[] orderDtos)
+    {
+        var totalCount = orderDtos.Length;
+        var totalSum = orderDtos.Sum(item => item.TotalOrder);
+
+        if (totalCount <= 0) return 0;
+        var average = totalSum / totalCount;
+        return average;
     }
 }
 
