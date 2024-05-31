@@ -6,26 +6,22 @@ namespace Infra_Data.Identity;
 public class SeedUserRoleRepository(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
     : ISeedUserRoleRepository
 {
-    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
-    private readonly UserManager<ApplicationUser> _userManager = userManager;
-
     private async Task CreateRoleIfNotExists(string roleName)
     {
-        if (!await _roleManager.RoleExistsAsync(roleName))
+        if (!await roleManager.RoleExistsAsync(roleName))
         {
             IdentityRole role = new()
             {
                 Name = roleName,
                 NormalizedName = roleName.ToUpper()
             };
-            await _roleManager.CreateAsync(role);
+            await roleManager.CreateAsync(role);
         }
     }
-    
 
     private async Task CreateUserIfNotExists(string email, string roleName)
     {
-        if (await _userManager.FindByEmailAsync(email) == null)
+        if (await userManager.FindByEmailAsync(email) == null)
         {
             var appUser = new ApplicationUser
             {
@@ -43,10 +39,10 @@ public class SeedUserRoleRepository(RoleManager<IdentityRole> roleManager, UserM
                 ConcurrencyStamp = Guid.NewGuid().ToString()
             };
 
-            var result = await _userManager.CreateAsync(appUser, "@Visual23k+");
+            var result = await userManager.CreateAsync(appUser, "@Visual23k+");
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(appUser, roleName);
+                await userManager.AddToRoleAsync(appUser, roleName);
             }
         }
     }
