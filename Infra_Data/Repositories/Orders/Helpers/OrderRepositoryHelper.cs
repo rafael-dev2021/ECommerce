@@ -5,12 +5,13 @@ using Domain.Entities.Orders;
 using Domain.Entities.Payments.Enums;
 using Domain.Interfaces;
 using Infra_Data.Context;
+using Infra_Data.CustomExceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Infra_Data.Repositories.Orders.Helpers;
 
-public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemRepository shoppingCartItemRepository) 
+public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemRepository shoppingCartItemRepository)
 {
     public async Task<IEnumerable<Order>> FindOrdersByDateAsync(
         DateTime? minDate,
@@ -41,13 +42,13 @@ public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemR
         if (order.PaymentMethod?.PaymentMethodObjectValue.PaymentStatusObjectValue.EPaymentStatus !=
             EPaymentStatus.Approved)
         {
-            throw new Exception("Payment was declined.");
+            throw new OrderRepositoryHelperException("Payment was declined.");
         }
     }
 
     public async Task SaveMainOrder(Order order)
     {
-        appDbContext.Add(order);
+        await appDbContext.AddAsync(order);
         await appDbContext.SaveChangesAsync();
     }
 
@@ -67,7 +68,7 @@ public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemR
 
         if (product.Stock < cartItem.Quantity)
         {
-            throw new Exception("Product stock not available.");
+            throw new OrderRepositoryHelperException("Product stock not available.");
         }
 
         ReduceProductStock(product, cartItem.Quantity);
@@ -79,7 +80,7 @@ public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemR
         var product = await appDbContext.Products.FindAsync(productId);
         if (product == null)
         {
-            throw new Exception("Product not found.");
+            throw new OrderRepositoryHelperException("Product not found.");
         }
 
         return product;
@@ -101,7 +102,7 @@ public class OrderRepositoryHelper(AppDbContext appDbContext, IShoppingCartItemR
             order.PaymentMethod.Id
         );
 
-        appDbContext.OrdersDetails.Add(orderDetails);
+        await appDbContext.OrdersDetails.AddAsync(orderDetails);
 
         await appDbContext.SaveChangesAsync();
     }

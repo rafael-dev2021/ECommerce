@@ -7,6 +7,7 @@ using Domain.Entities.Payments.Enums;
 using Domain.Entities.Payments.ObjectValues;
 using Domain.Interfaces;
 using Infra_Data.Context;
+using Infra_Data.CustomExceptions;
 using Infra_Data.Repositories.Orders.Helpers;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -143,7 +144,7 @@ public class OrderRepositoryHelperTests
 
             // Act & Assert
             var exception =
-                await Assert.ThrowsAsync<Exception>(async () => await helper.ProcessCartItem(order, cartItem));
+                await Assert.ThrowsAsync<OrderRepositoryHelperException>(async () => await helper.ProcessCartItem(order, cartItem));
             Assert.Equal("Product stock not available.", exception.Message);
         }
     }
@@ -179,7 +180,7 @@ public class OrderRepositoryHelperTests
             var helper = new OrderRepositoryHelper(dbContext, Substitute.For<IShoppingCartItemRepository>());
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () => await helper.GetProductById(productId));
+            await Assert.ThrowsAsync<OrderRepositoryHelperException>(async () => await helper.GetProductById(productId));
         }
     }
 
@@ -228,7 +229,7 @@ public class OrderRepositoryHelperTests
 
             // Act & Assert
             var exception =
-                Assert.Throws<Exception>(() => OrderRepositoryHelper.ConfirmOrder(order, EPaymentMethod.CreditCard));
+                Assert.Throws<OrderRepositoryHelperException>(() => OrderRepositoryHelper.ConfirmOrder(order, EPaymentMethod.CreditCard));
             Assert.Equal("Payment was declined.", exception.Message);
         }
     }
