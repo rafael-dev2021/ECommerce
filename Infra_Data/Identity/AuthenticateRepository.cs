@@ -59,20 +59,20 @@ public class AuthenticateRepository(
         return changePasswordResult.Succeeded;
     }
 
-    public async Task<bool> ForgotPasswordAsync(string email, string newPassword)
+    public async Task<bool> ForgotPasswordAsync(string email, string newPassWord)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null) return false;
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        var resetPasswordResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
+        var resetPasswordResult = await _userManager.ResetPasswordAsync(user, token, newPassWord);
 
         return resetPasswordResult.Succeeded;
     }
 
-    public async Task<SeedUserUpdate> GetUserProfileAsync(string email)
+    public async Task<SeedUserUpdate> GetUserProfileAsync(string userEmail)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await _userManager.FindByEmailAsync(userEmail);
 
         var userProfile = new SeedUserUpdate
         {
