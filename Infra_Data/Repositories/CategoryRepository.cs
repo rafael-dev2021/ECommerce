@@ -8,11 +8,9 @@ namespace Infra_Data.Repositories;
 
 public class CategoryRepository(AppDbContext appDbContext)  : ICategoryRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-    
     public async Task<IEnumerable<Category>> GetEntitiesAsync()
     {
-        return await _appDbContext.Categories
+        return await appDbContext.Categories
             .AsNoTracking()
             .Include(products => products.Products)
             .OrderBy(x => x.Id)
@@ -21,7 +19,7 @@ public class CategoryRepository(AppDbContext appDbContext)  : ICategoryRepositor
 
     public async Task<List<CategoryWithProductCount>> GetCategoriesWithProductCountAsync()
     {
-        var categoriesWithCount = await _appDbContext.Categories
+        var categoriesWithCount = await appDbContext.Categories
             .AsNoTracking()
             .Select(category => new
                 CategoryWithProductCount(category.Name, category.Products.Count))
@@ -29,28 +27,32 @@ public class CategoryRepository(AppDbContext appDbContext)  : ICategoryRepositor
 
         return categoriesWithCount;
     }
+    
     public async Task<Category> GetByIdAsync(int? id)
     {
-        return await _appDbContext.Categories
+        return await appDbContext.Categories
             .Include(products => products.Products)
             .FirstOrDefaultAsync(category => category.Id == id);
     }
+    
     public async Task<Category> CreateAsync(Category category)
     {
-        _appDbContext.Add(category);
-        await _appDbContext.SaveChangesAsync();
+        await appDbContext.AddAsync(category);
+        await appDbContext.SaveChangesAsync();
         return category;
     }
+    
     public async Task<Category> UpdateAsync(Category category)
     {
-        _appDbContext.Update(category);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Update(category);
+        await appDbContext.SaveChangesAsync();
         return category;
     }
+    
     public async Task<Category> DeleteAsync(Category category)
     {
-        _appDbContext.Remove(category);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Remove(category);
+        await appDbContext.SaveChangesAsync();
         return category;
     }
 }
