@@ -7,11 +7,9 @@ namespace Infra_Data.Repositories.Products.Fashion;
 
 public class ShirtRepository(AppDbContext appDbContext) : IShirtRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-
     public async Task<IEnumerable<Shirt>> GetEntitiesAsync()
     {
-        return await _appDbContext.Shirts
+        return await appDbContext.Shirts
             .AsNoTracking()
             .Include(x => x.Category)
             .Include(x => x.Reviews)
@@ -20,26 +18,26 @@ public class ShirtRepository(AppDbContext appDbContext) : IShirtRepository
     }
 
     public async Task<Shirt> GetByIdAsync(int? id) =>
-        await _appDbContext.Shirts.FindAsync(id);
+        await appDbContext.Shirts.FindAsync(id);
 
     public async Task<Shirt> CreateAsync(Shirt entity)
     {
-        _appDbContext.Add(entity);
-        await _appDbContext.SaveChangesAsync();
+        await appDbContext.AddAsync(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task<Shirt> UpdateAsync(Shirt entity)
     {
-        _appDbContext.Update(entity);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Update(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task<Shirt> DeleteAsync(Shirt entity)
     {
-        _appDbContext.Remove(entity);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Remove(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 }

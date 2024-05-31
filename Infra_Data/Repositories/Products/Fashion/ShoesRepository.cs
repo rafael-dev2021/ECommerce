@@ -7,11 +7,9 @@ namespace Infra_Data.Repositories.Products.Fashion;
 
 public class ShoesRepository(AppDbContext appDbContext) : IShoesRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-
     public async Task<IEnumerable<Shoe>> GetEntitiesAsync()
     {
-        return await _appDbContext.Shoes
+        return await appDbContext.Shoes
             .AsNoTracking()
             .Include(x => x.Category)
             .Include(x => x.Reviews)
@@ -20,26 +18,26 @@ public class ShoesRepository(AppDbContext appDbContext) : IShoesRepository
     }
 
     public async Task<Shoe> GetByIdAsync(int? id) =>
-        await _appDbContext.Shoes.FindAsync(id);
+        await appDbContext.Shoes.FindAsync(id);
 
     public async Task<Shoe> CreateAsync(Shoe entity)
     {
-        _appDbContext.Add(entity);
-        await _appDbContext.SaveChangesAsync();
+        await appDbContext.AddAsync(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task<Shoe> UpdateAsync(Shoe entity)
     {
-        _appDbContext.Update(entity);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Update(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task<Shoe> DeleteAsync(Shoe entity)
     {
-        _appDbContext.Remove(entity);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Remove(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 }

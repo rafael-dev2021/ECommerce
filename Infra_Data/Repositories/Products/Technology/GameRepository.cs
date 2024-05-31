@@ -7,11 +7,9 @@ namespace Infra_Data.Repositories.Products.Technology;
 
 public class GameRepository(AppDbContext appDbContext) : IGameRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-
     public async Task<IEnumerable<Game>> GetEntitiesAsync()
     {
-        return await _appDbContext.Games
+        return await appDbContext.Games
             .AsNoTracking()
             .Include(x => x.Category)
             .Include(x => x.Reviews)
@@ -20,26 +18,26 @@ public class GameRepository(AppDbContext appDbContext) : IGameRepository
     }
 
     public async Task<Game> GetByIdAsync(int? id) =>
-        await _appDbContext.Games.FindAsync(id);
+        await appDbContext.Games.FindAsync(id);
     
     public async Task<Game> CreateAsync(Game entity)
     {
-        _appDbContext.Add(entity);
-        await _appDbContext.SaveChangesAsync();
+        await appDbContext.AddAsync(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task<Game> UpdateAsync(Game entity)
     {
-        _appDbContext.Update(entity);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Update(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task<Game> DeleteAsync(Game entity)
     {
-        _appDbContext.Remove(entity);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Remove(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 }

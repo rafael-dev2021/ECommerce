@@ -7,11 +7,9 @@ namespace Infra_Data.Repositories.Products.Technology;
 
 public class SmartphoneRepository(AppDbContext appDbContext) : ISmartphoneRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-
     public async Task<IEnumerable<Smartphone>> GetEntitiesAsync()
     {
-        return await _appDbContext.Smartphones
+        return await appDbContext.Smartphones
             .AsNoTracking()
             .Include(x => x.Category)
             .Include(x => x.Reviews)
@@ -20,26 +18,25 @@ public class SmartphoneRepository(AppDbContext appDbContext) : ISmartphoneReposi
     }
 
     public async Task<Smartphone> GetByIdAsync(int? id) =>
-        await _appDbContext.Smartphones.FindAsync(id);
+        await appDbContext.Smartphones.FindAsync(id);
 
     public async Task<Smartphone> CreateAsync(Smartphone entity)
     {
-        _appDbContext.Add(entity);
-        await _appDbContext.SaveChangesAsync();
+        await appDbContext.AddAsync(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
     public async Task<Smartphone> UpdateAsync(Smartphone entity)
     {
-        _appDbContext.Update(entity);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Update(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 
-
     public async Task<Smartphone> DeleteAsync(Smartphone entity)
     {
-        _appDbContext.Remove(entity);
-        await _appDbContext.SaveChangesAsync();
+        appDbContext.Remove(entity);
+        await appDbContext.SaveChangesAsync();
         return entity;
     }
 }
