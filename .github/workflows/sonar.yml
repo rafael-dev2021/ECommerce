@@ -44,13 +44,20 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
+      - name: Verify SonarCloud Configuration
+        shell: powershell
+        run: |
+          Write-Output "Excluding the following paths from coverage:"
+          Write-Output "**/Infra_Data/Migrations/**"
+          Write-Output "**/Infra_Data/Configuration/**"
+
       - name: SonarCloud - Begin Analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rafael-dev2021_ECommerce" /o:"rafael-dev2021" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="**/Infra_Data/Migrations/**"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rafael-dev2021_ECommerce" /o:"rafael-dev2021" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="**/Infra_Data/Migrations/**,**/Infra_Data/Configuration/**"
 
       - name: Build project
         shell: powershell
