@@ -49,6 +49,10 @@ public class PaymentMethodObjectValue : IPaymentMethod
             PaymentStatusObjectValue.PaymentApproved();
             PaymentDateConfirm();
         }
-        PaymentStatusObjectValue.PaymentDeclined();
+        else
+        {
+            PaymentStatusObjectValue?.PaymentDeclined();
+
+        }
     }
 }
