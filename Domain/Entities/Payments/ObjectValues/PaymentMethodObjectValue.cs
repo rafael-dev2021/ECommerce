@@ -1,29 +1,29 @@
-﻿using Domain.Entities.Payments.Algorithms;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Domain.Entities.Payments.Algorithms;
 using Domain.Entities.Payments.Enums;
 using Domain.Interfaces.Payments;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Payments.ObjectValues;
 
 public class PaymentMethodObjectValue : IPaymentMethod
 {
-    [EnumDataType(typeof(EPaymentMethod))]
-    public string PaymentMethod { get; protected set; } = string.Empty;
-
-    [NotMapped]
-    public EPaymentMethod EPaymentMethod { get; protected set; }
-    public PaymentStatusObjectValue PaymentStatusObjectValue { get; protected set; } = new();
-    public Guid Reference { get; protected set; }
-    public DateTime PaymentDate { get; protected set; }
+    [EnumDataType(typeof(EPaymentMethod))] public string PaymentMethod { get; private set; } = string.Empty;
+    [NotMapped] public EPaymentMethod EPaymentMethod { get; protected set; }
+    public PaymentStatusObjectValue PaymentStatusObjectValue { get; private set; } = new();
+    public Guid Reference { get; private set; }
+    
+    public DateTime PaymentDate { get; private set; }
 
     public void SetPaymentStatusObjectValue(PaymentStatusObjectValue value) => PaymentStatusObjectValue = value;
+    private void PaymentDateConfirm() => PaymentDate = DateTime.Now;
+    private void SetReference() => Reference = Guid.NewGuid();
+    
+    public void CreditCardPaymentMethod(string creditCardNumber) =>
+        ProcessPayment(creditCardNumber, EPaymentMethod.CreditCard);
 
-    public void CreditCardPaymentMethod(string cardNumber) =>
-       ProcessPayment(cardNumber, EPaymentMethod.CreditCard);
-
-    public void DebitCardPaymentMethod(string cardNumber) =>
-        ProcessPayment(cardNumber, EPaymentMethod.DebitCard);
+    public void DebitCardPaymentMethod(string debitCardNumber) =>
+        ProcessPayment(debitCardNumber, EPaymentMethod.DebitCard);
 
     public void BankSlipPaymentMethod()
     {
@@ -33,14 +33,11 @@ public class PaymentMethodObjectValue : IPaymentMethod
         PaymentDateConfirm();
     }
 
-    private void PaymentDateConfirm() => PaymentDate = DateTime.Now;
-    private void SetReference() => Reference = Guid.NewGuid();
-
     private void ProcessPayment(string cardNumber, EPaymentMethod method)
     {
         EPaymentMethod = method;
         PaymentMethod = method.ToString();
-        bool isPaymentCompleted = CardValidateNumber
+        var isPaymentCompleted = CardValidateNumber
             .ValidateCardNumber(cardNumber);
         if (isPaymentCompleted)
         {
@@ -52,9 +49,6 @@ public class PaymentMethodObjectValue : IPaymentMethod
             PaymentStatusObjectValue.PaymentApproved();
             PaymentDateConfirm();
         }
-        else
-        {
-            PaymentStatusObjectValue?.PaymentDeclined();
-        }
+        PaymentStatusObjectValue.PaymentDeclined();
     }
 }
