@@ -1,0 +1,39 @@
+﻿@model Application.Dtos.ProductDto
+
+<table class="table table-borderless">
+    <tbody>
+    <tr>
+        <td>Brand:</td>
+        <td>@Model.SpecificationObjectValue?.Brand</td>
+    </tr>
+    <tr>
+        <td>Type:</td>
+        <td>@Model.SpecificationObjectValue?.Type</td>
+    </tr>
+    <tr>
+        <td>Product Code:</td>
+        <td>#@Model.Id</td>
+    </tr>
+    <tr>
+        <td>Category:</td>
+        <td>@Model.Category?.Name</td>
+    </tr>
+    <tr>
+        <td>Availability:</td>
+        <td>In Stock (@Model.Stock)</td>
+    </tr>
+    <tr>
+        <td>Weight:</td>
+        <td>@Model.SpecificationObjectValue?.Weight</td>
+    </tr>
+    <tr>
+        <td>Warranty:</td>
+        <td>
+            <small>
+                @Model.WarrantyObjectValue?.WarrantyLength
+                <span class="text-muted">( @Model.WarrantyObjectValue?.WarrantyInformation )</span>
+            </small>
+        </td>
+    </tr>
+    </tbody>
+</table>

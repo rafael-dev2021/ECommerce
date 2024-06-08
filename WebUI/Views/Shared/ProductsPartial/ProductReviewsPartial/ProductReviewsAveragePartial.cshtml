@@ -1,0 +1,24 @@
+﻿@model Application.Dtos.ProductDto
+@{
+    var result = Model.CalculateWeightedAverage();
+}
+
+<span style="font-size:25px">@result.WeightedAverage.ToString("F1")</span>
+<span class="star-rating" style="margin:8px">
+    @for (var i = 0; i < Math.Min(5, @result.WeightedAverage); i++)
+    {
+        <i class="fas fa-star" style="color:#3483fa; font-size:20px">
+        </i>
+    }
+    @for (var i = Math.Min(5, (int)@result.WeightedAverage); i < 5; i++)
+    {
+        <i class="fas fa-star" style="color:#ccc; font-size:20px">
+        </i>
+    }
+</span>
+@if (@result is { WeightedAverage: > 0, CountReviews: > 0 })
+{
+    <small style="color:#3483fa; font-size:20px">
+        <span>@result.CountReviews</span>
+    </small>
+}
