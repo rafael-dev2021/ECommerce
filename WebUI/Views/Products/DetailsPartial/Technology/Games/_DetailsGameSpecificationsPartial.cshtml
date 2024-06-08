@@ -1,0 +1,91 @@
+﻿@using Application.Dtos.Products.Technology.Games
+@model ProductViewModel
+@{
+    var counterPlatform = 0;
+    var counterFormat = 0;
+    var platformDisplayed = false;
+    var formatDisplayed = false;
+    var gameDtos = Model.GetMatchingProductsDto?.GetMatchingGamesDto();
+}
+<style>
+    .style_spects_span {
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .btn_detail_custom {
+        object-fit: cover;
+        border: solid 1px #DCDCDC;
+        border-radius: 5px;
+        padding: 5px;
+        line-height: 20px;
+        font-size: 10px;
+        font-weight: bold;
+        transition: transform 0.5s ease;
+    }
+
+        .btn_detail_custom:hover {
+            transform: scale(0.8);
+            border: 1px solid #8ac926;
+        }
+
+</style>
+
+@{
+var enumerable = gameDtos as GameDto[] ?? gameDtos!.ToArray();
+}
+
+<div class="row">
+    @foreach (var items in enumerable)
+    {
+        @if (items.Id != Model.ProductDto.Id || platformDisplayed)
+        {
+            continue;
+        }
+
+        <span class="mt-3 style_spects_span">Platform: <b id="product-Platform">@items.GeneralFeaturesObjectValue?.Platform</b></span>
+        platformDisplayed = true;
+    }
+</div>
+
+<div class="row">
+    @foreach (var item in enumerable)
+    {
+        <div class="col col-sm-2 col-md-4 col-lg-2">
+            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                <span class="btn btn_detail_custom" onmouseover="document.getElementById('product-Platform').textContent = '@item.GeneralFeaturesObjectValue?.Platform';" onmouseout="document.getElementById('product-Platform').textContent = '@item.GeneralFeaturesObjectValue?.Platform';">
+                    @item.GeneralFeaturesObjectValue?.Platform
+                </span>
+            </a>
+        </div>
+        counterPlatform++;
+        if (counterPlatform >= 2) break;
+    }
+</div>
+
+<div class="row">
+    @foreach (var items in enumerable)
+    {
+        @if (items.Id == Model.ProductDto.Id && !formatDisplayed)
+        {
+            <span class="mt-2 style_spects_span">Format: <b id="product-Format">@items.MediaSpecificationObjectValue?.Format</b></span>
+            formatDisplayed = true;
+        }
+    }
+</div>
+
+<div class="row">
+    @foreach (var item in enumerable)
+    {
+        <div class="col col-sm-2 col-md-4 col-lg-2">
+            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                <p class="btn btn_detail_custom" onmouseover="document.getElementById('product-Format').textContent = '@item.MediaSpecificationObjectValue?.Format';" onmouseout="document.getElementById('product-Format').textContent = '@item.MediaSpecificationObjectValue?.Format';">
+                    @item.MediaSpecificationObjectValue?.Format
+                </p>
+
+            </a>
+        </div>
+        counterFormat++;
+        if (counterFormat >= 2) break;
+    }
+</div>

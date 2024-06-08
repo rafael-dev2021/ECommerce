@@ -1,0 +1,46 @@
+﻿@model Application.Dtos.Products.Technology.Games.GameDto
+<style>
+    .specs_features_list_item li {
+        line-height: 1.75em;
+        padding-left: 5px;
+        text-indent: -10px;
+        font-weight: 400;
+        font-size: 14px;
+        color: rgba(0,0,0,.9);
+    }
+</style>
+@{
+    var stringPaths = new[]
+    {
+        Model.GeneralFeaturesObjectValue!.Developers,
+        Model.CommonPropertiesObjectValue!.Gender,
+        Model.MediaSpecificationObjectValue!.Format,
+    };
+
+    var allPathsAreNullOrEmpty = stringPaths.All(string.IsNullOrEmpty);
+}
+
+@if (!allPathsAreNullOrEmpty)
+{
+    <div>
+        <ul class="specs_features_list_item">
+            <li>Classification: @Model.GeneralFeaturesObjectValue.GameRating.</li>
+            <li>File size: @Model.MediaSpecificationObjectValue.FileSize GB.</li>
+
+            @if (!string.IsNullOrEmpty(Model.GeneralFeaturesObjectValue.Developers))
+            {
+                <li>Developed by: @Model.GeneralFeaturesObjectValue.Developers.</li>
+            }
+            @if (!string.IsNullOrEmpty(Model.CommonPropertiesObjectValue.Gender))
+            {
+                <li>Genre: @Model.CommonPropertiesObjectValue.Gender.</li>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.MediaSpecificationObjectValue.Format))
+            {
+                <li>Format: @Model.MediaSpecificationObjectValue.Format.</li>
+            }
+            <li>It's offline: @(Model.MediaSpecificationObjectValue.IsOffline ? "Yes" : "Not").</li>
+        </ul>
+    </div>
+}

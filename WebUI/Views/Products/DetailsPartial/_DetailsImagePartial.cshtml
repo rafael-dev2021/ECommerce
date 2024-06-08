@@ -1,0 +1,64 @@
+﻿@model Application.Dtos.ProductDto
+@{
+    var imagePaths = new[]
+    {
+        Model.ImagesUrl![0],
+        Model.ImagesUrl![1],
+        Model.ImagesUrl![2],
+        Model.ImagesUrl![3]
+    };
+}
+<style>
+    .main-image {
+        max-width: 100%;
+        padding: 20px;
+        margin: auto;
+        position: sticky;
+        top: 1px;
+        transition: transform 0.5s ease-out;
+    }
+
+    .secondary-image {
+        object-fit: contain;
+        cursor: pointer;
+        width: 100%;
+        transition: transform 0.5s ease;
+        border: solid 1px #DCDCDC;
+        border-radius: 5px;
+        padding: 5px;
+        height: 10%;
+        display: block;
+        margin: 2px auto;
+    }
+
+        .secondary-image:hover {
+            transform: scale(0.8);
+            border: 1px solid #8ac926;
+        }
+</style>
+
+@if (!imagePaths.All(string.IsNullOrEmpty))
+{
+    <div class="col-md-1 d-none d-md-block">
+        @foreach (var imagePath in imagePaths.Where(path => !string.IsNullOrEmpty(path)))
+        {
+            <img src="@imagePath" alt="@Model.Name" class="img-fluid secondary-image zoomable-image"
+                 onclick="function changeMainImage(s) {}
+                     changeMainImage('@imagePath');"
+
+                 onmouseover="function previewMainImage(s) {}
+                     previewMainImage('@imagePath');"
+
+                 onmouseout="function resetMainImage() {}
+                 resetMainImage();">
+        }
+    </div>
+    
+    <div class="col-md-5 d-none d-md-block">
+        <img src="@Url.Content(Model.ImagesUrl[0])" alt="@Model.Name" class="img-fluid main-image zoomable-image" id="main-image">
+    </div>
+}
+
+<div class="col-md-5 d-md-none">
+    <partial name="~/Views/Shared/ProductsPartial/_HomeCarousel.cshtml" for="@Model"/>
+</div>
