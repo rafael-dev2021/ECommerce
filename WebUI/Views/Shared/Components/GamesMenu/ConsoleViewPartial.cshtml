@@ -1,0 +1,18 @@
+﻿<div class="col-md-12">
+    <p style="font-weight:600;font-size:18px;color:gray">CONSOLES</p>
+</div>
+<div class="row">
+    <div class="owl-carousel">
+        @foreach (var items in Model)
+        {
+            @if (items.ProductSpecificationsObjectValue.ProductType != "Console")
+            {
+                continue;
+            }
+
+            <div class="item">
+                <partial name="~/Views/Shared/ProductsPartial/GetProductsListPartial/GetProductsListOwlPartial.cshtml" for="@ModelExpressionProvider.CreateModelExpression(ViewData, model => items)" />
+            </div>
+        }
+    </div>
+</div>
