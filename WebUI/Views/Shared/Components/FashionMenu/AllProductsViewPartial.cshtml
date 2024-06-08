@@ -1,0 +1,10 @@
+﻿<div class="row">
+    <div class="owl-carousel">
+        @foreach (var items in Model)
+        {
+            <div class="item">
+                <partial name="~/Views/Shared/ProductsPartial/GetProductsListPartial/GetProductsListOwlPartial.cshtml" for="@items" />
+            </div>
+        }
+    </div>
+</div>

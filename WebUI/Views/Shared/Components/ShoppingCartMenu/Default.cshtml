@@ -1,0 +1,8 @@
+﻿@model ShoppingCartViewModel
+
+@if (Model.ShoppingCartItemsDto.Any())
+{
+    <span style="color:red">
+        @Model.GetCartTotalItems
+    </span>
+}

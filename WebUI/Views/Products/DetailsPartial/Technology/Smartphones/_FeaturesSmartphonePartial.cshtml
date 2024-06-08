@@ -1,0 +1,220 @@
+﻿@model Application.Dtos.Products.Technology.Smartphones.SmartphoneDto
+
+<style>
+
+    th {
+        word-break: break-word;
+        font-size: 14px;
+        font-weight: 600;
+        border-spacing: 0;
+        color: rgba(0, 0, 0, .9);
+        text-align: left;
+        height: 50px;
+    }
+
+    td {
+        color: rgba(0, 0, 0, .9);
+        font-size: 12px;
+        word-break: break-word;
+        font-family: Roboto, Arial, sans-serif;
+        font-weight: 400;
+        line-height: 18px;
+        text-align: right;
+    }
+
+    .syle_text {
+        font-size: 15px;
+        color: black;
+    }
+
+    .style_text_content {
+        font-weight: 600;
+    }
+
+    .style_img_thumbnail {
+        background-color: rgba(211, 211, 211);
+        border-radius: 50%;
+        z-index: 1;
+    }
+</style>
+
+<h5>Resources for @Model.Name</h5>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-1">
+            <img class="style_img_thumbnail" src="~/images/img_smartphone/screen_size_v3.svg" width="40" alt=""/>
+        </div>
+        <div class="col-md-4">
+            <span class="syle_text">Screen size: <span
+                    class="style_text_content">@Model.DisplayObjectValue?.DisplaySizeInches "</span></span>
+            <p class="syle_text">(@Model.DimensionObjectValue?.HeightInches mm
+                x @Model.DimensionObjectValue?.WidthInches mm x @Model.DimensionObjectValue?.ThicknessInches)</p>
+        </div>
+        <div class="col-md-1">
+            <img class="style_img_thumbnail" src="~/images/img_smartphone/internal_memory.svg" width="40" alt=""/>
+        </div>
+        <div class="col-md-4">
+            <span class="syle_text">Internal Memory: <span
+                    class="style_text_content">@Model.StorageObjectValue?.StorageGb</span></span>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-1">
+            <img class="style_img_thumbnail" src="~/images/img_smartphone/resolution_rear_camera.svg" width="40"
+                 alt=""/>
+        </div>
+        <div class="col-md-4">
+            <span class="syle_text">Main rear camera: <span
+                    class="style_text_content">@Model.CameraObjectValue?.MainCameraSpec</span></span>
+        </div>
+        <div class="col-md-1">
+            <img class="style_img_thumbnail" src="~/images/img_smartphone/resolution_front_camera.svg" width="40"
+                 alt=""/>
+        </div>
+        <div class="col-md-4">
+            <span class="syle_text">Main front camera:: <span
+                    class="style_text_content">@Model.CameraObjectValue?.SelfieCameraSpec</span></span>
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-lg-6">
+        <h5 class="mb-3">General features</h5>
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <th>Brand</th>
+                <td>@Model.SpecificationObjectValue?.Brand</td>
+            </tr>
+            <tr>
+                <th>Line</th>
+                <td>@Model.SpecificationObjectValue?.Line</td>
+            </tr>
+            <tr>
+                <th>Model</th>
+                <td>@Model.SpecificationObjectValue?.Model</td>
+            </tr>
+            <tr>
+                <th>Alphanumeric model</th>
+                <td>@Model.FeatureObjectValue?.ManufacturerPartNumber</td>
+            </tr>
+            <tr>
+                <th>Color</th>
+                <td>@Model.CommonPropertiesObjectValue?.Color</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <h5 class="mb-3">Operational system and Processor</h5>
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <th>Name operational system</th>
+                <td>@Model.PlatformObjectValue?.OperatingSystem</td>
+            </tr>
+            <tr>
+                <th>Chipset</th>
+                <td>@Model.PlatformObjectValue?.Chipset</td>
+            </tr>
+            <tr>
+                <th>Cpu</th>
+                <td>@Model.PlatformObjectValue?.Cpu</td>
+            </tr>
+            <tr>
+                <th>Gpu</th>
+                <td>@Model.PlatformObjectValue?.Gpu</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-6">
+                <h5 class="mb-3 mt-4">Screen</h5>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th>Screen size</th>
+                        <td>@Model.DisplayObjectValue?.DisplaySizeInches"</td>
+                    </tr>
+                    <tr>
+                        <th>Screen type</th>
+                        <td>@Model.DisplayObjectValue?.DisplayType</td>
+                    </tr>
+                    <tr>
+                        <th>Screen resolution</th>
+                        <td>@Model.DisplayObjectValue?.DisplayResolution</td>
+                    </tr>
+                    <tr>
+                        <th>Screen protection</th>
+                        <td>@Model.DisplayObjectValue?.DisplayProtection</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <h5 class="mb-3 mt-3">Camera</h5>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th>Main camera feature</th>
+                        <td>@Model.CameraObjectValue?.MainCameraFeature</td>
+                    </tr>
+                    <tr>
+                        <th>Main camera spec</th>
+                        <td>@Model.CameraObjectValue?.MainCameraSpec</td>
+                    </tr>
+                    <tr>
+                        <th>Selfie camera feature</th>
+                        <td>@Model.CameraObjectValue?.SelfieCameraFeature</td>
+                    </tr>
+                    <tr>
+                        <th>Selfie camera spec</th>
+                        <td>@Model.CameraObjectValue?.SelfieCameraSpec</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-6">
+                <h5 class="mb-3 mt-4">Memory</h5>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th>Memory internal</th>
+                        <td>@Model.StorageObjectValue?.StorageGb GB</td>
+                    </tr>
+                    <tr>
+                        <th>Memory RAM</th>
+                        <td>@Model.StorageObjectValue?.RamGb GB</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6">
+                <h5 class="mb-3 mt-2">Battery</h5>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th>Battery capacity</th>
+                        <td>@Model.BatteryObjectValue?.BatteryCapacityMAh</td>
+                    </tr>
+                    <tr>
+                        <th>Battery type</th>
+                        <td>@Model.BatteryObjectValue?.BatteryType</td>
+                    </tr>
+                    <tr>
+                        <th>Battery is removable</th>
+                        <td>@(Model.BatteryObjectValue!.IsBatteryRemovable ? "Yes" : "Not")</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

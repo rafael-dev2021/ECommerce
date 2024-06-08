@@ -1,0 +1,71 @@
+﻿@using Application.Dtos
+@model Application.Dtos.ProductDto
+
+@if (Model.FlagsObjectValue?.IsDailyOffer == true)
+{
+    <span class="style_prices">@Model.PriceObjectValue?.Price.ToString("C")</span>
+    <span class="text-decoration-line-through text-muted">@Model.PriceObjectValue?.HistoryPrice.ToString("C")</span>
+    <span>
+        <small class="fs-6 ms-2 badge" style="background-color:#00a650">
+            @((ProductDto.CalculateDiscountService().DiscountPercentage(Model.PriceObjectValue!)).ToString("F0"))%
+        </small>
+    </span>
+    <div class="mt-2 style_values_prices_installments">
+        <span>
+            In
+            <span style="color:#00a650">
+                12x
+                @ProductDto.CalculateDiscountService().InTwelveInstallmentWithoutInterest(Model.PriceObjectValue!).ToString("C2")
+                without interest
+            </span>
+        </span>
+    </div>
+    <div class="mt-2">
+        <a asp-controller="Products" asp-action="Index" asp-route-isDailyOffer="true" class="d-none d-md-block">
+            <span class="badge style_badge_dailyoffer">Daily Offers</span>
+        </a>
+    </div>
+}
+else if (Model.FlagsObjectValue?.IsBestSeller == true)
+{
+    <span class="style_prices">@Model.PriceObjectValue?.Price.ToString("C")</span>
+    <div class="mt-2 style_values_prices_installments">
+        <span>
+            In
+            <span style="color:#00a650">
+                6x
+                @ProductDto.CalculateDiscountService().InSixInstallmentWithoutInterest(Model.PriceObjectValue!).ToString("C2")
+                without interest
+            </span>
+        </span>
+    </div>
+    <div class="mt-2">
+        <a asp-controller="Products" asp-action="Index" asp-route-isBestSeller="true" class="d-none d-md-block">
+            <span class="badge style_badge_bestseller">Best Sellers</span>
+        </a>
+    </div>
+}
+else
+{
+    <span class="style_prices">@Model.PriceObjectValue?.Price.ToString("C")</span>
+    <span>
+        <small class="fs-6 ms-2 badge" style="background-color:red">
+            3%
+        </small>
+    </span>
+    <div class="mt-2 style_values_prices_installments">
+        <span>
+            In
+            <span style="color:red">
+                3x
+                @ProductDto.CalculateDiscountService().InThreeInstallmentWithInterest(Model.PriceObjectValue!).ToString("C2")
+                with interest
+            </span>
+        </span>
+    </div>
+    <div class="mt-2">
+        <a asp-controller="Products" asp-action="Index" asp-route-categoryStr="@Model.Category?.Name" class="d-none d-md-block">
+            <span class="badge style_badge_categoryname">@Model.Category?.Name</span>
+        </a>
+    </div>
+}
